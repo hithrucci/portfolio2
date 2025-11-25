@@ -1,0 +1,738 @@
+/* ----------------------------------- */
+/* fonts */
+/* ----------------------------------- */
+@font-face {
+  font-family: "YeogiOttaeJalnan";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff")
+    format("woff");
+  font-weight: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "ChangwonDanggamAsak";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/CWDangamAsac-Bold.woff")
+    format("woff");
+  font-weight: normal;
+  font-display: swap;
+}
+@import url("https://cdn.jsdelivr.net/npm/galmuri@latest/dist/galmuri.css");
+
+@font-face {
+  font-family: "Galmuri11";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2506-1@1.0/Galmuri11-Bold.woff2")
+    format("woff2");
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Paperozi";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-1Thin.woff2")
+    format("woff2");
+  font-weight: 100;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Paperozi";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-2ExtraLight.woff2")
+    format("woff2");
+  font-weight: 200;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Paperozi";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-3Light.woff2")
+    format("woff2");
+  font-weight: 300;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Paperozi";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-4Regular.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Paperozi";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-5Medium.woff2")
+    format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Paperozi";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-6SemiBold.woff2")
+    format("woff2");
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Paperozi";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-7Bold.woff2")
+    format("woff2");
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Paperozi";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-8ExtraBold.woff2")
+    format("woff2");
+  font-weight: 800;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Paperozi";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-9Black.woff2")
+    format("woff2");
+  font-weight: 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "PartialSans";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/PartialSansKR-Regular.woff2")
+    format("woff2");
+  font-weight: normal;
+  font-display: swap;
+}
+
+/* ----------------------------------- */
+/* 공통사항 */
+/* ----------------------------------- */
+
+* {
+  margin: 0;
+  padding: 0;
+}
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+ul {
+  list-style: none;
+}
+body {
+  background-color: #181818;
+  width: 100%;
+}
+
+/* ----------------------------------- */
+/* header */
+/* ----------------------------------- */
+header {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 80px;
+  background-color: #181818;
+  color: #fff;
+  z-index: 9999;
+  /* border-bottom: 1px solid #ccc; */
+  box-sizing: border-box;
+  transition: transform 0.3s ease;
+  box-shadow: 0px 3px 20px rgba(255, 153, 0, 0.5);
+}
+header.hide {
+  transform: translateY(-100%);
+}
+
+header .inner {
+  width: 1500px;
+  margin: 0px auto;
+  height: 100%;
+  background-color: #181818;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+header h1 {
+  height: 100%;
+  padding: 4px 0px;
+  box-sizing: border-box;
+}
+header h1 a {
+  height: 100%;
+  display: block;
+}
+header h1 img {
+  height: 100%;
+}
+header .gnb {
+  display: flex;
+}
+.gnb li {
+  width: 100px;
+  text-align: center;
+  height: 50px;
+  line-height: 50px;
+}
+.gnb li:last-child {
+  position: relative;
+  border-radius: 50%;
+  transition: background-color 0.5s;
+}
+.gnb li:last-child::before {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(-20deg);
+  position: absolute;
+  content: "";
+  border: 1px solid #ff1b60;
+  width: 100%;
+  height: 50px;
+  border-radius: 50%;
+  transition: 0.5s;
+}
+.gnb li:last-child::after {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(20deg);
+  position: absolute;
+  content: "";
+  border: 1px solid #ff1b60;
+  width: 100%;
+  height: 50px;
+  border-radius: 50%;
+  transition: 0.5s;
+  pointer-events: none;
+}
+.gnb li:last-child.on::before {
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.gnb li:last-child.on::after {
+  transform: translate(-50%, -50%);
+  z-index: 0;
+}
+.gnb li:last-child:hover {
+  background-color: #ff1b60;
+}
+
+/* ----------------------------------- */
+/* main */
+/* ----------------------------------- */
+main {
+  padding-top: 80px;
+  width: 100%;
+  height: auto;
+}
+.inner .sectionTitle {
+  font-family: "Paperozi";
+  font-weight: 800;
+  font-size: 52px;
+  height: 120px;
+  line-height: 120px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 44;
+  /* background-color: red; */
+}
+
+.inner .sectionTitle div {
+  height: 16px;
+  width: 16px;
+  border-radius: 8px;
+  background-color: #ff9f00;
+  animation: blinking 3s linear infinite;
+}
+/* ----------------------------------- */
+/* about */
+/* ----------------------------------- */
+#about {
+  height: 100vh;
+  width: 100%;
+}
+#about .inner {
+  width: 1500px;
+  position: relative;
+  margin: 0px auto;
+  height: 100%;
+}
+
+/* ----------------------------------- */
+/* works */
+/* ----------------------------------- */
+
+#works {
+  width: 100%;
+}
+
+#works .inner {
+  position: relative;
+  width: 1500px;
+  margin: 0 auto;
+}
+
+/* WORKS 타이틀을 sticky로 고정 */
+#works .sectionTitle {
+  position: sticky;
+  top: 0px; /* header 높이만큼 */
+  z-index: 10;
+  background-color: #181818; /* 필요하면 배경 살짝 깔기 */
+}
+
+#works .worksStage {
+  position: relative;
+}
+
+/* ----------------------------------- */
+/* projectOverview */
+/* ----------------------------------- */
+#works .inner .projectOverview {
+  height: 100vh;
+  position: relative;
+}
+#works .inner .sectionTitle .subTitle {
+  font-size: 2rem;
+  font-weight: normal;
+}
+#works .inner .projectOverview::before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  /*가로*/
+  background-image: linear-gradient(#353535 1px, transparent 1px),
+    /*세로*/ linear-gradient(90deg, #353535 1px, transparent 1px);
+  background-size: 40px 40px;
+  /* 사각형 Feather */
+  -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      #ccc 15%,
+      #ccc 85%,
+      transparent 100%
+    ),
+    linear-gradient(
+      to right,
+      transparent 0%,
+      #ccc 15%,
+      #ccc 85%,
+      transparent 100%
+    );
+  -webkit-mask-composite: intersect;
+  mask-composite: intersect;
+  z-index: -1;
+}
+
+@keyframes blinking {
+  0% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
+
+#works .inner .projectOverview {
+  position: relative;
+  height: 100vh;
+}
+#works .inner .projectOverview .text {
+  position: absolute;
+  left: 50%;
+  top: 30%;
+  transform: translate(-50%, -50%);
+}
+#works .inner .projectOverview .text h3 {
+  position: absolute;
+  left: 50%;
+  top: 55%;
+  transform: translate(-50%, -50%);
+  font-size: 4.5rem;
+  color: #181818;
+  text-align: center;
+  width: 100%;
+  margin: 0px auto;
+  font-family: "PartialSans";
+  letter-spacing: 1;
+}
+#works .inner .projectOverview .text h3.on {
+  -webkit-text-stroke: 0.1px #ff1b60;
+}
+#work .inner .projectOverview .text svg {
+  width: 750px;
+  position: absolute;
+  left: 52%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+#works .inner .flowText {
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 50px;
+  border-radius: 25px;
+  line-height: 50px;
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 1px solid #fff;
+  backdrop-filter: blur(2px);
+  overflow: hidden;
+  font-family: "PartialSans";
+  z-index: 3;
+}
+#works .inner .flowText .wrap {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  width: 100%;
+  height: 100%;
+  line-height: 50px;
+  animation: flow 30s linear infinite;
+}
+@keyframes flow {
+  0% {
+    margin-left: 0px;
+  }
+  100% {
+    margin-left: -2520px;
+  }
+}
+#works .inner .flowText .wrap li {
+  display: block;
+  flex-shrink: 0;
+  height: 30px;
+  line-height: 30px;
+  width: 600px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#works .inner .flowText .wrap li:nth-child(odd) {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+}
+#works .inner .flowText .wrap img {
+  width: 100%;
+}
+#works .text svg {
+  width: 100%;
+  max-width: 700px; /* 필요하면 조절 */
+  height: 800px;
+  display: block;
+  overflow: visible;
+}
+#works .text svg path {
+  width: 70%;
+}
+#works .text .guideLine {
+  fill: none; /* 도화지처럼 비워두고 */
+  stroke: #eb5248; /* 선색 */
+  stroke-width: 14; /* 선 굵기 */
+  stroke-linecap: round; /* 끝 둥글게 */
+  stroke-linejoin: round; /* 꺾이는 곳 부드럽게 */
+}
+
+/* projects */
+#works .projectOverview .projects {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+#works .projectOverview .lists {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+#works .projectOverview .lists li {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 320px;
+  height: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#works .projectOverview .lists li .itemInner {
+  position: relative;
+  box-sizing: border-box;
+  padding: 16px;
+  background-color: #000;
+  border: 1px solid #fff;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#works .projectOverview .lists li .itemInner img {
+  width: 100%;
+  display: block;
+}
+
+.projects li h4 {
+  font-weight: normal;
+  text-align: center;
+}
+
+/* 각 카드 스타일은 itemInner에 적용 */
+#works .projectOverview .lists li:nth-child(1) .itemInner {
+  font-family: "Galmuri7";
+  width: 250px;
+  height: 250px;
+  color: #00ff00;
+}
+
+#works .projectOverview .lists li:nth-child(2) .itemInner {
+  font-family: "ChangwonDanggamAsak";
+  width: 280px;
+  height: 200px;
+  color: #fff;
+}
+
+#works .projectOverview .lists li:nth-child(3) .itemInner {
+  font-family: "ChangwonDanggamAsak";
+  width: 280px;
+  height: 200px;
+  color: #fff;
+}
+
+#works .projectOverview .lists li:nth-child(4) .itemInner {
+  font-family: "YeogiOttaeJalnan";
+  width: 280px;
+  height: 250px;
+  color: #f47445;
+}
+
+#works .projectOverview .lists li:nth-child(5) .itemInner {
+  font-family: "ChangwonDanggamAsak";
+  width: 200px;
+  height: 350px;
+  color: #ff67a1;
+}
+
+#works .projectOverview .link-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+#works .projectOverview .link-line {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 0.1;
+}
+
+#works .projectOverview .lists li img {
+  width: 100%;
+}
+.projects li h4 {
+  font-weight: normal;
+  text-align: center;
+}
+
+#works .projectOverview .lists li:nth-child(1) {
+  font-family: "Galmuri7";
+  width: 250px;
+  height: 250px;
+  color: #00ff00;
+}
+#works .projectOverview .lists li:nth-child(2) {
+  font-family: "ChangwonDanggamAsak";
+  width: 280px;
+  height: 200px;
+  color: #fff;
+}
+
+#works .projectOverview .lists li:nth-child(3) {
+  font-family: "ChangwonDanggamAsak";
+  width: 280px;
+  height: 200px;
+  color: #fff;
+}
+#works .projectOverview .lists li:nth-child(4) {
+  font-family: "ChangwonDanggamAsak";
+  width: 280px;
+  height: 250px;
+  color: #ff67a1;
+}
+#works .projectOverview .lists li:nth-child(5) {
+  font-family: "ChangwonDanggamAsak";
+  width: 200px;
+  height: 350px;
+  color: #ff67a1;
+}
+
+#works .projectOverview .link-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+#works .projectOverview .link-line {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 0.5;
+  z-index: -1;
+}
+
+/* ----------------------------------- */
+/* projectDetail */
+/* ----------------------------------- */
+.projectDetail {
+  width: 100%;
+  overflow: hidden;
+}
+.projectDetail .personalProjects {
+  perspective: 500px;
+}
+.projectDetail .personalProjects > h3 {
+  color: #fff;
+  font-size: 2.2rem;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+.projectDetail .projectWrap {
+  width: 100%;
+  /* border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc; */
+  display: flex;
+  gap: 50px;
+  height: 550px;
+}
+.projectDetail > h3 span {
+  color: #fff;
+  font-size: 1.8rem;
+  margin-bottom: 50px;
+}
+
+/* ----------------------------------- */
+/* personalProjects 공통 */
+/* ----------------------------------- */
+.projectDetail .personalProjects .projectWrap > div {
+  border: 2px solid #ccc;
+  border-radius: 50px;
+  display: flex;
+  width: 100%;
+  padding: 40px 50px;
+  box-sizing: border-box;
+  justify-content: center;
+  gap: 50px;
+  flex-shrink: 0;
+}
+.projectDetail .personalProjects .projectWrap > div > div {
+  width: calc(100% / 2 - 40px);
+}
+
+.projectDetail > div .projectImg img {
+  height: 360px;
+  object-fit: cover;
+  width: 100%;
+  display: block;
+}
+.projectDetail > div .projectImg h4 {
+  color: #fff;
+  font-size: 3rem;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  padding: 20px 0px;
+  text-align: center;
+  margin-top: 16px;
+}
+.projectDetail > div .projectImg .shortCut a {
+  display: block;
+}
+
+/*projectContent 공통*/
+.projectDetail > div .projectContent {
+  position: relative;
+  width: 50%;
+}
+
+.projectDetail > div .projectContent h4 {
+  width: 100%;
+  font-size: 2rem;
+  display: inline-block;
+  color: #ccc;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 8px;
+}
+
+/*description*/
+.projectContent .description {
+  /* border: 1px solid red;
+  box-sizing: border-box; */
+  height: 40%;
+}
+.projectContent .description p {
+  /* width: 400px; */
+  font-size: 1rem;
+  color: #ccc;
+  margin-top: 10px;
+}
+/*skills*/
+.projectContent .skills {
+  /* border: 1px solid red;
+  box-sizing: border-box; */
+  height: 35%;
+}
+.projectContent .skills ul {
+  display: flex;
+}
+.projectContent .skills li {
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+}
+.projectContent .skills li img {
+  width: 100%;
+}
+/*shortCut*/
+.projectContent .shortCut {
+  /* border: 1px solid red;
+  box-sizing: border-box; */
+  height: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+.projectContent .shortCut a {
+  display: block;
+  width: 150px;
+  height: 50px;
+  line-height: 50px;
+  border-radius: 50px;
+  border: 1px solid #fff;
+  margin: 0px auto;
+  color: #fff;
+  text-align: center;
+}
+.projectContent .shortCut a:hover {
+  background-color: #fff;
+  color: #000;
+}

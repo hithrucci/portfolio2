@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"
+      integrity="sha512-NcZdtrT77bJr4STcmsGAESr06BYGE8woZdSdEgqnpyqac7sugNO+Tr4bGwGF3MsnEkGKhU2KL2xh6Ec+BqsaHA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"
+      integrity="sha512-P2IDYZfqSwjcSjX0BKeNhwRUH8zRPGlgcWl5n6gBLzdi4Y5/0O4zaXrtO4K9TZK6Hn1BenYpKowuCavNandERg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+  </head>
+  <body>
+    <header>
+      <div class="inner">
+        <h1>
+          <a href="index.html"><img src="img/logo.png" /></a>
+        </h1>
+        <nav>
+          <ul class="gnb">
+            <li><a href="#">INTRO</a></li>
+            <li><a href="#">ABOUT</a></li>
+            <li><a href="#">WORKS</a></li>
+            <li><a href="#">CONTACT</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <section id="intro"></section>
+      <section id="about">
+        <div class="inner">
+          <h2 class="sectionTitle">
+            <div></div>
+            <span>ABOUT</span>
+          </h2>
+        </div>
+      </section>
+      <section id="works">
+        <div class="inner">
+          <div class="sectionTitle">
+            <div></div>
+            <span>WORKS</span><span class="subTitle"> - Project Detail</span>
+          </div>
+          <div class="worksStage">
+            <div class="projectOverview">
+              <div class="text">
+                <svg
+                  id="Layer_1"
+                  data-name="Layer 1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 288.47 143.6"
+                >
+                  <path
+                    class="guideLine"
+                    d="m73.48,105c34.03-2.37,70.44,5,103.31-4.27,38.34-22.88-20.97-48.01-45.92-23.78-35.85,40.86,55.75,34.17,68.15,9.57,12.5-55.35-84.77-21.89-112.07-11.29-95.49,69.69,221.34,29.3,108.53-10.12-33.9-1.04-69.23-1.8-99.99,12.48-121.57,94.03,133.45,31.97,114.43-47.02S-27.56,41.42,25.11,147.53c16.3,32.84,215.31,25.32,243.9-58.31,27.48-80.36-140.26,42.99-86.9,49.36,9.24,1.1,18.53-1.74,25.86-7.48,73.02-57.15,23.93-154.25-42.37-34.29-59.38,108.99,66.48,44.39,20.06-54.2-48.47-84.43-157.71,89.56-94.77,117.37,25.74-5.02,47.04-110.93,5.65-123.67C41.21,19.2,10.59,186.82,63.34,129.96c65.9-165.73-143.22-31.3-26.93-.79,0,0,74.93,14.75,103.1-7.16,0,0,56.48-31.57,55.3-83.22s-149.48-1.57-136.17,56.35,58.3,47.35,70.83,45,63-8.22,87.65-41.87c24.65-33.65-25.04-60.26-63.39-56.74s-79.83,14.09-105.65,48.52,20.74,48.13,20.74,48.13"
+                  />
+                </svg>
+                <h3>PROJECT<br />OVERVIEW</h3>
+              </div>
+              <div class="projects">
+                <ul class="lists">
+                  <li class="list_numberGame">
+                    <div class="itemInner">
+                      <img
+                        src="img/list_numberGame.png"
+                        alt="numberGame_thumbNail"
+                      />
+                      <h4>NumberGame</h4>
+                    </div>
+                  </li>
+                  <li class="list_weatherSphere">
+                    <div class="itemInner">
+                      <img
+                        src="img/list_weatherSphere.png"
+                        alt="weatherSphere_thumbNail"
+                      />
+                      <h4>WeatherSphere</h4>
+                    </div>
+                  </li>
+                  <li class="list_dreamTheater">
+                    <div class="itemInner">
+                      <img src="" alt="dreamTheater_thumbNail" />
+                      <h4>Dream Theater</h4>
+                    </div>
+                  </li>
+                  <li class="list_referry">
+                    <div class="itemInner">
+                      <img src="img/list_referry.png" alt="referry_thumbNail" />
+                      <h4>
+                        Team Project:<br />
+                        re-ferry
+                      </h4>
+                    </div>
+                  </li>
+                  <li class="list_todoList">
+                    <div class="itemInner">
+                      <img
+                        src="img/list_todoList.png"
+                        alt="todoList_thumbNail"
+                      />
+                      <h4>TO-DO-LIST</h4>
+                    </div>
+                  </li>
+                </ul>
+
+                <svg class="link-svg">
+                  <polyline
+                    class="link-line"
+                    fill="none"
+                    stroke="#ff1b60"
+                    stroke-width="3"
+                  />
+                </svg>
+              </div>
+
+              <div class="flowText">
+                <ul class="wrap">
+                  <li><img src="img/ft1.png" /></li>
+                  <li>
+                    A retro-style interactive mini-game where you guess numbers
+                    using UP/DOWN hints.
+                  </li>
+                  <li><img src="img/ft2.png" /></li>
+                  <li>
+                    An interactive weather page providing real-time data for
+                    your location or searched regions.
+                  </li>
+                  <li><img src="img/ft3.png" /></li>
+                  <li>
+                    A user-centric to-do manager with intuitive add, manage, and
+                    filter features.
+                  </li>
+                  <li><img src="img/ft4.png" /></li>
+                  <li>
+                    An interactive movie page to browse trending & upcoming
+                    titles and search via API.
+                  </li>
+                  <li><img src="img/ft1.png" /></li>
+                  <li>
+                    A retro-style interactive mini-game where you guess numbers
+                    using UP/DOWN hints.
+                  </li>
+                  <li><img src="img/ft2.png" /></li>
+                  <li>
+                    An interactive weather page providing real-time data for
+                    your location or searched regions.
+                  </li>
+                  <li><img src="img/ft3.png" /></li>
+                  <li>
+                    A user-centric to-do manager with intuitive add, manage, and
+                    filter features.
+                  </li>
+                  <li><img src="img/ft4.png" /></li>
+                  <li>
+                    An interactive movie page to browse trending & upcoming
+                    titles and search via API.
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="projectDetail">
+              <div class="personalProjects">
+                <h3>개인프로젝트</h3>
+                <div class="projectWrap">
+                  <div class="numberGame">
+                    <div class="projectImg">
+                      <img src="img/numberGame.png" alt="numberGame" />
+                      <h4>NumberGame</h4>
+                    </div>
+                    <div class="projectContent">
+                      <div class="description">
+                        <h4>Description</h4>
+                        <p>
+                          사용자가 1부터 100 사이의 숫자를 추리하며 UP/DOWN
+                          힌트로 정답을 맞히는 레트로 게임 스타일의 인터랙티브
+                          미니 게임 페이지입니다.
+                        </p>
+                      </div>
+                      <div class="skills">
+                        <h4>Skills</h4>
+                        <ul>
+                          <li><img src="img/skill_icon_html.png" /></li>
+                          <li><img src="img/skill_icon_css.png" /></li>
+                          <li><img src="img/skill_icon_gsap.png" /></li>
+                        </ul>
+                      </div>
+                      <div class="shortCut">
+                        <a href="#">페이지 바로가기</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="weatherSphere">
+                    <div class="projectImg">
+                      <img src="img/list_weatherSphere.png" alt="numberGame" />
+                      <h4>WeatherSphere</h4>
+                    </div>
+                    <div class="projectContent">
+                      <div class="description">
+                        <h4>Description</h4>
+                        <p>
+                          사용자가 1부터 100 사이의 숫자를 추리하며 UP/DOWN
+                          힌트로 정답을 맞히는 레트로 게임 스타일의 인터랙티브
+                          미니 게임 페이지입니다.
+                        </p>
+                      </div>
+                      <div class="skills">
+                        <h4>Skills</h4>
+                        <ul>
+                          <li><img src="img/skill_icon_html.png" /></li>
+                          <li><img src="img/skill_icon_css.png" /></li>
+                          <li><img src="img/skill_icon_gsap.png" /></li>
+                        </ul>
+                      </div>
+                      <div class="shortCut">
+                        <a href="#">페이지 바로가기</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="dreamTheater">
+                    <div class="projectImg">
+                      <img src="img/numberGame.png" alt="numberGame" />
+                      <h4>DreamTheater</h4>
+                    </div>
+                    <div class="projectContent">
+                      <div class="description">
+                        <h4>Description</h4>
+                        <p>
+                          사용자가 1부터 100 사이의 숫자를 추리하며 UP/DOWN
+                          힌트로 정답을 맞히는 레트로 게임 스타일의 인터랙티브
+                          미니 게임 페이지입니다.
+                        </p>
+                      </div>
+                      <div class="skills">
+                        <h4>Skills</h4>
+                        <ul>
+                          <li><img src="img/skill_icon_html.png" /></li>
+                          <li><img src="img/skill_icon_css.png" /></li>
+                          <li><img src="img/skill_icon_gsap.png" /></li>
+                        </ul>
+                      </div>
+                      <div class="shortCut">
+                        <a href="#">페이지 바로가기</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="todoList">
+                    <div class="projectImg">
+                      <img src="img/numberGame.png" alt="numberGame" />
+                      <h4>To-Do-List</h4>
+                    </div>
+                    <div class="projectContent">
+                      <div class="description">
+                        <h4>Description</h4>
+                        <p>
+                          사용자가 1부터 100 사이의 숫자를 추리하며 UP/DOWN
+                          힌트로 정답을 맞히는 레트로 게임 스타일의 인터랙티브
+                          미니 게임 페이지입니다.
+                        </p>
+                      </div>
+                      <div class="skills">
+                        <h4>Skills</h4>
+                        <ul>
+                          <li><img src="img/skill_icon_html.png" /></li>
+                          <li><img src="img/skill_icon_css.png" /></li>
+                          <li><img src="img/skill_icon_gsap.png" /></li>
+                        </ul>
+                      </div>
+                      <div class="shortCut">
+                        <a href="#">페이지 바로가기</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script src="script/custom.js"></script>
+  </body>
+</html>
