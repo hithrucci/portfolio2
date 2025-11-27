@@ -362,6 +362,12 @@ main {
   font-family: "PartialSans";
   letter-spacing: 1;
 }
+#works .inner .projectOverview .text .overviewBg {
+  position: absolute;
+  left: 50%;
+  top: 55%;
+  transform: translate(-50%, -50%) scale(0.87);
+}
 #works .inner .projectOverview .text h3.on {
   -webkit-text-stroke: 0.1px #ff1b60;
 }
