@@ -174,15 +174,27 @@
                   <div class="numberGame">
                     <div class="projectImg">
                       <img src="img/numberGame.png" alt="numberGame" />
+                      <div class="mobile">
+                        <img src="img/numberGame_mobile.png" />
+                      </div>
                       <h4>NumberGame</h4>
                     </div>
                     <div class="projectContent">
                       <div class="description">
                         <h4>Description</h4>
                         <p>
-                          사용자가 1부터 100 사이의 숫자를 추리하며 UP/DOWN
-                          힌트로 정답을 맞히는 레트로 게임 스타일의 인터랙티브
-                          미니 게임 페이지입니다.
+                          사용자가 1~100 사이의 숫자를 추리하고 UP/DOWN 힌트로
+                          정답 범위를 좁혀가는 레트로 스타일의 인터랙티브
+                          게임입니다.<br />
+                          단순한 난이도 기반의 미니 게임이지만, 입력 이벤트
+                          처리, 상태 변화에 따른 UI 업데이트, 정답 로직 및 예외
+                          처리 흐름 등을 명확히 구조화하여 구현했습니다.
+                          사용자의 액션에 즉각 반응하는 애니메이션·효과를 통해
+                          직관적인 피드백을 제공하며, 제한된 목숨(Life) 시스템과
+                          재시도 기능으로 게임 흐름을 자연스럽게 연결했습니다.
+                          JavaScript로 DOM 조작, 조건문 기반 게임 로직, 랜덤 값
+                          생성, 이벤트 바인딩 등 기본적인 프론트엔드 스킬을 실제
+                          인터랙티브 콘텐츠에 적용한 프로젝트입니다.
                         </p>
                       </div>
                       <div class="skills">
@@ -190,6 +202,7 @@
                         <ul>
                           <li><img src="img/skill_icon_html.png" /></li>
                           <li><img src="img/skill_icon_css.png" /></li>
+                          <li><img src="img/skill_icon_js.png" /></li>
                           <li><img src="img/skill_icon_gsap.png" /></li>
                         </ul>
                       </div>
@@ -200,16 +213,28 @@
                   </div>
                   <div class="weatherSphere">
                     <div class="projectImg">
-                      <img src="img/list_weatherSphere.png" alt="numberGame" />
+                      <img src="img/weatherSphere.png" alt="weatherSphere" />
+                      <div class="mobile">
+                        <img src="img/weatherSphere_mobile.png" />
+                      </div>
                       <h4>WeatherSphere</h4>
                     </div>
                     <div class="projectContent">
                       <div class="description">
                         <h4>Description</h4>
                         <p>
-                          사용자가 1부터 100 사이의 숫자를 추리하며 UP/DOWN
-                          힌트로 정답을 맞히는 레트로 게임 스타일의 인터랙티브
-                          미니 게임 페이지입니다.
+                          현재 위치 기반의 실시간 날씨 데이터를 시각적으로
+                          전달하는 인터랙티브 페이지입니다.<br />
+                          OpenWeather API를 활용해 현재 기온, 최저·최고 기온,
+                          풍속, 습도 등 핵심 정보를 받아오며, 시간대별 날씨는
+                          차트로 시각화하여 보다 직관적으로 확인할 수 있도록
+                          구성했습니다. 페이지는 현재 시각에 따라 자동으로 낮/밤
+                          테마가 전환되며, 각 날씨 상태에 대응하는 커스텀
+                          아이콘과 부드러운 애니메이션을 적용하여 사용자 경험을
+                          강화했습니다. 도시 검색 기능을 통해 다양한 지역의 기상
+                          정보를 동적으로 제공하며, API 요청·데이터 파싱·에러
+                          처리·DOM 렌더링 등 프론트엔드의 주요 흐름을 직접
+                          설계한 프로젝트입니다.
                         </p>
                       </div>
                       <div class="skills">
@@ -254,16 +279,29 @@
                   </div>
                   <div class="todoList">
                     <div class="projectImg">
-                      <img src="img/numberGame.png" alt="numberGame" />
+                      <img src="img/todolist.png" alt="numberGame" />
+                      <div class="mobile">
+                        <img src="img/todolist_mobile.png" />
+                      </div>
                       <h4>To-Do-List</h4>
                     </div>
                     <div class="projectContent">
                       <div class="description">
                         <h4>Description</h4>
                         <p>
-                          사용자가 1부터 100 사이의 숫자를 추리하며 UP/DOWN
-                          힌트로 정답을 맞히는 레트로 게임 스타일의 인터랙티브
-                          미니 게임 페이지입니다.
+                          사용자가 해야 할 작업을 직관적으로 관리할 수 있도록
+                          설계한 인터랙티브 투두리스트 페이지입니다.<br />
+                          작업추가·삭제·완료 처리 등 기본 기능을 중심으로, UI
+                          상태 변화가 즉시 반영되도록 DOM 업데이트 흐름을
+                          구성했으며, 카테고리 분류 및 정렬 기능을 통해 다양한
+                          작업을 효율적으로 관리할 수 있도록 만들었습니다.
+                          브라우저의 LocalStorage를 활용해 새로고침 이후에도
+                          데이터가 유지되며, 체크·전환·삭제 같은 동작에는
+                          부드러운 애니메이션을 적용해 사용자 경험을
+                          강화했습니다. 간결한 디자인 위에 커스텀 아이콘과
+                          미묘한 인터랙션을 배치해 기능성과 사용성을 높였으며,
+                          이벤트 처리·상태 관리·데이터 보존 등 프론트엔드
+                          기본기를 다지기 위한 학습형 프로젝트입니다.
                         </p>
                       </div>
                       <div class="skills">

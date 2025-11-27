@@ -200,18 +200,18 @@ ScrollTrigger.create({
 
 // ---------------------------------------------
 // 3) projectDetail 수평 캐러셀
-//    - 이 애니만 end 길게, 다른 애니에 영향 X
+//
 // ---------------------------------------------
 gsap.fromTo(
   ".projectDetail .projectWrap",
   { x: 0 },
   {
-    x: -4835, // 카드 4개면 -1500 * 4 = -6000
+    x: -4815,
     ease: "none",
     scrollTrigger: {
       trigger: ".projectDetail",
       start: "-100px top",
-      end: "+=4500", // 이 값 키우면 더 천천히 이동
+      end: "+=5000",
       scrub: 1,
       pin: true,
       markers: true,
@@ -253,3 +253,56 @@ gsap.fromTo(
     },
   }
 );
+const projectCard = document.querySelectorAll(".projectWrap>div");
+
+function checkProjectCard() {
+  projectCard.forEach((item) => {
+    const rect = item.getBoundingClientRect();
+
+    if (rect.left <= 500 && !item.classList.contains("played")) {
+      item.classList.add("played");
+
+      const des = item.querySelector(".description");
+      const desp = des.querySelector("p");
+      const skill = item.querySelector(".skills");
+      const skillLis = skill.querySelectorAll("li");
+
+      // description 먼저
+      gsap.to(des, { opacity: 1, right: 0, duration: 0.6 });
+      gsap.to(desp, { marginTop: 20, duration: 0.6 }, "<");
+
+      // skill + li 타임라인
+      let skillTl = gsap.timeline();
+
+      skillTl
+        // 1) skill 박스가 먼저 슬라이드 인
+        .to(skill, {
+          opacity: 1,
+          right: 0,
+          duration: 0.6,
+        })
+        // 2) skill 애니메이션이 "끝난 뒤에" li들을 순서대로
+        .to(
+          skillLis,
+          {
+            "margin-top": "0",
+            opacity: 1,
+            duration: 0.3,
+            stagger: 0.1, // li 하나씩 차례대로
+          },
+          ">" // 바로 이전 애니 끝난 직후부터 시작
+        );
+    }
+  });
+}
+
+checkProjectCard();
+
+ScrollTrigger.create({
+  trigger: ".projectDetail",
+  start: "-100px top",
+  end: "+=5000",
+  scrub: 1,
+  onUpdate: checkProjectCard,
+  // markers: true,
+});
