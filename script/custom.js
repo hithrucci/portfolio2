@@ -84,7 +84,8 @@ function startFloating() {
     gsap.to(inner, {
       x: "+=" + gsap.utils.random(-60, 60),
       y: "+=" + gsap.utils.random(-40, 40),
-      duration: gsap.utils.random(3, 5),
+      rotation: "+=" + gsap.utils.random(-30, 30),
+      duration: gsap.utils.random(3, 5, 3),
       repeat: -1,
       yoyo: true,
       ease: "sine.inOut",
@@ -266,10 +267,39 @@ function checkProjectCard() {
       const desp = des.querySelector("p");
       const skill = item.querySelector(".skills");
       const skillLis = skill.querySelectorAll("li");
-
+      const mobile = item.querySelectorAll(".mobile");
       // description 먼저
       gsap.to(des, { opacity: 1, right: 0, duration: 0.6 });
+
       gsap.to(desp, { marginTop: 20, duration: 0.6 }, "<");
+
+      let mobileTl = gsap.timeline();
+      mobileTl
+        .to(mobile, {
+          opacity: 1,
+          rotation: -10,
+          duration: 0.6,
+          right: "50%",
+        })
+        .to(
+          mobile,
+          {
+            x: 3,
+            rotation: 2,
+            repeat: 6,
+            yoyo: true,
+            duration: 0.07,
+            ease: "power1.inOut",
+          },
+          ">"
+        )
+        .to(
+          mobile,
+          {
+            rotation: 5,
+          },
+          ">"
+        );
 
       // skill + li 타임라인
       let skillTl = gsap.timeline();
@@ -281,6 +311,7 @@ function checkProjectCard() {
           right: 0,
           duration: 0.6,
         })
+
         // 2) skill 애니메이션이 "끝난 뒤에" li들을 순서대로
         .to(
           skillLis,
