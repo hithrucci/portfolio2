@@ -617,7 +617,7 @@ main {
 .projectDetail .personalProjects {
   perspective: 500px;
 }
-.projectDetail .personalProjects > h3 {
+.projectDetail div > h3 {
   color: #fff;
   font-size: 2.2rem;
   margin-top: 30px;
@@ -769,4 +769,11 @@ main {
 .projectContent .shortCut a:hover {
   background-color: #fff;
   color: #000;
+}
+/* ----------------------------------- */
+/* teamProject */
+/* ----------------------------------- */
+.teamProject {
+  margin-top: 180px;
+  height: 100vh;
 }
