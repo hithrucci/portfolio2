@@ -776,4 +776,9 @@ main {
 .teamProject {
   margin-top: 180px;
   height: 100vh;
+  position: relative;
+}
+.teamProject h3 {
+  position: sticky;
+  top: 100px;
 }
