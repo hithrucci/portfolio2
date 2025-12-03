@@ -613,6 +613,7 @@ main {
 .projectDetail {
   width: 100%;
   overflow: hidden;
+  height: auto;
 }
 .projectDetail .personalProjects {
   perspective: 500px;
@@ -703,7 +704,7 @@ main {
 
 .projectDetail > div .projectContent h4 {
   width: 100%;
-  font-size: 2rem;
+  font-size: 1.8rem;
   display: inline-block;
   color: #ccc;
   border-bottom: 1px solid #ccc;
@@ -715,7 +716,7 @@ main {
   /* border: 1px solid red;
   box-sizing: border-box; */
   height: 50%;
-  opacity: 0;
+  opacity: 1;
 }
 .projectContent .description p {
   margin-top: 150px;
@@ -774,11 +775,61 @@ main {
 /* teamProject */
 /* ----------------------------------- */
 .teamProject {
-  margin-top: 180px;
-  height: 100vh;
+  width: 100%;
+  margin-top: 300px;
   position: relative;
+  box-sizing: border-box;
+  background-image: linear-gradient(-150deg, #c3bb9b, #c3bb9b);
 }
 .teamProject h3 {
-  position: sticky;
-  top: 100px;
+  color: #222;
+}
+.teamProject .projectWrap {
+  display: block !important;
+}
+.teamProject .summary {
+  background-color: #f44f55;
+  border-radius: 33px;
+  width: 90%;
+  margin: 0px auto;
+  display: flex;
+  justify-content: center;
+  padding: 60px 0px;
+}
+.teamProject .projectContent {
+  /* border: 1px solid blue; */
+  width: 30% !important;
+  position: relative;
+}
+
+.teamProject .projectContent .description h4 {
+  color: #222;
+  border: none;
+}
+.teamProject .projectContent .description p {
+  color: #222;
+  margin-top: 30px;
+}
+.teamProject .projectImg {
+  width: 50%;
+}
+.teamProject .projectImg img {
+  width: 100%;
+}
+.teamProject .shortCut {
+  position: absolute;
+  bottom: 0px;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+.teamProject .shortCut div {
+  width: 150px;
+  background-color: rgba(0, 0, 0, 0.3);
+  height: 40px;
+  line-height: 40px;
+  border-radius: 40px;
+  text-align: center;
+  color: #fff;
+  border: 1px solid #fff;
 }

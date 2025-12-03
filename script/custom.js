@@ -207,7 +207,7 @@ gsap.fromTo(
   ".projectDetail .projectWrap",
   { x: 0 },
   {
-    x: -4815,
+    x: -4650,
     ease: "none",
     scrollTrigger: {
       trigger: ".projectDetail",
@@ -215,7 +215,7 @@ gsap.fromTo(
       end: "+=5000",
       scrub: 1,
       pin: true,
-      markers: true,
+      // markers: true,
     },
   }
 );
