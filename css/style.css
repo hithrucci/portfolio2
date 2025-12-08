@@ -260,6 +260,17 @@ main {
   display: flex;
   align-items: center;
 }
+@keyframes blinking {
+  0% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
 .sectionTitle h3 {
   font-size: 40px;
 }
@@ -302,7 +313,6 @@ main {
   margin: 0 auto;
 }
 
-/* WORKS 타이틀 (sticky) */
 #works .sectionTitle {
   font-family: "Paperozi";
   font-weight: 800;
@@ -364,21 +374,20 @@ main {
 }
 
 /* ----------------------------------- */
-/* works : interactive-project - overview */
+/* projectOverview */
 /* ----------------------------------- */
 
 #works .interactive-project {
   position: relative;
 }
 
-#works .interactive-project .projectOverview {
+.interactive-project .projectOverview {
   position: relative;
   width: 100%;
   height: 100vh;
 }
 
-/* 배경 그리드 + 페더 */
-#works .interactive-project .projectOverview::before {
+.interactive-project .projectOverview::before {
   content: "";
   width: 100%;
   height: 100%;
@@ -407,15 +416,14 @@ main {
   z-index: -1;
 }
 
-#works .interactive-project .projectOverview .inner {
+.interactive-project .projectOverview .inner {
   width: 1700px;
   margin: 0 auto;
   height: 100%;
   position: relative;
 }
 
-/* 중앙 텍스트 + 배경 */
-#works .interactive-project .projectOverview .text {
+.interactive-project .projectOverview .text {
   width: 100%;
   position: absolute;
   left: 50%;
@@ -423,7 +431,7 @@ main {
   transform: translate(-50%, -50%);
 }
 
-#works .interactive-project .projectOverview .text h3 {
+.interactive-project .projectOverview .text h3 {
   position: absolute;
   left: 50%;
   top: 55%;
@@ -437,18 +445,18 @@ main {
   letter-spacing: 1px;
 }
 
-#works .interactive-project .projectOverview .text h3.on {
+.interactive-project .projectOverview .text h3.on {
   -webkit-text-stroke: 0.1px #ff1b60;
 }
 
-#works .interactive-project .projectOverview .text .overviewBg {
+.interactive-project .projectOverview .text .overviewBg {
   position: absolute;
   left: 50%;
   top: 55%;
   transform: translate(-50%, -50%) scale(0.87);
 }
 
-#works .interactive-project .projectOverview .text svg {
+.interactive-project .projectOverview .text svg {
   width: 100%;
   max-width: 700px;
   height: 800px;
@@ -461,7 +469,7 @@ main {
   z-index: -1;
 }
 
-#works .interactive-project .projectOverview .text .guideLine {
+.interactive-project .projectOverview .text .guideLine {
   fill: none;
   stroke: #eb5248;
   stroke-width: 14;
@@ -470,13 +478,13 @@ main {
 }
 
 /* 프로젝트 카드 영역 */
-#works .interactive-project .projectOverview .projects {
+.interactive-project .projectOverview .projects {
   position: relative;
   width: 100%;
   height: 100%;
 }
 
-#works .interactive-project .projectOverview .lists {
+.interactive-project .projectOverview .lists {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -486,7 +494,7 @@ main {
   z-index: 2;
 }
 
-#works .interactive-project .projectOverview .lists li {
+.interactive-project .projectOverview .lists li {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -499,7 +507,7 @@ main {
 }
 
 /* 공통 카드 박스 */
-#works .interactive-project .projectOverview .lists li .itemInner {
+.interactive-project .projectOverview .lists li .itemInner {
   position: relative;
   box-sizing: border-box;
   padding: 16px;
@@ -511,39 +519,38 @@ main {
   justify-content: space-between;
 }
 
-#works .interactive-project .projectOverview .lists li .itemInner img {
+.interactive-project .projectOverview .lists li .itemInner img {
   width: 100%;
   display: block;
 }
 
-#works .interactive-project .projectOverview .lists li h4 {
+.interactive-project .projectOverview .lists li h4 {
   font-weight: normal;
   text-align: center;
 }
 
-/* 각 카드별 개성 */
-#works .interactive-project .projectOverview .lists li:nth-child(1) .itemInner {
+.interactive-project .projectOverview .lists li:nth-child(1) .itemInner {
   font-family: "Galmuri7";
   width: 250px;
   height: 250px;
   color: #00ff00;
 }
 
-#works .interactive-project .projectOverview .lists li:nth-child(2) .itemInner {
+.interactive-project .projectOverview .lists li:nth-child(2) .itemInner {
   font-family: "ChangwonDanggamAsak";
   width: 280px;
   height: 200px;
   color: #fff;
 }
 
-#works .interactive-project .projectOverview .lists li:nth-child(3) .itemInner {
+.interactive-project .projectOverview .lists li:nth-child(3) .itemInner {
   font-family: "ChangwonDanggamAsak";
   width: 280px;
   height: 200px;
   color: #fff;
 }
 
-#works .interactive-project .projectOverview .lists li:nth-child(4) .itemInner {
+.interactive-project .projectOverview .lists li:nth-child(4) .itemInner {
   font-family: "ChangwonDanggamAsak";
   width: 200px;
   height: 350px;
@@ -551,7 +558,7 @@ main {
 }
 
 /* 카드 간 연결선 SVG */
-#works .interactive-project .projectOverview .link-svg {
+.interactive-project .projectOverview .link-svg {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -560,14 +567,14 @@ main {
   z-index: 1;
 }
 
-#works .interactive-project .projectOverview .link-line {
+.interactive-project .projectOverview .link-line {
   fill: none;
   stroke: #ffffff;
   stroke-width: 0.5;
 }
 
 /* 플로우 텍스트 박스 */
-#works .interactive-project .projectOverview .flowText {
+.interactive-project .projectOverview .flowText {
   position: absolute;
   bottom: 50%;
   left: 50%;
@@ -585,7 +592,7 @@ main {
   z-index: 3;
 }
 
-#works .interactive-project .projectOverview .flowText .wrap {
+.interactive-project .projectOverview .flowText .wrap {
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -603,7 +610,7 @@ main {
     margin-left: -2520px;
   }
 }
-#works .interactive-project .projectOverview .flowText .wrap li {
+.interactive-project .projectOverview .flowText .wrap li {
   display: block;
   flex-shrink: 0;
   height: 30px;
@@ -614,35 +621,35 @@ main {
   white-space: nowrap;
 }
 
-#works .interactive-project .projectOverview .flowText .wrap li:nth-child(odd) {
+.interactive-project .projectOverview .flowText .wrap li:nth-child(odd) {
   width: 30px;
   height: 30px;
   line-height: 30px;
 }
 
-#works .interactive-project .projectOverview .flowText .wrap img {
+.interactive-project .projectOverview .flowText .wrap img {
   width: 100%;
 }
 
 /* ----------------------------------- */
-/* works : interactive-project - detail */
+/* projectDetail */
 /* ----------------------------------- */
 
-#works .interactive-project .projectDetail {
+.interactive-project .projectDetail {
   width: 100%;
   overflow: hidden;
   height: auto;
 }
 
-#works .interactive-project .projectDetail {
+.interactive-project .projectDetail {
   perspective: 500px;
 }
 
-#works .interactive-project .projectDetail .titleWrap {
+.interactive-project .projectDetail .titleWrap {
   display: flex;
   justify-content: space-between;
-  width: 1500px;
-  margin: 0 auto;
+  width: 1700px;
+  margin: 30px auto;
   padding: 0 30px;
   box-sizing: border-box;
 }
@@ -652,22 +659,21 @@ main {
   font-size: 2rem;
 }
 
-#works .interactive-project .projectDetail .summary_icon {
+.interactive-project .projectDetail .summary_icon {
   display: flex;
   align-items: center;
 }
-
-/* 개별 프로젝트 카드 래퍼 (NumberGame, WeatherSphere, ...) */
-#works .interactive-project .projectDetail .projectWrap {
-  width: 80%;
+.interactive-project .projectDetail .projectWrap {
+  width: 1700px;
   display: flex;
+  margin: 0px auto;
   justify-content: flex-start;
   gap: 50px;
   height: 550px;
 }
 
-/* article 카드 하나 */
-#works .interactive-project .projectDetail .projectWrap > article {
+/* article 카드 */
+.interactive-project .projectDetail .projectWrap > article {
   border: 2px solid #eee;
   border-radius: 50px;
   display: flex;

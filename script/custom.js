@@ -163,3 +163,28 @@ overviewTl
     1.2
   )
   .add(startFloating, 0);
+// ---------------------------------------------
+// 2) projectDetail 영역 입장 애니메이션
+//    projectWrap 전체가 rotationX + opacity로 등장
+// ---------------------------------------------
+gsap.fromTo(
+  ".interactive-project .projectDetail .projectWrap",
+  {
+    rotationX: 75,
+    opacity: 0,
+    transformOrigin: "top center",
+  },
+  {
+    rotationX: 0,
+    opacity: 1,
+    duration: 1.2,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: ".interactive-project .projectDetail",
+      start: "top 75%",
+      end: "top 40%",
+      toggleActions: "play none none reverse",
+      markers: true,
+    },
+  }
+);
