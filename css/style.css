@@ -114,6 +114,10 @@
 a {
   color: inherit;
   text-decoration: inherit;
+  display: block;
+}
+img {
+  display: block;
 }
 ul {
   list-style: none;
@@ -145,7 +149,7 @@ header.hide {
 }
 
 header .inner {
-  width: 1500px;
+  width: 1700px;
   margin: 0px auto;
   height: 100%;
   background-color: #181818;
@@ -224,26 +228,55 @@ main {
   width: 100%;
   height: auto;
 }
-.inner .sectionTitle {
+.sectionTitle {
   font-family: "Paperozi";
   font-weight: 800;
   font-size: 52px;
-  height: 120px;
-  line-height: 120px;
+  height: 100px;
+  line-height: 100px;
   color: #fff;
-  display: flex;
-  align-items: center;
-  gap: 8px;
   z-index: 44;
   /* background-color: red; */
 }
-
-.inner .sectionTitle div {
+.sectionTitle .inner {
+  margin: 0px auto;
+  width: 100%;
+  max-width: 1700px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sectionTitle .inner .sectionName {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.sectionTitle .blink {
   height: 16px;
   width: 16px;
   border-radius: 8px;
   background-color: #ff9f00;
   animation: blinking 3s linear infinite;
+  display: flex;
+  align-items: center;
+}
+.sectionTitle h3 {
+  font-size: 40px;
+}
+
+.sectionTitle .subTitle {
+  position: relative;
+  font-size: 26px;
+  font-weight: normal;
+}
+.sectionTitle .subTitle_line {
+  position: absolute;
+  width: 100%;
+  height: 6px;
+  left: 0px;
+  bottom: 36px;
+  z-index: -1;
+  background-color: #f44f55;
 }
 /* ----------------------------------- */
 /* about */
@@ -253,61 +286,108 @@ main {
   width: 100%;
 }
 #about .inner {
-  width: 1500px;
+  width: 1700px;
   position: relative;
   margin: 0px auto;
   height: 100%;
 }
 
 /* ----------------------------------- */
-/* works */
+/* works 공통 */
 /* ----------------------------------- */
 
 #works {
   width: 100%;
-}
-
-#works .inner {
   position: relative;
-  width: 1500px;
   margin: 0 auto;
 }
 
-/* WORKS 타이틀을 sticky로 고정 */
+/* WORKS 타이틀 (sticky) */
 #works .sectionTitle {
+  font-family: "Paperozi";
+  font-weight: 800;
+  font-size: 52px;
+  height: 100px;
+  line-height: 100px;
+  color: #fff;
+  z-index: 44;
   position: sticky;
-  top: 0px; /* header 높이만큼 */
-  z-index: 10;
-  background-color: #181818; /* 필요하면 배경 살짝 깔기 */
+  top: 0;
+  background-color: #181818;
+  width: 100%;
 }
 
-#works .worksStage {
-  position: relative;
+#works .sectionTitle .inner {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1700px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-/* ----------------------------------- */
-/* projectOverview */
-/* ----------------------------------- */
-#works .inner .projectOverview {
-  height: 100vh;
-  position: relative;
+#works .sectionTitle .sectionName {
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
-#works .inner .sectionTitle .subTitle {
-  font-size: 2rem;
+
+#works .sectionTitle .blink {
+  height: 16px;
+  width: 16px;
+  border-radius: 8px;
+  background-color: #ff9f00;
+  animation: blinking 3s linear infinite;
+  display: flex;
+  align-items: center;
+}
+
+#works .sectionTitle h3 {
+  font-size: 40px;
+}
+
+#works .sectionTitle .subTitle {
+  position: relative;
+  font-size: 26px;
   font-weight: normal;
+  margin-left: 16px;
 }
-#works .inner .projectOverview::before {
+
+#works .sectionTitle .subTitle_line {
+  position: absolute;
+  width: 100%;
+  height: 6px;
+  left: 0;
+  bottom: 36px;
+  z-index: -1;
+  background-color: #f44f55;
+}
+
+/* ----------------------------------- */
+/* works : interactive-project - overview */
+/* ----------------------------------- */
+
+#works .interactive-project {
+  position: relative;
+}
+
+#works .interactive-project .projectOverview {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+/* 배경 그리드 + 페더 */
+#works .interactive-project .projectOverview::before {
   content: "";
   width: 100%;
   height: 100%;
   position: absolute;
-  left: 0px;
-  top: 0px;
-  /*가로*/
+  left: 0;
+  top: 0;
   background-image: linear-gradient(#353535 1px, transparent 1px),
-    /*세로*/ linear-gradient(90deg, #353535 1px, transparent 1px);
+    linear-gradient(90deg, #353535 1px, transparent 1px);
   background-size: 40px 40px;
-  /* 사각형 Feather */
   -webkit-mask-image: linear-gradient(
       to bottom,
       transparent 0%,
@@ -327,29 +407,23 @@ main {
   z-index: -1;
 }
 
-@keyframes blinking {
-  0% {
-    opacity: 0.2;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0.2;
-  }
+#works .interactive-project .projectOverview .inner {
+  width: 1700px;
+  margin: 0 auto;
+  height: 100%;
+  position: relative;
 }
 
-#works .inner .projectOverview {
-  position: relative;
-  height: 100vh;
-}
-#works .inner .projectOverview .text {
+/* 중앙 텍스트 + 배경 */
+#works .interactive-project .projectOverview .text {
+  width: 100%;
   position: absolute;
   left: 50%;
   top: 30%;
   transform: translate(-50%, -50%);
 }
-#works .inner .projectOverview .text h3 {
+
+#works .interactive-project .projectOverview .text h3 {
   position: absolute;
   left: 50%;
   top: 55%;
@@ -358,106 +432,51 @@ main {
   color: #181818;
   text-align: center;
   width: 100%;
-  margin: 0px auto;
+  margin: 0 auto;
   font-family: "PartialSans";
-  letter-spacing: 1;
+  letter-spacing: 1px;
 }
-#works .inner .projectOverview .text .overviewBg {
+
+#works .interactive-project .projectOverview .text h3.on {
+  -webkit-text-stroke: 0.1px #ff1b60;
+}
+
+#works .interactive-project .projectOverview .text .overviewBg {
   position: absolute;
   left: 50%;
   top: 55%;
   transform: translate(-50%, -50%) scale(0.87);
 }
-#works .inner .projectOverview .text h3.on {
-  -webkit-text-stroke: 0.1px #ff1b60;
-}
-#work .inner .projectOverview .text svg {
-  width: 750px;
+
+#works .interactive-project .projectOverview .text svg {
+  width: 100%;
+  max-width: 700px;
+  height: 800px;
+  display: block;
+  overflow: visible;
   position: absolute;
   left: 52%;
   top: 50%;
   transform: translate(-50%, -50%);
   z-index: -1;
 }
-#works .inner .flowText {
-  position: absolute;
-  bottom: 50%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60%;
-  height: 50px;
-  border-radius: 25px;
-  line-height: 50px;
-  color: #fff;
-  background-color: rgba(255, 255, 255, 0.2);
-  border: 1px solid #fff;
-  backdrop-filter: blur(2px);
-  overflow: hidden;
-  font-family: "PartialSans";
-  z-index: 3;
-}
-#works .inner .flowText .wrap {
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  padding: 4px 8px;
-  width: 100%;
-  height: 100%;
-  line-height: 50px;
-  animation: flow 30s linear infinite;
-}
-@keyframes flow {
-  0% {
-    margin-left: 0px;
-  }
-  100% {
-    margin-left: -2520px;
-  }
-}
-#works .inner .flowText .wrap li {
-  display: block;
-  flex-shrink: 0;
-  height: 30px;
-  line-height: 30px;
-  width: 600px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-#works .inner .flowText .wrap li:nth-child(odd) {
-  width: 30px;
-  height: 30px;
-  line-height: 30px;
-}
-#works .inner .flowText .wrap img {
-  width: 100%;
-}
-#works .text svg {
-  width: 100%;
-  max-width: 700px; /* 필요하면 조절 */
-  height: 800px;
-  display: block;
-  overflow: visible;
-}
-#works .text svg path {
-  width: 70%;
-}
-#works .text .guideLine {
-  fill: none; /* 도화지처럼 비워두고 */
-  stroke: #eb5248; /* 선색 */
-  stroke-width: 14; /* 선 굵기 */
-  stroke-linecap: round; /* 끝 둥글게 */
-  stroke-linejoin: round; /* 꺾이는 곳 부드럽게 */
+
+#works .interactive-project .projectOverview .text .guideLine {
+  fill: none;
+  stroke: #eb5248;
+  stroke-width: 14;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
-/* projects */
-#works .projectOverview .projects {
+/* 프로젝트 카드 영역 */
+#works .interactive-project .projectOverview .projects {
   position: relative;
   width: 100%;
   height: 100%;
 }
 
-#works .projectOverview .lists {
+#works .interactive-project .projectOverview .lists {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -467,7 +486,7 @@ main {
   z-index: 2;
 }
 
-#works .projectOverview .lists li {
+#works .interactive-project .projectOverview .lists li {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -479,7 +498,8 @@ main {
   align-items: center;
 }
 
-#works .projectOverview .lists li .itemInner {
+/* 공통 카드 박스 */
+#works .interactive-project .projectOverview .lists li .itemInner {
   position: relative;
   box-sizing: border-box;
   padding: 16px;
@@ -491,53 +511,47 @@ main {
   justify-content: space-between;
 }
 
-#works .projectOverview .lists li .itemInner img {
+#works .interactive-project .projectOverview .lists li .itemInner img {
   width: 100%;
   display: block;
 }
 
-.projects li h4 {
+#works .interactive-project .projectOverview .lists li h4 {
   font-weight: normal;
   text-align: center;
 }
 
-/* 각 카드 스타일은 itemInner에 적용 */
-#works .projectOverview .lists li:nth-child(1) .itemInner {
+/* 각 카드별 개성 */
+#works .interactive-project .projectOverview .lists li:nth-child(1) .itemInner {
   font-family: "Galmuri7";
   width: 250px;
   height: 250px;
   color: #00ff00;
 }
 
-#works .projectOverview .lists li:nth-child(2) .itemInner {
+#works .interactive-project .projectOverview .lists li:nth-child(2) .itemInner {
   font-family: "ChangwonDanggamAsak";
   width: 280px;
   height: 200px;
   color: #fff;
 }
 
-#works .projectOverview .lists li:nth-child(3) .itemInner {
+#works .interactive-project .projectOverview .lists li:nth-child(3) .itemInner {
   font-family: "ChangwonDanggamAsak";
   width: 280px;
   height: 200px;
   color: #fff;
 }
 
-#works .projectOverview .lists li:nth-child(4) .itemInner {
-  font-family: "YeogiOttaeJalnan";
-  width: 280px;
-  height: 250px;
-  color: #f47445;
-}
-
-#works .projectOverview .lists li:nth-child(5) .itemInner {
+#works .interactive-project .projectOverview .lists li:nth-child(4) .itemInner {
   font-family: "ChangwonDanggamAsak";
   width: 200px;
   height: 350px;
   color: #ff67a1;
 }
 
-#works .projectOverview .link-svg {
+/* 카드 간 연결선 SVG */
+#works .interactive-project .projectOverview .link-svg {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -546,163 +560,170 @@ main {
   z-index: 1;
 }
 
-#works .projectOverview .link-line {
-  fill: none;
-  stroke: #ffffff;
-  stroke-width: 0.1;
-}
-
-#works .projectOverview .lists li img {
-  width: 100%;
-}
-.projects li h4 {
-  font-weight: normal;
-  text-align: center;
-}
-
-#works .projectOverview .lists li:nth-child(1) {
-  font-family: "Galmuri7";
-  width: 250px;
-  height: 250px;
-  color: #00ff00;
-}
-#works .projectOverview .lists li:nth-child(2) {
-  font-family: "ChangwonDanggamAsak";
-  width: 280px;
-  height: 200px;
-  color: #fff;
-}
-
-#works .projectOverview .lists li:nth-child(3) {
-  font-family: "ChangwonDanggamAsak";
-  width: 280px;
-  height: 200px;
-  color: #fff;
-}
-#works .projectOverview .lists li:nth-child(4) {
-  font-family: "ChangwonDanggamAsak";
-  width: 280px;
-  height: 250px;
-  color: #ff67a1;
-}
-#works .projectOverview .lists li:nth-child(5) {
-  font-family: "ChangwonDanggamAsak";
-  width: 200px;
-  height: 350px;
-  color: #ff67a1;
-}
-
-#works .projectOverview .link-svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-#works .projectOverview .link-line {
+#works .interactive-project .projectOverview .link-line {
   fill: none;
   stroke: #ffffff;
   stroke-width: 0.5;
-  z-index: -1;
+}
+
+/* 플로우 텍스트 박스 */
+#works .interactive-project .projectOverview .flowText {
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0%;
+  height: 50px;
+  border-radius: 25px;
+  line-height: 50px;
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 1px solid #fff;
+  backdrop-filter: blur(2px);
+  overflow: hidden;
+  font-family: "PartialSans";
+  z-index: 3;
+}
+
+#works .interactive-project .projectOverview .flowText .wrap {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  width: 100%;
+  height: 100%;
+  line-height: 50px;
+  animation: flow 30s linear infinite;
+}
+@keyframes flow {
+  0% {
+    margin-left: 0;
+  }
+  100% {
+    margin-left: -2520px;
+  }
+}
+#works .interactive-project .projectOverview .flowText .wrap li {
+  display: block;
+  flex-shrink: 0;
+  height: 30px;
+  line-height: 30px;
+  width: 600px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#works .interactive-project .projectOverview .flowText .wrap li:nth-child(odd) {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+}
+
+#works .interactive-project .projectOverview .flowText .wrap img {
+  width: 100%;
 }
 
 /* ----------------------------------- */
-/* projectDetail */
+/* works : interactive-project - detail */
 /* ----------------------------------- */
-.projectDetail {
+
+#works .interactive-project .projectDetail {
   width: 100%;
   overflow: hidden;
   height: auto;
 }
-.projectDetail .personalProjects {
+
+#works .interactive-project .projectDetail {
   perspective: 500px;
 }
-.projectDetail div > h3 {
-  color: #fff;
-  font-size: 2.2rem;
-  margin-top: 30px;
-  margin-bottom: 20px;
-}
-.projectDetail .projectWrap {
-  width: 100%;
-  /* border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc; */
+
+#works .interactive-project .projectDetail .titleWrap {
   display: flex;
+  justify-content: space-between;
+  width: 1500px;
+  margin: 0 auto;
+  padding: 0 30px;
+  box-sizing: border-box;
+}
+
+.interactive-project .projectDetail .section_subTitle {
+  color: #fff;
+  font-size: 2rem;
+}
+
+#works .interactive-project .projectDetail .summary_icon {
+  display: flex;
+  align-items: center;
+}
+
+/* 개별 프로젝트 카드 래퍼 (NumberGame, WeatherSphere, ...) */
+#works .interactive-project .projectDetail .projectWrap {
+  width: 80%;
+  display: flex;
+  justify-content: flex-start;
   gap: 50px;
   height: 550px;
 }
-.projectDetail > h3 span {
-  color: #fff;
-  font-size: 1.8rem;
-  margin-bottom: 50px;
-}
 
-/* ----------------------------------- */
-/* personalProjects 공통 */
-/* ----------------------------------- */
-.projectDetail .personalProjects .projectWrap > div {
+/* article 카드 하나 */
+#works .interactive-project .projectDetail .projectWrap > article {
   border: 2px solid #eee;
-  /* background-image: linear-gradient(45deg, #000, #45458f); */
   border-radius: 50px;
   display: flex;
-  width: 100%;
+  width: 80%;
   padding: 40px 50px;
   box-sizing: border-box;
   justify-content: center;
   gap: 50px;
   flex-shrink: 0;
 }
-.projectDetail .personalProjects .projectWrap > div > div {
-  width: calc(100% / 2 - 40px);
-}
 
-.projectDetail > div .projectImg img {
-  height: 360px;
-  object-fit: cover;
-  width: 100%;
-  display: block;
-}
-.projectDetail > div .projectImg > img {
-  border-radius: 20px;
-  overflow: hidden;
-}
-.projectDetail .projectWrap > div {
-  position: relative;
-}
-.projectDetail > div .projectImg .mobile {
-  width: 13%;
-  object-fit: cover;
-  display: block;
-  position: absolute;
-  top: -10px;
-  right: 70%;
-  opacity: 0;
-}
-.projectDetail > div .projectImg .mobile img {
-  width: 100%;
-  height: 100%;
-}
-.projectDetail > div .projectImg h4 {
-  color: #fff;
-  font-size: 3rem;
-  border-top: 1px solid #fff;
-  border-bottom: 1px solid #fff;
-  padding: 20px 0px;
-  text-align: center;
-  margin-top: 16px;
-}
-.projectDetail > div .projectImg .shortCut a {
-  display: block;
-}
-
-/*projectContent 공통*/
-.projectDetail > div .projectContent {
+/* 좌측 이미지 영역 */
+#works .interactive-project .projectDetail .projectImg {
   position: relative;
   width: 50%;
 }
 
-.projectDetail > div .projectContent h4 {
+#works .interactive-project .projectDetail .projectImg > img {
+  height: 360px;
+  width: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+#works .interactive-project .projectDetail .projectImg .mobile {
+  width: 13%;
+  position: absolute;
+  top: -10px;
+  right: 70%;
+  opacity: 0; /* 나중에 애니메이션으로 등장시키면 됨 */
+}
+
+#works .interactive-project .projectDetail .projectImg .mobile img {
+  width: 100%;
+  height: 100%;
+}
+
+#works .interactive-project .projectDetail .projectImg h4 {
+  color: #fff;
+  font-size: 3rem;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  padding: 20px 0;
+  text-align: center;
+  margin-top: 16px;
+}
+
+/* 우측 텍스트 영역 공통 */
+#works .interactive-project .projectDetail .projectContent {
+  position: relative;
+  width: 50%;
+}
+
+#works .interactive-project .projectDetail .projectContent h4 {
   width: 100%;
   font-size: 1.8rem;
   display: inline-block;
@@ -711,125 +732,70 @@ main {
   padding-bottom: 8px;
 }
 
-/*description*/
-.projectContent .description {
-  /* border: 1px solid red;
-  box-sizing: border-box; */
+/* Description */
+#works .interactive-project .projectDetail .projectContent .description {
   height: 50%;
   opacity: 1;
 }
-.projectContent .description p {
-  margin-top: 150px;
-  /* width: 400px; */
+
+#works .interactive-project .projectDetail .projectContent .description p {
+  margin-top: 10px;
   font-size: 0.9rem;
   color: #ccc;
 }
-/*skills*/
-.projectContent .skills {
-  /* border: 1px solid red;
-  box-sizing: border-box; */
+
+/* Skills */
+#works .interactive-project .projectDetail .projectContent .skills {
   opacity: 0;
   height: 25%;
 }
-.projectContent .skills ul {
+
+#works .interactive-project .projectDetail .projectContent .skills ul {
   display: flex;
 }
-.projectContent .skills li {
+
+#works .interactive-project .projectDetail .projectContent .skills li {
   width: 60px;
   height: 60px;
   line-height: 60px;
   opacity: 0;
   margin-top: 50px;
 }
-.projectContent .skills li:last-child {
+
+#works
+  .interactive-project
+  .projectDetail
+  .projectContent
+  .skills
+  li:last-child {
   padding: 5px 8px;
 }
-.projectContent .skills li img {
+
+#works .interactive-project .projectDetail .projectContent .skills img {
   width: 100%;
 }
-/*shortCut*/
-.projectContent .shortCut {
-  /* border: 1px solid red;
-  box-sizing: border-box; */
+
+/* Shortcut Button */
+#works .interactive-project .projectDetail .projectContent .shortCut {
   height: 25%;
   display: flex;
   justify-content: center;
   align-items: flex-end;
 }
-.projectContent .shortCut a {
+
+#works .interactive-project .projectDetail .projectContent .shortCut a {
   display: block;
   width: 150px;
   height: 50px;
   line-height: 50px;
   border-radius: 50px;
   border: 1px solid #fff;
-  margin: 0px auto;
+  margin: 0 auto;
   color: #fff;
   text-align: center;
-}
-.projectContent .shortCut a:hover {
-  background-color: #fff;
-  color: #000;
-}
-/* ----------------------------------- */
-/* teamProject */
-/* ----------------------------------- */
-.teamProject {
-  width: 100%;
-  margin-top: 300px;
-  position: relative;
-  box-sizing: border-box;
-  background-image: linear-gradient(-150deg, #c3bb9b, #c3bb9b);
-}
-.teamProject h3 {
-  color: #222;
-}
-.teamProject .projectWrap {
-  display: block !important;
-}
-.teamProject .summary {
-  background-color: #f44f55;
-  border-radius: 33px;
-  width: 90%;
-  margin: 0px auto;
-  display: flex;
-  justify-content: center;
-  padding: 60px 0px;
-}
-.teamProject .projectContent {
-  /* border: 1px solid blue; */
-  width: 30% !important;
-  position: relative;
 }
 
-.teamProject .projectContent .description h4 {
-  color: #222;
-  border: none;
-}
-.teamProject .projectContent .description p {
-  color: #222;
-  margin-top: 30px;
-}
-.teamProject .projectImg {
-  width: 50%;
-}
-.teamProject .projectImg img {
-  width: 100%;
-}
-.teamProject .shortCut {
-  position: absolute;
-  bottom: 0px;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-}
-.teamProject .shortCut div {
-  width: 150px;
-  background-color: rgba(0, 0, 0, 0.3);
-  height: 40px;
-  line-height: 40px;
-  border-radius: 40px;
-  text-align: center;
-  color: #fff;
-  border: 1px solid #fff;
+#works .interactive-project .projectDetail .projectContent .shortCut a:hover {
+  background-color: #fff;
+  color: #000;
 }

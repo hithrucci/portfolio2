@@ -34,12 +34,10 @@ const works = document.querySelector("#works");
 const guide = works.querySelector(".guideLine");
 const length = guide.getTotalLength();
 const projects = works.querySelector(".projects");
-
 const numList = projects.querySelector("li:nth-child(1)");
 const weatherList = projects.querySelector("li:nth-child(2)");
 const dreamList = projects.querySelector("li:nth-child(3)");
-const referryList = projects.querySelector("li:nth-child(4)");
-const todoList = projects.querySelector("li:nth-child(5)");
+const todoList = projects.querySelector("li:nth-child(4)");
 
 const floatItems = gsap.utils.toArray(
   "#works .projectOverview .lists li .itemInner"
@@ -110,7 +108,7 @@ const overviewTl = gsap.timeline({
 });
 
 overviewTl
-  .fromTo(".flowText", { y: 300, width: "90%" }, { y: 0 })
+  .fromTo(".flowText", { y: 300 }, { y: 0, width: "1500px" })
   .fromTo(
     guide,
     { opacity: 0 },
@@ -154,17 +152,6 @@ overviewTl
     1
   )
   .fromTo(
-    referryList,
-    { opacity: 0 },
-    {
-      opacity: 1,
-      x: 0,
-      y: 250,
-      rotation: -5,
-    },
-    1
-  )
-  .fromTo(
     todoList,
     { opacity: 0 },
     {
@@ -176,164 +163,3 @@ overviewTl
     1.2
   )
   .add(startFloating, 0);
-
-// ---------------------------------------------
-// 2) projectDetail 등장 애니 (스크럽 X, 그냥 재생)
-// ---------------------------------------------
-const detailEnter = gsap.from(".projectDetail .projectWrap", {
-  opacity: 0,
-  rotateX: 10,
-  y: 100,
-  duration: 0.8,
-  ease: "power2.out",
-  paused: true, // 나중에 ScrollTrigger에서 play
-});
-
-ScrollTrigger.create({
-  // markers: true,
-  trigger: ".projectDetail",
-  start: "50% 85%", // projectDetail 윗부분이 화면 75% 위치에 올 때
-  // end 안 줘도 됨. 그냥 들어올 때 한 번만 재생
-  onEnter: () => detailEnter.play(),
-  onLeaveBack: () => detailEnter.reverse(), // 위로 스크롤하면 다시 숨기고 싶으면 유지
-  // markers: true,
-});
-
-// ---------------------------------------------
-// 3) projectDetail 수평 캐러셀
-//
-// ---------------------------------------------
-gsap.fromTo(
-  ".projectDetail .projectWrap",
-  { x: 0 },
-  {
-    x: -4650,
-    ease: "none",
-    scrollTrigger: {
-      trigger: ".projectDetail",
-      start: "-100px top",
-      end: "+=5000",
-      scrub: 1,
-      pin: true,
-      // markers: true,
-    },
-  }
-);
-
-gsap.fromTo(
-  ".sectionTitle .subTitle",
-  {
-    opacity: 0,
-    x: -200,
-  },
-  {
-    opacity: 1,
-    x: 0,
-    duration: 1,
-    scrollTrigger: {
-      trigger: ".projectDetail",
-      start: "-120px top",
-      end: "-120px top",
-      // markers: true,
-      scrub: 1,
-    },
-  }
-);
-gsap.fromTo(
-  ".personalProjects>h3",
-  { opacity: 0, transform: "rotateX(10deg)" },
-  {
-    opacity: 1,
-    transform: "rotateX(0deg)",
-    scrollTrigger: {
-      start: "20% center",
-      end: "80% center",
-      trigger: ".personalProjects",
-      // markers: true,
-      scrub: 3,
-    },
-  }
-);
-const projectCard = document.querySelectorAll(".projectWrap>div");
-
-function checkProjectCard() {
-  projectCard.forEach((item) => {
-    const rect = item.getBoundingClientRect();
-
-    if (rect.left <= 500 && !item.classList.contains("played")) {
-      item.classList.add("played");
-
-      const des = item.querySelector(".description");
-      const desp = des.querySelector("p");
-      const skill = item.querySelector(".skills");
-      const skillLis = skill.querySelectorAll("li");
-      const mobile = item.querySelectorAll(".mobile");
-      // description 먼저
-      gsap.to(des, { opacity: 1, right: 0, duration: 0.6 });
-
-      gsap.to(desp, { marginTop: 20, duration: 0.6 }, "<");
-
-      let mobileTl = gsap.timeline();
-      mobileTl
-        .to(mobile, {
-          opacity: 1,
-          rotation: -10,
-          duration: 0.6,
-          right: "50%",
-        })
-        .to(
-          mobile,
-          {
-            x: 3,
-            rotation: 2,
-            repeat: 6,
-            yoyo: true,
-            duration: 0.07,
-            ease: "power1.inOut",
-          },
-          ">"
-        )
-        .to(
-          mobile,
-          {
-            rotation: 5,
-          },
-          ">"
-        );
-
-      // skill + li 타임라인
-      let skillTl = gsap.timeline();
-
-      skillTl
-        // 1) skill 박스가 먼저 슬라이드 인
-        .to(skill, {
-          opacity: 1,
-          right: 0,
-          duration: 0.6,
-        })
-
-        // 2) skill 애니메이션이 "끝난 뒤에" li들을 순서대로
-        .to(
-          skillLis,
-          {
-            "margin-top": "0",
-            opacity: 1,
-            duration: 0.3,
-            stagger: 0.1, // li 하나씩 차례대로
-          },
-          ">" // 바로 이전 애니 끝난 직후부터 시작
-        );
-    }
-  });
-}
-
-checkProjectCard();
-
-ScrollTrigger.create({
-  trigger: ".projectDetail",
-  start: "-100px top",
-  end: "+=5000",
-  scrub: 1,
-  onUpdate: checkProjectCard,
-  // markers: true,
-});
