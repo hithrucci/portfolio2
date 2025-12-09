@@ -427,7 +427,7 @@ main {
   width: 100%;
   position: absolute;
   left: 50%;
-  top: 30%;
+  top: 40%;
   transform: translate(-50%, -50%);
 }
 
@@ -507,7 +507,7 @@ main {
 }
 
 /* 공통 카드 박스 */
-.interactive-project .projectOverview .lists li .itemInner {
+.interactive-project .projectOverview .lists li:nth-child(odd) .itemInner {
   position: relative;
   box-sizing: border-box;
   padding: 16px;
@@ -528,10 +528,11 @@ main {
   font-weight: normal;
   text-align: center;
 }
-.interactive-project .projectOverview .lists .rect {
+.interactive-project .projectOverview .lists .rect .itemInner {
   width: 5px;
   height: 5px;
   border: 1px solid #ccc;
+  background-color: none;
 }
 .interactive-project .projectOverview .lists li:nth-child(1) .itemInner {
   font-family: "Galmuri7";
@@ -593,7 +594,8 @@ main {
   backdrop-filter: blur(2px);
   overflow: hidden;
   font-family: "PartialSans";
-  z-index: 3;
+  z-index: 1;
+  box-shadow: 1px 3px 8px rgba(255, 255, 255, 0.3);
 }
 
 .interactive-project .projectOverview .flowText .wrap {
@@ -640,9 +642,10 @@ main {
 /* ----------------------------------- */
 
 .interactive-project .projectDetail {
+  margin-top: 0px;
   width: 100%;
   overflow: hidden;
-  height: auto;
+  height: 800px;
 }
 
 .interactive-project .projectDetail {
@@ -687,53 +690,55 @@ main {
   justify-content: center;
   gap: 50px;
   flex-shrink: 0;
+  /* background-image: linear-gradient(10deg, #adadad 1%, #5a5a5a 13%, black 55%); */
 }
 
 /* 좌측 이미지 영역 */
-#works .interactive-project .projectDetail .projectImg {
+.interactive-project .projectDetail .projectImg {
   position: relative;
   width: 50%;
 }
 
-#works .interactive-project .projectDetail .projectImg > img {
+.interactive-project .projectDetail .projectImg > img {
   height: 360px;
   width: 100%;
   object-fit: cover;
   display: block;
-  border-radius: 20px;
+  border-radius: 10px;
   overflow: hidden;
 }
 
-#works .interactive-project .projectDetail .projectImg .mobile {
-  width: 13%;
+.interactive-project .projectDetail .projectImg .mobile {
+  width: 24%;
   position: absolute;
   top: -10px;
   right: 70%;
-  opacity: 0; /* 나중에 애니메이션으로 등장시키면 됨 */
+  opacity: 0;
 }
 
-#works .interactive-project .projectDetail .projectImg .mobile img {
+.interactive-project .projectDetail .projectImg .mobile img {
   width: 100%;
   height: 100%;
 }
 
-#works .interactive-project .projectDetail .projectImg h4 {
+.interactive-project .projectDetail .projectImg h4 {
   color: #fff;
   font-size: 3rem;
   border-top: 1px solid #fff;
   border-bottom: 1px solid #fff;
-  padding: 20px 0;
+  padding: 14px 0;
   text-align: center;
   margin-top: 16px;
+  transform-origin: center center;
 }
 
 /* 우측 텍스트 영역 공통 */
-#works .interactive-project .projectDetail .projectContent {
+.interactive-project .projectDetail .projectContent {
   position: relative;
   width: 50%;
 }
 
-#works .interactive-project .projectDetail .projectContent h4 {
+.interactive-project .projectDetail .projectContent h4 {
   width: 100%;
   font-size: 1.8rem;
   display: inline-block;
@@ -743,7 +748,7 @@ main {
 }
 
 /* Description */
-#works .interactive-project .projectDetail .projectContent .description {
+.interactive-project .projectDetail .projectContent .description {
   height: 50%;
   opacity: 1;
 }
@@ -755,45 +760,39 @@ main {
 }
 
 /* Skills */
-#works .interactive-project .projectDetail .projectContent .skills {
-  opacity: 0;
+.interactive-project .projectDetail .projectContent .skills {
+  opacity: 1;
   height: 25%;
 }
 
-#works .interactive-project .projectDetail .projectContent .skills ul {
+.interactive-project .projectDetail .projectContent .skills ul {
   display: flex;
 }
 
-#works .interactive-project .projectDetail .projectContent .skills li {
+.interactive-project .projectDetail .projectContent .skills li {
   width: 60px;
   height: 60px;
   line-height: 60px;
-  opacity: 0;
-  margin-top: 50px;
+  margin-top: 10px;
 }
 
-#works
-  .interactive-project
-  .projectDetail
-  .projectContent
-  .skills
-  li:last-child {
+.interactive-project .projectDetail .projectContent .skills li:last-child {
   padding: 5px 8px;
 }
 
-#works .interactive-project .projectDetail .projectContent .skills img {
+.interactive-project .projectDetail .projectContent .skills img {
   width: 100%;
 }
 
 /* Shortcut Button */
-#works .interactive-project .projectDetail .projectContent .shortCut {
+.interactive-project .projectDetail .projectContent .shortCut {
   height: 25%;
   display: flex;
   justify-content: center;
   align-items: flex-end;
 }
 
-#works .interactive-project .projectDetail .projectContent .shortCut a {
+.interactive-project .projectDetail .projectContent .shortCut a {
   display: block;
   width: 150px;
   height: 50px;
@@ -805,7 +804,70 @@ main {
   text-align: center;
 }
 
-#works .interactive-project .projectDetail .projectContent .shortCut a:hover {
+.interactive-project .projectDetail .projectContent .shortCut a:hover {
   background-color: #fff;
   color: #000;
+}
+
+/* ----------------------------------- */
+/* web-publishing */
+/* ----------------------------------- */
+.web-publishing {
+  height: 100vh;
+  background-color: green;
+}
+/* ----------------------------------- */
+/* e-commerce */
+/* ----------------------------------- */
+.e-commerce {
+  height: 100vh;
+  background-color: blue;
+}
+/* ----------------------------------- */
+/* team-project */
+/* ----------------------------------- */
+#works .sectionTitle.is-team {
+  background-color: transparent;
+}
+.team-project {
+  height: 100vh;
+  background-image: linear-gradient(210deg, #fff8db, #726f65);
+}
+
+.team-project .inner {
+  width: 1700px;
+  padding-top: 200px;
+  box-sizing: border-box;
+  margin: 0px auto;
+}
+
+.team-project .inner h4 {
+  font-size: 1.8rem;
+}
+
+.team-project .projectDetail {
+  display: flex;
+  gap: 50px;
+}
+.team-project .projectDetail > div {
+  width: calc(100% / 2 - 25px);
+}
+
+.team-project .projectContent h4 {
+  margin-bottom: 30px;
+}
+.team-project .shortCut-wrap {
+  display: flex;
+  gap: 20px;
+}
+.team-project .shortCut-wrap > div {
+  text-align: center;
+  width: 150px;
+  height: 50px;
+  line-height: 50px;
+  border-radius: 50px;
+  background-color: rgba(0, 0, 0, 0.3);
+  font-family: "Paperozi";
+  border: 1px solid #000;
+  cursor: pointer;
 }
