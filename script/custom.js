@@ -35,9 +35,13 @@ const guide = works.querySelector(".guideLine");
 const length = guide.getTotalLength();
 const projects = works.querySelector(".projects");
 const numList = projects.querySelector("li:nth-child(1)");
-const weatherList = projects.querySelector("li:nth-child(2)");
-const dreamList = projects.querySelector("li:nth-child(3)");
-const todoList = projects.querySelector("li:nth-child(4)");
+const rect1 = projects.querySelector("li:nth-child(2)");
+const weatherList = projects.querySelector("li:nth-child(3)");
+const rect2 = projects.querySelector("li:nth-child(4)");
+const dreamList = projects.querySelector("li:nth-child(5)");
+const rect3 = projects.querySelector("li:nth-child(6)");
+const todoList = projects.querySelector("li:nth-child(7)");
+const rect4 = projects.querySelector("li:nth-child(8)");
 
 const floatItems = gsap.utils.toArray(
   "#works .projectOverview .lists li .itemInner"
@@ -129,6 +133,7 @@ overviewTl
     },
     0.6
   )
+  .fromTo(rect1, { opacity: 0 }, {})
   .fromTo(
     weatherList,
     { opacity: 0 },
@@ -169,20 +174,18 @@ overviewTl
 // ---------------------------------------------
 gsap.fromTo(
   ".interactive-project .projectDetail .projectWrap",
+  { y: 150, rotationX: 10, opacity: 0, transformOrigin: "top center" },
   {
-    rotationX: 75,
-    opacity: 0,
-    transformOrigin: "top center",
-  },
-  {
+    y: 0,
     rotationX: 0,
     opacity: 1,
     duration: 1.2,
     ease: "power3.out",
     scrollTrigger: {
       trigger: ".interactive-project .projectDetail",
-      start: "top 75%",
-      end: "top 40%",
+      start: "20% 50%",
+      end: "40% 50%",
+      scrub: 3,
       toggleActions: "play none none reverse",
       markers: true,
     },

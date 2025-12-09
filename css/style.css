@@ -528,19 +528,16 @@ main {
   font-weight: normal;
   text-align: center;
 }
-
+.interactive-project .projectOverview .lists .rect {
+  width: 5px;
+  height: 5px;
+  border: 1px solid #ccc;
+}
 .interactive-project .projectOverview .lists li:nth-child(1) .itemInner {
   font-family: "Galmuri7";
   width: 250px;
   height: 250px;
   color: #00ff00;
-}
-
-.interactive-project .projectOverview .lists li:nth-child(2) .itemInner {
-  font-family: "ChangwonDanggamAsak";
-  width: 280px;
-  height: 200px;
-  color: #fff;
 }
 
 .interactive-project .projectOverview .lists li:nth-child(3) .itemInner {
@@ -550,7 +547,14 @@ main {
   color: #fff;
 }
 
-.interactive-project .projectOverview .lists li:nth-child(4) .itemInner {
+.interactive-project .projectOverview .lists li:nth-child(5) .itemInner {
+  font-family: "ChangwonDanggamAsak";
+  width: 280px;
+  height: 200px;
+  color: #fff;
+}
+
+.interactive-project .projectOverview .lists li:nth-child(7) .itemInner {
   font-family: "ChangwonDanggamAsak";
   width: 200px;
   height: 350px;
