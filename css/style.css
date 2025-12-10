@@ -809,20 +809,66 @@ main {
   color: #000;
 }
 
-/* ----------------------------------- */
-/* web-publishing */
-/* ----------------------------------- */
+/* ----------------------------------------
+   Web Publishing Gear Section
+---------------------------------------- */
+
 .web-publishing {
-  height: 100vh;
-  background-color: green;
+  position: relative;
+  min-height: 500vh;
+  overflow: hidden;
 }
-/* ----------------------------------- */
-/* e-commerce */
-/* ----------------------------------- */
-.e-commerce {
-  height: 100vh;
-  background-color: blue;
+
+.web-publishing .inner {
+  position: sticky; /* layout 안정화 */
+  top: 80px; /* header 고려 */
+  width: 1700px;
+  height: 930px;
+  margin: 0 auto;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  perspective: 2500px;
+  transform-style: preserve-3d;
 }
+
+/* 공통 페이지 스타일 */
+.web-publishing .page {
+  margin-top: 200px;
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 40px;
+  font-weight: 700;
+  border-radius: 24px;
+
+  backface-visibility: hidden;
+  transform-origin: center bottom;
+  transform: rotateX(-90deg);
+  opacity: 0;
+}
+
+/* 테스트용 컬러 (나중에 실제 카드로 교체) */
+.web-publishing .p1 {
+  background: #ff6b6b;
+}
+.web-publishing .p2 {
+  background: #4ecdc4;
+}
+.web-publishing .p3 {
+  background: #ffe66d;
+  color: #222;
+}
+.web-publishing .p4 {
+  background: #5c7cfa;
+}
+
 /* ----------------------------------- */
 /* team-project */
 /* ----------------------------------- */
@@ -830,13 +876,12 @@ main {
   background-color: transparent;
 }
 .team-project {
-  height: 100vh;
   background-image: linear-gradient(210deg, #fff8db, #726f65);
 }
 
 .team-project .inner {
   width: 1700px;
-  padding-top: 200px;
+  padding: 100px 0px;
   box-sizing: border-box;
   margin: 0px auto;
 }
@@ -850,24 +895,116 @@ main {
   gap: 50px;
 }
 .team-project .projectDetail > div {
-  width: calc(100% / 2 - 25px);
+  height: 580px;
 }
-
+.team-project .projectDetail .projectContent {
+  width: calc(40% - 25px);
+  position: relative;
+}
 .team-project .projectContent h4 {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+}
+.team-project .projectContent .description {
+  margin-bottom: 60px;
+}
+.team-project .projectContent .skills ul {
+  display: flex;
+}
+.team-project .projectContent .skills li {
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+}
+.team-project .projectContent .skills li img {
+  width: 100%;
 }
 .team-project .shortCut-wrap {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
+  justify-content: center;
   gap: 20px;
+  width: 100%;
 }
 .team-project .shortCut-wrap > div {
   text-align: center;
-  width: 150px;
-  height: 50px;
-  line-height: 50px;
-  border-radius: 50px;
-  background-color: rgba(0, 0, 0, 0.3);
+  width: 220px;
+  height: 60px;
+  line-height: 60px;
+  border-radius: 60px;
+  background-color: rgba(0, 0, 0, 0.1);
   font-family: "Paperozi";
   border: 1px solid #000;
   cursor: pointer;
+  font-size: 1.2rem;
+}
+/*projectImg*/
+.team-project .projectImg {
+  width: calc(60% - 25px);
+}
+.team-project .projectImg .imgBox {
+  background-image: linear-gradient(180deg, #f44f55, #f2591e);
+  border-radius: 20px;
+  height: 100%;
+  box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.6);
+  position: relative;
+}
+.team-project .projectImg .imgBox > img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 92%;
+}
+.team-project .projectImg .imgBox::after {
+  position: absolute;
+  content: "";
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 93%;
+  height: 90%;
+  border: 2px solid #fff;
+  border-radius: 10px;
+}
+.team-project .projectImg span {
+  position: absolute;
+  display: block;
+  width: 32px;
+  height: 32px;
+}
+.team-project .projectImg .star1 {
+  left: 18px;
+  top: 12px;
+}
+.team-project .projectImg .star2 {
+  right: 18px;
+  top: 12px;
+}
+.team-project .projectImg .star3 {
+  left: 18px;
+  bottom: 12px;
+}
+.team-project .projectImg .star4 {
+  right: 18px;
+  bottom: 12px;
+}
+.team-project .projectImg span > img {
+  width: 100%;
+}
+
+/* ----------------------------------- */
+/* projectDetail2 */
+/* ----------------------------------- */
+.projectDetail2 {
+  height: 100vh;
+}
+
+/* ----------------------------------- */
+/* 아트웍스 */
+/* ----------------------------------- */
+.artWorks {
+  height: 100vh;
 }

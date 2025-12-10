@@ -400,3 +400,52 @@ document.querySelectorAll("#works section[data-title]").forEach((section) => {
     },
   });
 });
+
+gsap.registerPlugin(ScrollTrigger);
+
+const webSection = document.querySelector(".web-publishing");
+const stage = webSection.querySelector(".inner");
+const pages = gsap.utils.toArray(".web-publishing .page");
+
+const gearTl = gsap.timeline({
+  scrollTrigger: {
+    trigger: webSection, // ✅ 섹션은 트리거만
+    start: "top top",
+    end: "+=400%",
+    scrub: 3,
+    pin: stage, // ✅ pin 대상은 inner
+    anticipatePin: 1,
+  },
+});
+
+pages.forEach((page, i) => {
+  /* 등장 */
+  gearTl.to(page, {
+    rotateX: 0,
+    opacity: 1,
+    duration: 1,
+    ease: "power2.out",
+  });
+
+  /* 퇴장 */
+  gearTl.to(page, {
+    rotateX: 90,
+    opacity: 0,
+    duration: 1,
+    ease: "power2.in",
+  });
+
+  /* 다음 페이지 미리 등장 */
+  if (pages[i + 1]) {
+    gearTl.to(
+      pages[i + 1],
+      {
+        rotateX: 0,
+        opacity: 1,
+        duration: 1,
+        ease: "power2.out",
+      },
+      "-=0.2"
+    );
+  }
+});
