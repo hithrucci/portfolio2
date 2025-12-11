@@ -1144,13 +1144,23 @@ main {
   flex-shrink: 0;
 }
 
-.projectDetail2 .mobileWrap .about,
+.projectDetail2 .mobileWrap .about {
+  animation: mob_flow3 20s linear infinite;
+}
+@keyframes mob_flow3 {
+  0% {
+    margin-top: -1045px;
+  }
+  100% {
+    margin-top: 0px;
+  }
+}
 .projectDetail2 .mobileWrap .menu {
   animation: mob_flow2 20s linear infinite;
 }
 @keyframes mob_flow2 {
   0% {
-    margin-top: -1020px;
+    margin-top: -1060px;
   }
   100% {
     margin-top: 0px;
