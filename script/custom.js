@@ -407,45 +407,52 @@ const webSection = document.querySelector(".web-publishing");
 const stage = webSection.querySelector(".inner");
 const pages = gsap.utils.toArray(".web-publishing .page");
 
+const OFFSET_Y = 60; // 파일철처럼 남길 높이
+
+// 페이지 초기 상태 세팅 (누워있고 안 보이게)
+gsap.set(pages, {
+  rotateX: -75, // 살짝 더 누워 있는 느낌
+  transformOrigin: "center bottom",
+  opacity: 0,
+  y: 0,
+});
 const gearTl = gsap.timeline({
   scrollTrigger: {
-    trigger: webSection, // ✅ 섹션은 트리거만
+    trigger: webSection,
     start: "top top",
     end: "+=400%",
     scrub: 3,
-    pin: stage, // ✅ pin 대상은 inner
+    pin: stage,
     anticipatePin: 1,
   },
 });
 
 pages.forEach((page, i) => {
-  /* 등장 */
+  // 1) 현재 페이지가 고개 들고 올라오기
   gearTl.to(page, {
     rotateX: 0,
     opacity: 1,
-    duration: 1,
+    zIndex: 60 + i, // 뒤에 있는 페이지보다 항상 위에 오게
+    duration: 0.6,
     ease: "power2.out",
   });
 
-  /* 퇴장 */
-  gearTl.to(page, {
-    rotateX: 90,
-    opacity: 0,
-    duration: 1,
-    ease: "power2.in",
-  });
-
-  /* 다음 페이지 미리 등장 */
-  if (pages[i + 1]) {
-    gearTl.to(
-      pages[i + 1],
-      {
-        rotateX: 0,
-        opacity: 1,
-        duration: 1,
-        ease: "power2.out",
+  // 2) 지금까지 지나온 페이지들 위치를 "파일철"처럼 누적 이동
+  gearTl.to(
+    pages,
+    {
+      y: (index) => {
+        // i번째까지의 페이지는 위로 누적해서 올리기
+        if (index <= i) {
+          // i - index 만큼 60px씩 차이 나게
+          return -(i - index) * OFFSET_Y;
+        }
+        // 아직 등장 전인 페이지는 제자리
+        return 0;
       },
-      "-=0.2"
-    );
-  }
+      duration: 0.6,
+      ease: "power2.out",
+    },
+    "<" // 위 애니메이션과 동시에 시작
+  );
 });
