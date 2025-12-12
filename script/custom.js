@@ -407,11 +407,11 @@ const webSection = document.querySelector(".web-publishing");
 const stage = webSection.querySelector(".inner");
 const pages = gsap.utils.toArray(".web-publishing .page");
 
-const OFFSET_Y = 60; // 파일철처럼 남길 높이
+const OFFSET_Y = 60; //남길 높이
 
-// 페이지 초기 상태 세팅 (누워있고 안 보이게)
+// 페이지 초기 상태 세팅
 gsap.set(pages, {
-  rotateX: -75, // 살짝 더 누워 있는 느낌
+  rotateX: -75,
   transformOrigin: "center bottom",
   opacity: 0,
   y: 0,
