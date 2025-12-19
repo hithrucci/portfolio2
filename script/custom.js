@@ -32,70 +32,124 @@ contact.addEventListener("mouseleave", () => {
 // -----------------------------------
 
 gsap.registerPlugin(ScrollTrigger);
+const pieces = document.querySelectorAll("#intro .pieces .pieceWrap");
 
-const viewports = gsap.utils.toArray("#intro .viewport");
-const pieces = gsap.utils.toArray("#intro .piece");
+const positions = [
+  { x: -600, y: -350 }, // 0
+  { x: 480, y: -250 }, // 1
+  { x: -330, y: -150 }, // 2
+  { x: 200, y: 0 }, // 3
+  { x: -300, y: 100 }, // 4
+  { x: 300, y: 200 }, // 5
+  { x: -50, y: 230 }, // 6
+  { x: -510, y: 300 }, // 7
+];
+
+for (let i = 0; i < pieces.length; i++) {
+  gsap.set(pieces[i], {
+    x: positions[i].x,
+    y: positions[i].y,
+  });
+} // -------------------------------------------------
+// ✅ viewport 표류 (pieceWrap 고정, viewport만 움직임)
+// -------------------------------------------------
+const viewports = document.querySelectorAll(
+  "#intro .pieces .pieceWrap .viewport"
+);
+
+// viewport는 이미 CSS에서 translate(-50%, -50%)로 중앙정렬 중인데,
+// GSAP transform 충돌 방지용으로 percent 기반 중앙값을 고정해줌
+gsap.set(viewports, { xPercent: -50, yPercent: -50 });
 
 const floatTweens = [];
+const RANGE_X = 200; // ✅ pieceWrap 기준 표류 범위
+const RANGE_Y = 120;
 
-/* -----------------------------------
-   1️⃣ viewport 내부 둥둥 애니메이션
------------------------------------ */
 viewports.forEach((vp) => {
-  const piece = vp.querySelector(".piece");
+  const rx = gsap.utils.random(RANGE_X * 0.6, RANGE_X, 1);
+  const ry = gsap.utils.random(RANGE_Y * 0.6, RANGE_Y, 1);
 
-  const rangeX = 500;
-  const rangeY = 500;
-
-  const t = gsap.to(piece, {
-    x: () => gsap.utils.random(-rangeX, rangeX),
-    y: () => gsap.utils.random(-rangeY, rangeY),
-    rotation: () => gsap.utils.random(-12, 12),
+  const t = gsap.to(vp, {
+    x: () => gsap.utils.random(-rx, rx),
+    y: () => gsap.utils.random(-ry, ry),
+    rotation: () => gsap.utils.random(-20, 20),
     duration: gsap.utils.random(3, 5),
     ease: "sine.inOut",
     repeat: -1,
     yoyo: true,
+    overwrite: "auto",
   });
 
   floatTweens.push(t);
 });
+// -------------------------------------------------
+// intro : viewport 모이기 (임의 좌표 버전)
+// -------------------------------------------------
 
-/* -----------------------------------
-   2️⃣ ScrollTrigger : 모이기 → 사라지기
------------------------------------ */
-const introTl = gsap.timeline({
+const gatherPositions = [
+  { x: -200, y: -200 }, // 0
+  { x: 0, y: -202 }, // 1
+  { x: 25, y: -95 }, // 2
+  { x: 20, y: -62 }, // 3 (중앙 기준)
+  { x: 22, y: 40 }, // 4
+  { x: 17, y: 110 }, // 5
+  { x: -214, y: 225 }, // 6
+  { x: -278, y: 197 }, // 7
+];
+
+const gatherTl = gsap.timeline({
   scrollTrigger: {
     trigger: "#intro",
     start: "top top",
     end: "+=200%",
     scrub: 1,
     pin: true,
+    // markers: true,
+    onEnter: () => {
+      floatTweens.forEach((t) => t.kill());
+    },
+    onEnterBack: () => {
+      floatTweens.forEach((t) => t.kill());
+    },
   },
 });
 
-/* 2-1. viewport 중앙으로 정렬 (완성 J) */
-introTl.to(pieces, {
-  x: 0,
-  y: 0,
-  rotation: 0,
-  ease: "power3.out",
-  duration: 1.2,
-  onStart: () => {
-    floatTweens.forEach((t) => t.pause());
-  },
-});
-
-/* 2-2. 잠깐 정지 */
-introTl.to({}, { duration: 0.3 });
-
-/* 2-3. fade out */
-introTl.to(pieces, {
-  opacity: 0,
-  y: -40,
-  stagger: 0.05,
-  duration: 0.6,
-  ease: "power2.in",
-});
+gatherTl
+  .to(
+    viewports,
+    {
+      x: 0,
+      y: 0,
+      rotation: 0,
+      duration: 0.2, // 스크럽이라 거의 즉시 느낌
+      ease: "none", // 스크럽 안정
+      overwrite: "auto", // 떠다니던 값 덮어쓰기
+      stagger: 0,
+    },
+    0
+  )
+  .to(
+    pieces,
+    {
+      x: (i) => gatherPositions[i].x,
+      y: (i) => gatherPositions[i].y,
+      rotation: 0,
+      duration: 1.2,
+      ease: "power3.out",
+      stagger: {
+        each: 0.06,
+        from: "center",
+      },
+    },
+    0
+  )
+  .to(
+    pieces,
+    {
+      opacity: 0,
+    },
+    ">"
+  );
 
 // ---------------------------------------------
 // works 영역 세팅

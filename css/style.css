@@ -300,8 +300,8 @@ main {
 }
 
 #intro .pieces {
-  width: 500px;
-  height: 700px;
+  width: 100%;
+  height: 100%;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -310,58 +310,29 @@ main {
 
 #intro .pieceWrap {
   position: absolute;
-  /* 👉 여기에 “완성된 J 좌표” */
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 400px;
 }
-
-/* 예시 위치 */
-#intro .pieceWrap:nth-child(1) {
-  left: 150px;
-  top: 100px;
-}
-#intro .pieceWrap:nth-child(2) {
-  left: 240px;
-  top: 112px;
-}
-#intro .pieceWrap:nth-child(3) {
-  left: 210px;
-  top: 180px;
-}
-#intro .pieceWrap:nth-child(4) {
-  left: 245px;
-  top: 200px;
-}
-#intro .pieceWrap:nth-child(5) {
-  left: 225px;
-  top: 298px;
-}
-#intro .pieceWrap:nth-child(6) {
-  left: 254px;
-  top: 336px;
-}
-#intro .pieceWrap:nth-child(7) {
-  left: 200px;
-  top: 415px;
-}
-#intro .pieceWrap:nth-child(8) {
-  left: 80px;
-  top: 400px;
-}
-
-/* viewport = 고정된 표류 영역 */
-#intro .viewport {
-  width: 160px;
-  height: 160px;
-  position: relative;
-  overflow: visible; /* 살짝 튀어나와도 자연스럽게 */
-}
-
-/* 실제 움직이는 조각 */
-#intro .piece {
-  width: 150px;
+#intro .pieceWrap .viewport {
+  width: 50%;
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  will-change: transform;
+}
+
+#intro .cls-1 {
+  fill: rgba(255, 255, 255, 0.2);
+  width: 150px;
+  stroke: #fff;
+  stroke-miterlimit: 10;
+  stroke-width: 2px;
+  filter: drop-shadow(2px 2px 8px rgba(255, 255, 255, 0.9));
+  transform: scale(0.7);
   transform-origin: center;
 }
 
