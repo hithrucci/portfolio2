@@ -290,6 +290,82 @@ main {
   background-color: #f44f55;
 }
 /* ----------------------------------- */
+/* intro */
+/* ----------------------------------- */
+
+#intro {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+}
+
+#intro .pieces {
+  width: 500px;
+  height: 700px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#intro .pieceWrap {
+  position: absolute;
+  /* 👉 여기에 “완성된 J 좌표” */
+}
+
+/* 예시 위치 */
+#intro .pieceWrap:nth-child(1) {
+  left: 150px;
+  top: 100px;
+}
+#intro .pieceWrap:nth-child(2) {
+  left: 240px;
+  top: 112px;
+}
+#intro .pieceWrap:nth-child(3) {
+  left: 210px;
+  top: 180px;
+}
+#intro .pieceWrap:nth-child(4) {
+  left: 245px;
+  top: 200px;
+}
+#intro .pieceWrap:nth-child(5) {
+  left: 225px;
+  top: 298px;
+}
+#intro .pieceWrap:nth-child(6) {
+  left: 254px;
+  top: 336px;
+}
+#intro .pieceWrap:nth-child(7) {
+  left: 200px;
+  top: 415px;
+}
+#intro .pieceWrap:nth-child(8) {
+  left: 80px;
+  top: 400px;
+}
+
+/* viewport = 고정된 표류 영역 */
+#intro .viewport {
+  width: 160px;
+  height: 160px;
+  position: relative;
+  overflow: visible; /* 살짝 튀어나와도 자연스럽게 */
+}
+
+/* 실제 움직이는 조각 */
+#intro .piece {
+  width: 150px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transform-origin: center;
+}
+
+/* ----------------------------------- */
 /* about */
 /* ----------------------------------- */
 #about {
@@ -695,7 +771,13 @@ main {
   justify-content: center;
   gap: 50px;
   flex-shrink: 0;
-  /* background-image: linear-gradient(10deg, #adadad 1%, #5a5a5a 13%, black 55%); */
+  /* background-image: linear-gradient(
+    10deg,
+    #adadad 1%,
+    #5a5a5a 13%,
+    transparent 55%
+  ); */
+  /* background-color: rgba(255, 255, 255, 0.2); */
 }
 
 /* 좌측 이미지 영역 */
@@ -1447,6 +1529,7 @@ main {
   width: 250px;
   z-index: 3;
 }
+
 .mobileContent .bg img {
   width: 100%;
 }
@@ -1455,4 +1538,28 @@ main {
 /* ----------------------------------- */
 .artWorks {
   height: 100vh;
+}
+
+#intro {
+  position: relative;
+  overflow: hidden;
+}
+
+#colorBendsBg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+#intro .pieces {
+  position: relative;
+  z-index: 1; /* 위에 올라오게 */
+}
+#webGLApp {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
 }

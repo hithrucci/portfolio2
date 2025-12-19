@@ -17,6 +17,26 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.159.0/three.min.js"></script>
+    <script src="script/colorbends.vanilla.js"></script>
+
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        new ColorBendsVanilla(document.getElementById("colorBendsBg"), {
+          colors: ["#ff5c7a", "#8a5cff", "#00ffd1"],
+          rotation: 30,
+          speed: 0.3,
+          scale: 1.2,
+          frequency: 1.4,
+          warpStrength: 1.2,
+          mouseInfluence: 0.8,
+          parallax: 0.6,
+          noise: 0.08,
+          transparent: true,
+        });
+      });
+    </script>
   </head>
   <body>
     <header>
@@ -37,7 +57,50 @@
 
     <main>
       <section id="intro">
-        <div class="sectionTitle"></div>
+        <div id="introBends" class="intro-bends" aria-hidden="true"></div>
+        <ul class="pieces">
+          <li class="pieceWrap">
+            <div class="viewport">
+              <img src="img/logo_1.png" class="piece" />
+            </div>
+          </li>
+          <li class="pieceWrap">
+            <div class="viewport">
+              <img src="img/logo_2.png" class="piece" />
+            </div>
+          </li>
+          <li class="pieceWrap">
+            <div class="viewport">
+              <img src="img/logo_3.png" class="piece" />
+            </div>
+          </li>
+          <li class="pieceWrap">
+            <div class="viewport">
+              <img src="img/logo_4.png" class="piece" />
+            </div>
+          </li>
+          <li class="pieceWrap">
+            <div class="viewport">
+              <img src="img/logo_5.png" class="piece" />
+            </div>
+          </li>
+          <li class="pieceWrap">
+            <div class="viewport">
+              <img src="img/logo_6.png" class="piece" />
+            </div>
+          </li>
+          <li class="pieceWrap">
+            <div class="viewport">
+              <img src="img/logo_7.png" class="piece" />
+            </div>
+          </li>
+          <li class="pieceWrap">
+            <div class="viewport">
+              <img src="img/logo_8.png" class="piece" />
+            </div>
+          </li>
+          <!-- 필요한 만큼 반복 -->
+        </ul>
       </section>
 
       <section id="about">
@@ -628,7 +691,7 @@
       </section>
       <section id="contact"></section>
     </main>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="script/custom.js"></script>
   </body>
 </html>

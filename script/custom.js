@@ -27,6 +27,76 @@ contact.addEventListener("mouseleave", () => {
   contact.classList.remove("on");
 });
 
+// -----------------------------------
+// intro
+// -----------------------------------
+
+gsap.registerPlugin(ScrollTrigger);
+
+const viewports = gsap.utils.toArray("#intro .viewport");
+const pieces = gsap.utils.toArray("#intro .piece");
+
+const floatTweens = [];
+
+/* -----------------------------------
+   1️⃣ viewport 내부 둥둥 애니메이션
+----------------------------------- */
+viewports.forEach((vp) => {
+  const piece = vp.querySelector(".piece");
+
+  const rangeX = 500;
+  const rangeY = 500;
+
+  const t = gsap.to(piece, {
+    x: () => gsap.utils.random(-rangeX, rangeX),
+    y: () => gsap.utils.random(-rangeY, rangeY),
+    rotation: () => gsap.utils.random(-12, 12),
+    duration: gsap.utils.random(3, 5),
+    ease: "sine.inOut",
+    repeat: -1,
+    yoyo: true,
+  });
+
+  floatTweens.push(t);
+});
+
+/* -----------------------------------
+   2️⃣ ScrollTrigger : 모이기 → 사라지기
+----------------------------------- */
+const introTl = gsap.timeline({
+  scrollTrigger: {
+    trigger: "#intro",
+    start: "top top",
+    end: "+=200%",
+    scrub: 1,
+    pin: true,
+  },
+});
+
+/* 2-1. viewport 중앙으로 정렬 (완성 J) */
+introTl.to(pieces, {
+  x: 0,
+  y: 0,
+  rotation: 0,
+  ease: "power3.out",
+  duration: 1.2,
+  onStart: () => {
+    floatTweens.forEach((t) => t.pause());
+  },
+});
+
+/* 2-2. 잠깐 정지 */
+introTl.to({}, { duration: 0.3 });
+
+/* 2-3. fade out */
+introTl.to(pieces, {
+  opacity: 0,
+  y: -40,
+  stagger: 0.05,
+  duration: 0.6,
+  ease: "power2.in",
+});
+
 // ---------------------------------------------
 // works 영역 세팅
 // ---------------------------------------------
@@ -291,7 +361,7 @@ const articleData = articles.map((article) => {
 // 3-2. 가운데 감지 함수(가로 기준)
 function updateArticleCenterStates() {
   const viewportCenterX = window.innerWidth / 2;
-  const threshold = 550; // 이 값 안쪽이면 "중앙에 있다"고 판단 (조절 가능)
+  const threshold = 800; // 이 값 안쪽이면 "중앙에 있다"고 판단 (조절 가능)
 
   articleData.forEach((obj) => {
     const rect = obj.article.getBoundingClientRect();
@@ -456,3 +526,505 @@ pages.forEach((page, i) => {
     "<" // 위 애니메이션과 동시에 시작
   );
 });
+
+const bg = document.querySelector(".mobileContent .bg");
+
+let tl_upDown = gsap.timeline({
+  repeat: -1,
+  default: {
+    ease: "bounce",
+  },
+});
+tl_upDown
+  .fromTo(
+    bg,
+    {
+      y: -25,
+    },
+    {
+      y: 0,
+      duration: 1.5,
+    }
+  )
+  .to(bg, {
+    y: -25,
+    duration: 1.5,
+  });
+// ---------------------------------------------------------
+// ✅ YOUR PALETTE (여기만 수정)
+// ---------------------------------------------------------
+const PALETTE_NEON_RGB_DARK = [
+  "#FF1B60", // 1
+  "#050714", // 2 (base)
+  "#00FF88", // 3
+  "#050714", // 4 (base)
+  "#2E6BFF", // 5
+  "#050714", // 6 (base)
+];
+
+// ---------------------------------------------------------
+// Palette Helper (HEX -> vec3)
+// ---------------------------------------------------------
+function hexToVec3(hex) {
+  const h = hex.replace("#", "").trim();
+  const r = parseInt(h.slice(0, 2), 16) / 255;
+  const g = parseInt(h.slice(2, 4), 16) / 255;
+  const b = parseInt(h.slice(4, 6), 16) / 255;
+  return new THREE.Vector3(r, g, b);
+}
+
+function applyPaletteToUniforms(uniforms, hex6) {
+  uniforms.uColor1.value.copy(hexToVec3(hex6[0]));
+  uniforms.uColor2.value.copy(hexToVec3(hex6[1]));
+  uniforms.uColor3.value.copy(hexToVec3(hex6[2]));
+  uniforms.uColor4.value.copy(hexToVec3(hex6[3]));
+  uniforms.uColor5.value.copy(hexToVec3(hex6[4]));
+  uniforms.uColor6.value.copy(hexToVec3(hex6[5]));
+}
+
+// ---------------------------------------------------------
+// TouchTexture class
+// ---------------------------------------------------------
+class TouchTexture {
+  constructor() {
+    this.size = 64;
+    this.width = this.height = this.size;
+    this.maxAge = 64;
+
+    // ✅ 알갱이 크기(터치 점) 줄이기
+    this.radius = 0.16 * this.size;
+
+    this.speed = 1 / this.maxAge;
+    this.trail = [];
+    this.last = null;
+    this.initTexture();
+  }
+
+  initTexture() {
+    this.canvas = document.createElement("canvas");
+    this.canvas.width = this.width;
+    this.canvas.height = this.height;
+    this.ctx = this.canvas.getContext("2d");
+    this.ctx.fillStyle = "black";
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    this.texture = new THREE.Texture(this.canvas);
+  }
+
+  update() {
+    this.clear();
+    let speed = this.speed;
+
+    for (let i = this.trail.length - 1; i >= 0; i--) {
+      const point = this.trail[i];
+      let f = point.force * speed * (1 - point.age / this.maxAge);
+      point.x += point.vx * f;
+      point.y += point.vy * f;
+      point.age++;
+
+      if (point.age > this.maxAge) {
+        this.trail.splice(i, 1);
+      } else {
+        this.drawPoint(point);
+      }
+    }
+    this.texture.needsUpdate = true;
+  }
+
+  clear() {
+    this.ctx.fillStyle = "black";
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+  }
+
+  addTouch(point) {
+    let force = 0;
+    let vx = 0;
+    let vy = 0;
+    const last = this.last;
+
+    if (last) {
+      const dx = point.x - last.x;
+      const dy = point.y - last.y;
+      if (dx === 0 && dy === 0) return;
+      const dd = dx * dx + dy * dy;
+      let d = Math.sqrt(dd);
+      vx = dx / d;
+      vy = dy / d;
+
+      // ✅ 터치 힘(왜곡 강도)
+      force = Math.min(dd * 16000, 1.8);
+    }
+
+    this.last = { x: point.x, y: point.y };
+    this.trail.push({ x: point.x, y: point.y, age: 0, force, vx, vy });
+  }
+
+  drawPoint(point) {
+    const pos = {
+      x: point.x * this.width,
+      y: (1 - point.y) * this.height,
+    };
+
+    let intensity = 1;
+    if (point.age < this.maxAge * 0.3) {
+      intensity = Math.sin((point.age / (this.maxAge * 0.3)) * (Math.PI / 2));
+    } else {
+      const t = 1 - (point.age - this.maxAge * 0.3) / (this.maxAge * 0.7);
+      intensity = -t * (t - 2);
+    }
+    intensity *= point.force;
+
+    const radius = this.radius;
+    let color = `${((point.vx + 1) / 2) * 255}, ${
+      ((point.vy + 1) / 2) * 255
+    }, ${intensity * 255}`;
+
+    let offset = this.size * 5;
+    this.ctx.shadowOffsetX = offset;
+    this.ctx.shadowOffsetY = offset;
+    this.ctx.shadowBlur = radius * 1;
+    this.ctx.shadowColor = `rgba(${color},${0.2 * intensity})`;
+
+    this.ctx.beginPath();
+    this.ctx.fillStyle = "rgba(255,0,0,1)";
+    this.ctx.arc(pos.x - offset, pos.y - offset, radius, 0, Math.PI * 2);
+    this.ctx.fill();
+  }
+}
+
+// ---------------------------------------------------------
+// GradientBackground class
+// ---------------------------------------------------------
+class GradientBackground {
+  constructor(sceneManager) {
+    this.sceneManager = sceneManager;
+    this.mesh = null;
+
+    this.uniforms = {
+      uTime: { value: 0 },
+      uResolution: {
+        value: new THREE.Vector2(window.innerWidth, window.innerHeight),
+      },
+
+      uColor1: { value: new THREE.Vector3(1, 0, 0) },
+      uColor2: { value: new THREE.Vector3(0, 0, 0) },
+      uColor3: { value: new THREE.Vector3(1, 0, 0) },
+      uColor4: { value: new THREE.Vector3(0, 0, 0) },
+      uColor5: { value: new THREE.Vector3(1, 0, 0) },
+      uColor6: { value: new THREE.Vector3(0, 0, 0) },
+
+      uSpeed: { value: 1.2 },
+      uIntensity: { value: 1.1 },
+
+      uTouchTexture: { value: null },
+
+      uGrainIntensity: { value: 0.06 },
+
+      uZoom: { value: 1.0 },
+      uDarkNavy: { value: new THREE.Vector3(0.02, 0.02, 0.06) },
+
+      uGradientSize: { value: 0.45 },
+      uGradientCount: { value: 12.0 },
+      uColor1Weight: { value: 0.55 },
+      uColor2Weight: { value: 1.8 },
+    };
+  }
+
+  init() {
+    const viewSize = this.sceneManager.getViewSize();
+    const geometry = new THREE.PlaneGeometry(
+      viewSize.width,
+      viewSize.height,
+      1,
+      1
+    );
+
+    const material = new THREE.ShaderMaterial({
+      uniforms: this.uniforms,
+      vertexShader: `
+        varying vec2 vUv;
+        void main() {
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position.xyz, 1.);
+          vUv = uv;
+        }
+      `,
+      fragmentShader: `
+        uniform float uTime;
+        uniform vec2 uResolution;
+        uniform vec3 uColor1;
+        uniform vec3 uColor2;
+        uniform vec3 uColor3;
+        uniform vec3 uColor4;
+        uniform vec3 uColor5;
+        uniform vec3 uColor6;
+        uniform float uSpeed;
+        uniform float uIntensity;
+        uniform sampler2D uTouchTexture;
+        uniform float uGrainIntensity;
+        uniform vec3 uDarkNavy;
+        uniform float uGradientSize;
+        uniform float uGradientCount;
+        uniform float uColor1Weight;
+        uniform float uColor2Weight;
+
+        varying vec2 vUv;
+
+        float grain(vec2 uv, float time) {
+          vec2 grainUv = uv * uResolution * 0.9; // ✅ 촘촘하게(알갱이 작게)
+          float g = fract(sin(dot(grainUv + time, vec2(12.9898, 78.233))) * 43758.5453);
+          return g * 2.0 - 1.0;
+        }
+
+        vec3 getGradientColor(vec2 uv, float time) {
+          float r = uGradientSize;
+
+          vec2 c1 = vec2(0.5 + sin(time * uSpeed * 0.4) * 0.4, 0.5 + cos(time * uSpeed * 0.5) * 0.4);
+          vec2 c2 = vec2(0.5 + cos(time * uSpeed * 0.6) * 0.5, 0.5 + sin(time * uSpeed * 0.45) * 0.5);
+          vec2 c3 = vec2(0.5 + sin(time * uSpeed * 0.35) * 0.45, 0.5 + cos(time * uSpeed * 0.55) * 0.45);
+          vec2 c4 = vec2(0.5 + cos(time * uSpeed * 0.5) * 0.4, 0.5 + sin(time * uSpeed * 0.4) * 0.4);
+          vec2 c5 = vec2(0.5 + sin(time * uSpeed * 0.7) * 0.35, 0.5 + cos(time * uSpeed * 0.6) * 0.35);
+          vec2 c6 = vec2(0.5 + cos(time * uSpeed * 0.45) * 0.5, 0.5 + sin(time * uSpeed * 0.65) * 0.5);
+
+          vec2 c7 = vec2(0.5 + sin(time * uSpeed * 0.55) * 0.38, 0.5 + cos(time * uSpeed * 0.48) * 0.42);
+          vec2 c8 = vec2(0.5 + cos(time * uSpeed * 0.65) * 0.36, 0.5 + sin(time * uSpeed * 0.52) * 0.44);
+          vec2 c9 = vec2(0.5 + sin(time * uSpeed * 0.42) * 0.41, 0.5 + cos(time * uSpeed * 0.58) * 0.39);
+          vec2 c10 = vec2(0.5 + cos(time * uSpeed * 0.48) * 0.37, 0.5 + sin(time * uSpeed * 0.62) * 0.43);
+          vec2 c11 = vec2(0.5 + sin(time * uSpeed * 0.68) * 0.33, 0.5 + cos(time * uSpeed * 0.44) * 0.46);
+          vec2 c12 = vec2(0.5 + cos(time * uSpeed * 0.38) * 0.39, 0.5 + sin(time * uSpeed * 0.56) * 0.41);
+
+          float i1 = 1.0 - smoothstep(0.0, r, length(uv - c1));
+          float i2 = 1.0 - smoothstep(0.0, r, length(uv - c2));
+          float i3 = 1.0 - smoothstep(0.0, r, length(uv - c3));
+          float i4 = 1.0 - smoothstep(0.0, r, length(uv - c4));
+          float i5 = 1.0 - smoothstep(0.0, r, length(uv - c5));
+          float i6 = 1.0 - smoothstep(0.0, r, length(uv - c6));
+          float i7 = 1.0 - smoothstep(0.0, r, length(uv - c7));
+          float i8 = 1.0 - smoothstep(0.0, r, length(uv - c8));
+          float i9 = 1.0 - smoothstep(0.0, r, length(uv - c9));
+          float i10 = 1.0 - smoothstep(0.0, r, length(uv - c10));
+          float i11 = 1.0 - smoothstep(0.0, r, length(uv - c11));
+          float i12 = 1.0 - smoothstep(0.0, r, length(uv - c12));
+
+          vec3 col = vec3(0.0);
+
+          col += uColor1 * i1 * (0.55 + 0.45 * sin(time * uSpeed)) * uColor1Weight;
+          col += uColor2 * i2 * (0.55 + 0.45 * cos(time * uSpeed * 1.2)) * uColor2Weight;
+          col += uColor3 * i3 * (0.55 + 0.45 * sin(time * uSpeed * 0.8)) * uColor1Weight;
+          col += uColor4 * i4 * (0.55 + 0.45 * cos(time * uSpeed * 1.3)) * uColor2Weight;
+          col += uColor5 * i5 * (0.55 + 0.45 * sin(time * uSpeed * 1.1)) * uColor1Weight;
+          col += uColor6 * i6 * (0.55 + 0.45 * cos(time * uSpeed * 0.9)) * uColor2Weight;
+
+          if (uGradientCount > 6.0) {
+            col += uColor1 * i7 * (0.55 + 0.45 * sin(time * uSpeed * 1.4)) * uColor1Weight;
+            col += uColor2 * i8 * (0.55 + 0.45 * cos(time * uSpeed * 1.5)) * uColor2Weight;
+            col += uColor3 * i9 * (0.55 + 0.45 * sin(time * uSpeed * 1.6)) * uColor1Weight;
+            col += uColor4 * i10 * (0.55 + 0.45 * cos(time * uSpeed * 1.7)) * uColor2Weight;
+          }
+          if (uGradientCount > 10.0) {
+            col += uColor5 * i11 * (0.55 + 0.45 * sin(time * uSpeed * 1.8)) * uColor1Weight;
+            col += uColor6 * i12 * (0.55 + 0.45 * cos(time * uSpeed * 1.9)) * uColor2Weight;
+          }
+
+          col = clamp(col, vec3(0.0), vec3(1.0)) * uIntensity;
+
+          float lum = dot(col, vec3(0.299, 0.587, 0.114));
+          col = mix(vec3(lum), col, 1.25);
+
+          float br = length(col);
+          float mixF = max(br * 1.15, 0.12);
+          col = mix(uDarkNavy, col, mixF);
+
+          // ✅ 눈부심 방지 밝기 캡
+          float maxB = 0.95;
+          float b = length(col);
+          if (b > maxB) col = col * (maxB / b);
+
+          return col;
+        }
+
+        void main() {
+          vec2 uv = vUv;
+
+          vec4 t = texture2D(uTouchTexture, uv);
+          float vx = -(t.r * 2.0 - 1.0);
+          float vy = -(t.g * 2.0 - 1.0);
+          float inten = t.b;
+
+          uv.x += vx * 0.75 * inten;
+          uv.y += vy * 0.75 * inten;
+
+          vec2 center = vec2(0.5);
+          float dist = length(uv - center);
+          float ripple = sin(dist * 20.0 - uTime * 3.0) * 0.04 * inten;
+          float wave = sin(dist * 15.0 - uTime * 2.0) * 0.03 * inten;
+          uv += vec2(ripple + wave);
+
+          vec3 col = getGradientColor(uv, uTime);
+
+          float g = grain(uv, uTime);
+          col += g * uGrainIntensity;
+
+          float ts = uTime * 0.5;
+          col.r += sin(ts) * 0.015;
+          col.g += cos(ts * 1.4) * 0.015;
+          col.b += sin(ts * 1.2) * 0.015;
+
+          col = clamp(col, vec3(0.0), vec3(1.0));
+          gl_FragColor = vec4(col, 1.0);
+        }
+      `,
+    });
+
+    this.mesh = new THREE.Mesh(geometry, material);
+    this.mesh.position.z = 0;
+    this.sceneManager.scene.add(this.mesh);
+  }
+
+  update(delta) {
+    this.uniforms.uTime.value += delta;
+  }
+
+  onResize(width, height) {
+    const viewSize = this.sceneManager.getViewSize();
+    if (this.mesh) {
+      this.mesh.geometry.dispose();
+      this.mesh.geometry = new THREE.PlaneGeometry(
+        viewSize.width,
+        viewSize.height,
+        1,
+        1
+      );
+    }
+    this.uniforms.uResolution.value.set(width, height);
+  }
+}
+
+// ---------------------------------------------------------
+// App class
+// ---------------------------------------------------------
+class App {
+  constructor() {
+    // ✅ 화면에 캔버스가 100% 보이게(간단한 안전장치)
+    document.documentElement.style.width = "100%";
+    document.documentElement.style.height = "100%";
+    document.body.style.margin = "0";
+    document.body.style.width = "100%";
+
+    document.body.style.background = "#050714";
+
+    this.renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      powerPreference: "high-performance",
+      alpha: false,
+      stencil: false,
+      depth: false,
+    });
+
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    document.body.appendChild(this.renderer.domElement);
+    this.renderer.domElement.id = "webGLApp";
+    this.renderer.domElement.style.display = "block";
+
+    this.camera = new THREE.PerspectiveCamera(
+      45,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      10000
+    );
+    this.camera.position.z = 50;
+
+    this.scene = new THREE.Scene();
+    this.scene.background = new THREE.Color(0x050714);
+
+    this.clock = new THREE.Clock();
+
+    this.touchTexture = new TouchTexture();
+    this.gradientBackground = new GradientBackground(this);
+    this.gradientBackground.uniforms.uTouchTexture.value =
+      this.touchTexture.texture;
+
+    this.gradientBackground.init();
+
+    // ✅ 여기서는 팔레트 적용 X (전역 app 아직 없음)
+    this.render();
+    this.tick();
+
+    window.addEventListener("resize", () => this.onResize());
+    window.addEventListener("mousemove", (ev) => this.onMouseMove(ev));
+    window.addEventListener("touchmove", (ev) => this.onTouchMove(ev), {
+      passive: true,
+    });
+  }
+
+  onTouchMove(ev) {
+    const touch = ev.touches[0];
+    if (!touch) return;
+    this.onMouseMove({ clientX: touch.clientX, clientY: touch.clientY });
+  }
+
+  onMouseMove(ev) {
+    this.mouse = {
+      x: ev.clientX / window.innerWidth,
+      y: 1 - ev.clientY / window.innerHeight,
+    };
+    this.touchTexture.addTouch(this.mouse);
+  }
+
+  getViewSize() {
+    const fov = (this.camera.fov * Math.PI) / 180;
+    const height = Math.abs(this.camera.position.z * Math.tan(fov / 2) * 2);
+    return { width: height * this.camera.aspect, height };
+  }
+
+  update(delta) {
+    this.touchTexture.update();
+    this.gradientBackground.update(delta);
+  }
+
+  render() {
+    const delta = Math.min(this.clock.getDelta(), 0.1);
+    this.renderer.render(this.scene, this.camera);
+    this.update(delta);
+  }
+
+  tick() {
+    this.render();
+    requestAnimationFrame(() => this.tick());
+  }
+
+  onResize() {
+    this.camera.aspect = window.innerWidth / window.innerHeight;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.gradientBackground.onResize(window.innerWidth, window.innerHeight);
+  }
+
+  // ✅ 외부에서 팔레트 적용할 수 있게 메서드 제공
+  applyPalette(hex6) {
+    applyPaletteToUniforms(this.gradientBackground.uniforms, hex6);
+    // 베이스 컬러도 필요하면 같이:
+    // this.gradientBackground.uniforms.uDarkNavy.value.copy(hexToVec3(hex6[1]));
+    this.render();
+  }
+}
+
+// ---------------------------------------------------------
+// Start (✅ app 만든 다음에 팔레트 적용)
+// ---------------------------------------------------------
+const app = new App();
+app.applyPalette(PALETTE_NEON_RGB_DARK);
+
+// ---------------------------------------------------------
+// (선택) .color-btn이 HTML에 있다면 눌러도 팔레트 유지
+// ---------------------------------------------------------
+const colorButtons = document.querySelectorAll(".color-btn");
+if (colorButtons.length) {
+  colorButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      app.applyPalette(PALETTE_NEON_RGB_DARK);
+      colorButtons.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+    });
+  });
+}
