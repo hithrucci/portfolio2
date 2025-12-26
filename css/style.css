@@ -9,6 +9,13 @@
   font-display: swap;
 }
 @font-face {
+  font-family: "chalker";
+  src: url(../fonts/Chalker\ Brush\ Personal\ Use\ Only.ttf);
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
   font-family: "ChangwonDanggamAsak";
   src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/CWDangamAsac-Bold.woff")
     format("woff");
@@ -298,7 +305,37 @@ main {
   height: 100vh;
   position: relative;
 }
-
+#intro .sectionTitle {
+  position: absolute;
+  width: 780px;
+  left: 50%;
+  top: 50px;
+  transform: translateX(-50%);
+  border: 1px solid #fff;
+  text-align: center;
+  font-size: 80px;
+  height: 120px;
+  line-height: 120px;
+  border-radius: 120px;
+  /* text-shadow: 3px 5px 10px rgba(0, 0, 0, 0.6); */
+  filter: drop-shadow(2px 5px 5px rgba(0, 0, 0, 0.8));
+}
+#intro .sectionTitle .connect {
+  display: inline-block;
+  font-family: "Paperozi";
+  background: linear-gradient(45deg, #fff, #999);
+  -webkit-background-clip: text;
+  /* background-clip: text; */
+  -webkit-fill-color: transparent;
+  color: transparent;
+}
+#intro .sectionTitle .connect > span {
+  color: inherit;
+}
+#intro .sectionTitle .folio {
+  font-family: "chalker";
+  color: #999;
+}
 #intro .pieces {
   width: 100%;
   height: 100%;
@@ -334,6 +371,68 @@ main {
   filter: drop-shadow(2px 2px 8px rgba(255, 255, 255, 0.9));
   transform: scale(0.7);
   transform-origin: center;
+}
+#intro .shade {
+  position: absolute;
+  left: 45%;
+  top: 53%;
+  transform: translate(-50%, -50%) scale(0.7);
+  transform-origin: center;
+  opacity: 0;
+}
+#intro .intro_logo {
+  position: absolute;
+  left: 45%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0.73);
+  transform-origin: center;
+
+  width: 100%;
+  height: 100%;
+}
+#intro .intro_logo > img {
+  position: absolute;
+  left: 49%;
+  top: 52%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  opacity: 0;
+}
+#intro .intro_logo > img:nth-child(1) {
+  z-index: 3;
+}
+#intro .intro_logo > img:nth-child(2) {
+  z-index: 2;
+}
+#intro .intro_logo > img:nth-child(3) {
+  z-index: 1;
+}
+#intro .intro_logo > img:nth-child(4) {
+  z-index: 4;
+}
+#intro .scrollDown {
+  color: #fff;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 100px;
+  text-align: center;
+}
+#intro .scrollDown > div:nth-child(2) {
+  position: absolute;
+  left: 50%;
+  bottom: -30px;
+  transform: translateX(-50%);
+  animation: upDown 1s linear infinite;
+}
+@keyframes upDown {
+  0% {
+    margin-bottom: 10px;
+  }
+
+  100% {
+    margin-bottom: 0px;
+  }
 }
 
 /* ----------------------------------- */

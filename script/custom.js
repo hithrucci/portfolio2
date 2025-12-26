@@ -1,19 +1,69 @@
 // ---------------------------------------------
+// GSAP plugin (한 번만)
+// ---------------------------------------------
+gsap.registerPlugin(ScrollTrigger);
+
+// ---------------------------------------------
 // header hide on scroll (그대로 사용)
 // ---------------------------------------------
 const header = document.querySelector("header");
 let lastScrollY = window.scrollY;
 const threshold = 5;
 
+// ✅ intro pin 구간 end 길이 통일값
+const INTRO_END = "+=200%";
+
+// ✅ intro에서는 헤더 기능 잠금
+let introLock = true;
+
 window.addEventListener("scroll", () => {
+  // intro에서는 무조건 숨김 + 나머지 로직 실행 안 함
+  if (introLock) {
+    header.classList.add("hide");
+    lastScrollY = window.scrollY; // ✅ 값 갱신해서 튐 방지
+    return;
+  }
+
   const currentScroll = window.scrollY;
   if (Math.abs(currentScroll - lastScrollY) < threshold) return;
+
   if (currentScroll > lastScrollY && currentScroll > header.offsetHeight) {
-    header.classList.add("hide");
+    header.classList.add("hide"); // down
   } else {
-    header.classList.remove("hide");
+    header.classList.remove("hide"); // up
   }
+
   lastScrollY = currentScroll;
+});
+
+// ✅ intro 구간(핀 포함)에서는 헤더 잠금, 벗어나면 해제
+ScrollTrigger.create({
+  trigger: "#intro",
+  start: "top top",
+  end: INTRO_END,
+  // markers: true,
+
+  onEnter: () => {
+    introLock = true;
+    header.classList.add("hide"); // 즉시 숨김
+    lastScrollY = window.scrollY;
+  },
+  onEnterBack: () => {
+    introLock = true;
+    header.classList.add("hide");
+    lastScrollY = window.scrollY;
+  },
+
+  onLeave: () => {
+    introLock = false; // ✅ intro 끝나면 기존 기능 다시 활성화
+    header.classList.add("hide"); // 자연스러운 전환용(원하면 제거 가능)
+    lastScrollY = window.scrollY;
+  },
+  onLeaveBack: () => {
+    introLock = true; // ✅ intro 위로 완전히 벗어나면(최상단)도 잠금
+    header.classList.add("hide");
+    lastScrollY = window.scrollY;
+  },
 });
 
 // ---------------------------------------------
@@ -31,7 +81,6 @@ contact.addEventListener("mouseleave", () => {
 // intro
 // -----------------------------------
 
-gsap.registerPlugin(ScrollTrigger);
 const pieces = document.querySelectorAll("#intro .pieces .pieceWrap");
 
 const positions = [
@@ -50,7 +99,9 @@ for (let i = 0; i < pieces.length; i++) {
     x: positions[i].x,
     y: positions[i].y,
   });
-} // -------------------------------------------------
+}
+
+// -------------------------------------------------
 // ✅ viewport 표류 (pieceWrap 고정, viewport만 움직임)
 // -------------------------------------------------
 const viewports = document.querySelectorAll(
@@ -61,27 +112,38 @@ const viewports = document.querySelectorAll(
 // GSAP transform 충돌 방지용으로 percent 기반 중앙값을 고정해줌
 gsap.set(viewports, { xPercent: -50, yPercent: -50 });
 
-const floatTweens = [];
+let floatTweens = [];
 const RANGE_X = 200; // ✅ pieceWrap 기준 표류 범위
 const RANGE_Y = 120;
 
-viewports.forEach((vp) => {
-  const rx = gsap.utils.random(RANGE_X * 0.6, RANGE_X, 1);
-  const ry = gsap.utils.random(RANGE_Y * 0.6, RANGE_Y, 1);
+// ✅ 표류 시작/재시작 함수(스크롤 업해서 intro 다시 들어오면 표류도 다시 켜지게)
+function startIntroFloating() {
+  // 기존 tween 정리
+  floatTweens.forEach((t) => t.kill());
+  floatTweens = [];
 
-  const t = gsap.to(vp, {
-    x: () => gsap.utils.random(-rx, rx),
-    y: () => gsap.utils.random(-ry, ry),
-    rotation: () => gsap.utils.random(-20, 20),
-    duration: gsap.utils.random(3, 5),
-    ease: "sine.inOut",
-    repeat: -1,
-    yoyo: true,
-    overwrite: "auto",
+  viewports.forEach((vp) => {
+    const rx = gsap.utils.random(RANGE_X * 0.6, RANGE_X, 1);
+    const ry = gsap.utils.random(RANGE_Y * 0.6, RANGE_Y, 1);
+
+    const t = gsap.to(vp, {
+      x: () => gsap.utils.random(-rx, rx),
+      y: () => gsap.utils.random(-ry, ry),
+      rotation: () => gsap.utils.random(-20, 20),
+      duration: gsap.utils.random(3, 5),
+      ease: "sine.inOut",
+      repeat: -1,
+      yoyo: true,
+      overwrite: "auto",
+    });
+
+    floatTweens.push(t);
   });
+}
 
-  floatTweens.push(t);
-});
+// 최초 1회 표류 시작
+startIntroFloating();
+
 // -------------------------------------------------
 // intro : viewport 모이기 (임의 좌표 버전)
 // -------------------------------------------------
@@ -101,15 +163,25 @@ const gatherTl = gsap.timeline({
   scrollTrigger: {
     trigger: "#intro",
     start: "top top",
-    end: "+=200%",
+    end: INTRO_END,
     scrub: 1,
     pin: true,
     // markers: true,
+
+    // 스크롤로 intro pin 진입/복귀 시: 표류 끄기(죽이고 gather가 덮어씀)
     onEnter: () => {
       floatTweens.forEach((t) => t.kill());
     },
     onEnterBack: () => {
       floatTweens.forEach((t) => t.kill());
+    },
+
+    // ✅ intro pin 구간을 완전히 벗어나면 표류 다시 시작
+    onLeave: () => {
+      startIntroFloating();
+    },
+    onLeaveBack: () => {
+      startIntroFloating();
     },
   },
 });
@@ -143,10 +215,48 @@ gatherTl
     },
     0
   )
+  .to(pieces, {
+    opacity: 0,
+  })
   .to(
-    pieces,
+    "#intro .intro_logo>img:nth-child(4)",
     {
-      opacity: 0,
+      opacity: 1,
+    },
+    ">-0.5"
+  )
+  .to("#intro .intro_logo>img", {
+    x: 75,
+    scale: "0.7",
+  })
+  .to(
+    "#intro .intro_logo>img:nth-child(1)",
+    {
+      opacity: 1,
+    },
+    ">"
+  )
+  .to(
+    "#intro .intro_logo>img:nth-child(2)",
+    {
+      opacity: 1,
+    },
+    ">"
+  )
+  .to(
+    "#intro .intro_logo>img:nth-child(3)",
+    {
+      opacity: 1,
+    },
+    ">"
+  )
+
+  .to(
+    "#intro .shade",
+    {
+      opacity: 0.8,
+      x: 60,
+      scale: "0.6",
     },
     ">"
   );
@@ -172,8 +282,6 @@ const floatItems = gsap.utils.toArray(
 );
 const linkSvg = document.querySelector("#works .projectOverview .link-svg");
 const linkLine = linkSvg.querySelector(".link-line");
-
-gsap.registerPlugin(ScrollTrigger);
 
 // path 초기 세팅
 gsap.set(guide, {
@@ -351,7 +459,6 @@ const articleData = articles.map((article) => {
   const articleTl = gsap.timeline({ paused: true });
 
   articleTl
-
     .fromTo(
       descriptionP,
       {
@@ -451,8 +558,6 @@ pinTl.fromTo(projectWrap, { x: 200 }, { x: -4000 });
 // 리사이즈 시에도 한번 업데이트해서 중앙 감지 값 보정
 window.addEventListener("resize", updateArticleCenterStates);
 
-gsap.registerPlugin(ScrollTrigger);
-
 // 타이틀 요소들
 const subTitleText = document.querySelector(
   "#works .sectionTitle .subTitle span"
@@ -524,8 +629,6 @@ document.querySelectorAll("#works section[data-title]").forEach((section) => {
     },
   });
 });
-
-gsap.registerPlugin(ScrollTrigger);
 
 const webSection = document.querySelector(".web-publishing");
 const stage = webSection.querySelector(".inner");
@@ -604,6 +707,7 @@ tl_upDown
     y: -25,
     duration: 1.5,
   });
+
 // ---------------------------------------------------------
 // ✅ YOUR PALETTE (여기만 수정)
 // ---------------------------------------------------------
