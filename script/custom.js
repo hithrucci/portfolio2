@@ -11,7 +11,7 @@ let lastScrollY = window.scrollY;
 const threshold = 5;
 
 // ✅ intro pin 구간 end 길이 통일값
-const INTRO_END = "+=200%";
+const INTRO_END = "+=300%";
 
 // ✅ intro에서는 헤더 기능 잠금
 let introLock = true;
@@ -206,7 +206,7 @@ gatherTl
       x: (i) => gatherPositions[i].x,
       y: (i) => gatherPositions[i].y,
       rotation: 0,
-      duration: 1.2,
+      duration: 1.5,
       ease: "power3.out",
       stagger: {
         each: 0.06,
@@ -219,7 +219,7 @@ gatherTl
     opacity: 0,
   })
   .to(
-    "#intro .intro_logo>img:nth-child(4)",
+    "#intro .intro_logo>img:nth-of-type(4)",
     {
       opacity: 1,
     },
@@ -230,21 +230,21 @@ gatherTl
     scale: "0.7",
   })
   .to(
-    "#intro .intro_logo>img:nth-child(1)",
+    "#intro .intro_logo>img:nth-of-type(1)",
     {
       opacity: 1,
     },
     ">"
   )
   .to(
-    "#intro .intro_logo>img:nth-child(2)",
+    "#intro .intro_logo>img:nth-of-type(2)",
     {
       opacity: 1,
     },
     ">"
   )
   .to(
-    "#intro .intro_logo>img:nth-child(3)",
+    "#intro .intro_logo>img:nth-of-type(3)",
     {
       opacity: 1,
     },
@@ -282,7 +282,17 @@ gatherTl
       opacity: 0,
     },
     { opacity: 1 }
-  );
+  )
+  .fromTo(
+    "#intro .line",
+    {
+      width: 0,
+    },
+    {
+      width: "400px",
+    }
+  )
+  .to({}, { duration: 2 });
 
 const content = document.querySelector("#intro .roll .right .content");
 

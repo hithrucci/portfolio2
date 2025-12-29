@@ -336,6 +336,44 @@ main {
   font-family: "chalker";
   color: #999;
 }
+/* 타이틀 박스에 스윕 */
+#intro .sectionTitle {
+  position: absolute; /* 이미 있음 */
+  overflow: hidden; /* ✅ 스윕이 밖으로 새지 않게 */
+}
+
+/* 빛 반사 레이어 */
+#intro .sectionTitle::after {
+  content: "";
+  position: absolute;
+  inset: -30% -40%; /* 넉넉히 크게 */
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.08) 35%,
+    rgba(255, 255, 255, 0.35) 50%,
+    rgba(255, 255, 255, 0.08) 65%,
+    transparent 100%
+  );
+  transform: translateX(-120%) skewX(-18deg);
+  mix-blend-mode: screen; /* ✅ 빛 느낌 */
+  pointer-events: none;
+  animation: titleSweep 10s ease-in-out infinite;
+  opacity: 0.9;
+}
+
+@keyframes titleSweep {
+  0% {
+    transform: translateX(-120%) skewX(-18deg);
+  }
+  45% {
+    transform: translateX(-120%) skewX(-18deg);
+  } /* 잠깐 대기 */
+  100% {
+    transform: translateX(120%) skewX(-18deg);
+  }
+}
+
 #intro .pieces {
   width: 100%;
   height: 100%;
@@ -390,6 +428,20 @@ main {
   width: 100%;
   height: 100%;
 }
+/* 고리 본체 */
+#intro .intro_logo .saturnRing {
+  position: absolute;
+  left: 49%;
+  top: 52%;
+  transform: translate(-50%, -50%) rotateX(68deg) rotateZ(0deg);
+  width: 520px; /* 로고 크기에 맞춰 조절 */
+  height: 240px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 5; /* 로고 위/아래 원하는 대로 조절 */
+  will-change: transform;
+}
+
 #intro .intro_logo > img {
   position: absolute;
   left: 49%;
@@ -398,18 +450,19 @@ main {
   z-index: 1;
   opacity: 0;
 }
-#intro .intro_logo > img:nth-child(1) {
+#intro .intro_logo > img:nth-of-type(1) {
   z-index: 3;
 }
-#intro .intro_logo > img:nth-child(2) {
+#intro .intro_logo > img:nth-of-type(2) {
   z-index: 2;
 }
-#intro .intro_logo > img:nth-child(3) {
+#intro .intro_logo > img:nth-of-type(3) {
   z-index: 1;
 }
-#intro .intro_logo > img:nth-child(4) {
+#intro .intro_logo > img:nth-of-type(4) {
   z-index: 4;
 }
+
 #intro .scrollDown {
   color: #fff;
   position: absolute;
@@ -553,14 +606,14 @@ main {
 #about {
   height: 100vh;
   width: 100%;
-}
-#about .inner {
-  width: 1700px;
+  background-image: linear-gradient(180deg, transparent, #fff 90%);
   position: relative;
-  margin: 0px auto;
-  height: 100%;
 }
-
+#about .sectionTitle {
+  color: #000;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+}
 /* ----------------------------------- */
 /* works 공통 */
 /* ----------------------------------- */
