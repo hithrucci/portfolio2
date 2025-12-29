@@ -259,7 +259,82 @@ gatherTl
       scale: "0.6",
     },
     ">"
+  )
+  .fromTo(
+    "#intro .sectionTitle",
+    {
+      opacity: 0,
+      y: 50,
+    },
+    {
+      opacity: 1,
+      y: 0,
+    }
+  )
+  .fromTo(
+    "#intro .roll",
+    { opacity: 0, width: 0 },
+    { opacity: 1, width: "80%" }
+  )
+  .fromTo(
+    "#intro .roll>div>div",
+    {
+      opacity: 0,
+    },
+    { opacity: 1 }
   );
+
+const content = document.querySelector("#intro .roll .right .content");
+
+function applyState() {
+  const items = Array.from(content.children);
+  items.forEach((el) => el.classList.remove("is-active"));
+  if (items[1]) items[1].classList.add("is-active");
+}
+
+applyState();
+
+let isRunning = false;
+
+function rotateTextSmooth() {
+  if (isRunning) return;
+  isRunning = true;
+
+  const items = Array.from(content.children);
+
+  // 1) 살짝 위로 + 페이드 아웃(너무 크게 안 움직이게)
+  gsap.to(items, {
+    y: -10,
+    opacity: 0.85,
+    duration: 0.45,
+    ease: "power3.inOut",
+    stagger: 0.02, // ✅ 아주 미세한 시간차가 부드럽게 느껴짐
+    onComplete: () => {
+      // 2) DOM 순환
+      content.appendChild(items[0]);
+
+      // 3) 다음 프레임 준비: 아래에서 올라오는 느낌
+      const newItems = Array.from(content.children);
+      gsap.set(newItems, { y: 10, opacity: 0.85 });
+
+      applyState();
+
+      // 4) 원위치로 복귀 + 페이드 인
+      gsap.to(newItems, {
+        y: 0,
+        opacity: 1,
+        duration: 0.55,
+        ease: "power3.out",
+        stagger: 0.02,
+        onComplete: () => {
+          isRunning = false;
+        },
+      });
+    },
+  });
+}
+
+setInterval(rotateTextSmooth, 2200);
 
 // ---------------------------------------------
 // works 영역 세팅

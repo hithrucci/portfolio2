@@ -434,7 +434,119 @@ main {
     margin-bottom: 0px;
   }
 }
+#intro .roll {
+  position: absolute;
+  width: 80%;
+  height: 50%;
+  left: 50%;
+  top: 53%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  backdrop-filter: blur(5px);
+  /* background-color: rgba(140, 140, 140, 0.2); */
+}
+#intro .roll > div {
+  width: 28%;
+  position: absolute;
+  height: 100%;
+}
+#intro .roll .left {
+  border-top: 1px solid #2d2d2d;
+  border-left: 1px solid #2d2d2d;
+  border-bottom: 1px solid #2d2d2d;
+  left: 0px;
+  box-shadow: -12px 8px 12px rgba(0, 0, 0, 0.2);
+}
+#intro .roll .right {
+  border-top: 1px solid #2d2d2d;
+  border-right: 1px solid #2d2d2d;
+  border-bottom: 1px solid #2d2d2d;
+  right: 0px;
+  box-shadow: 12px 8px 12px rgba(0, 0, 0, 0.2);
+}
 
+#intro .roll > div > div {
+  width: 105%;
+  height: 90%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+#intro .roll .left .bg {
+  border-top: 1px solid #7d7c7c;
+  border-left: 1px solid #7d7c7c;
+  border-bottom: 1px solid #7d7c7c;
+  left: 20px;
+}
+#intro .roll .right .bg {
+  right: 20px;
+  border-top: 1px solid #7d7c7c;
+  border-right: 1px solid #7d7c7c;
+  border-bottom: 1px solid #7d7c7c;
+}
+
+#intro .roll > div > div > div {
+  width: 105%;
+  height: 90%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 3rem;
+  font-family: "Paperozi";
+  font-weight: 400;
+}
+#intro .roll .left > div > div {
+  left: 20px;
+  border-top: 1px solid #fff;
+  border-left: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  display: flex;
+  justify-content: flex-end;
+}
+#intro .roll .right > div > div {
+  right: 20px;
+  border-top: 1px solid #fff;
+  border-right: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  text-align: left;
+}
+/* 기본(dim) */
+#intro .roll .right .content > div {
+  color: #373737;
+  filter: blur(4px);
+  margin-left: 30px;
+  opacity: 0.55;
+  transition: color 0.35s ease, filter 0.35s ease, margin-left 0.35s ease,
+    opacity 0.35s ease;
+}
+
+/* active(가운데) */
+#intro .roll .right .content > div.is-active {
+  color: #fff;
+  filter: blur(0px);
+  margin-left: 0px;
+  opacity: 1;
+}
+
+#intro .roll .line {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 1px;
+
+  background-color: #fff;
+}
 /* ----------------------------------- */
 /* about */
 /* ----------------------------------- */
