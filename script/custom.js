@@ -292,7 +292,10 @@ gatherTl
       width: "400px",
     }
   )
-  .to({}, { duration: 2 });
+  .to({}, { duration: 2 })
+  .to("#intro", {
+    opacity: "0",
+  });
 
 const content = document.querySelector("#intro .roll .right .content");
 
@@ -345,6 +348,44 @@ function rotateTextSmooth() {
 }
 
 setInterval(rotateTextSmooth, 2200);
+
+// -----------------------------------
+// about
+// -----------------------------------
+const aboutTl = gsap.timeline({
+  scrollTrigger: {
+    trigger: "#about",
+    start: "top top",
+    end: INTRO_END,
+    scrub: 1,
+    pin: true,
+    markers: true,
+  },
+});
+const bgLeft = document.querySelector("#about .bg .left");
+const bgRight = document.querySelector("#about .bg .right");
+const about_flowText = document.querySelector("#about .flowText");
+aboutTl
+  .fromTo(
+    about_flowText,
+    {
+      y: 400,
+    },
+    {
+      y: 300,
+      opacity: 1,
+    }
+  )
+  .to(bgLeft, {
+    x: -300,
+  })
+  .to(
+    bgRight,
+    {
+      x: 300,
+    },
+    "<"
+  );
 
 // ---------------------------------------------
 // works 영역 세팅

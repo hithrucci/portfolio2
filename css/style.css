@@ -142,8 +142,9 @@ header {
   top: 0px;
   left: 0px;
   width: 100%;
-  height: 80px;
-  background-color: #181818;
+  height: 64px;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
   color: #fff;
   z-index: 9999;
   /* border-bottom: 1px solid #ccc; */
@@ -159,7 +160,7 @@ header .inner {
   width: 1700px;
   margin: 0px auto;
   height: 100%;
-  background-color: #181818;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -231,7 +232,7 @@ header .gnb {
 /* main */
 /* ----------------------------------- */
 main {
-  padding-top: 80px;
+  padding-top: 64px;
   width: 100%;
   height: auto;
 }
@@ -559,6 +560,7 @@ main {
   border-bottom: 1px solid #fff;
   display: flex;
   justify-content: flex-end;
+  text-shadow: 1px 3px 5px rgba(0, 0, 0, 0.4);
 }
 #intro .roll .right > div > div {
   right: 20px;
@@ -588,6 +590,7 @@ main {
   filter: blur(0px);
   margin-left: 0px;
   opacity: 1;
+  text-shadow: 1px 3px 5px rgba(0, 0, 0, 0.4);
 }
 
 #intro .roll .line {
@@ -608,12 +611,61 @@ main {
   width: 100%;
   background-image: linear-gradient(180deg, transparent, #fff 90%);
   position: relative;
+  overflow: hidden;
 }
 #about .sectionTitle {
-  color: #000;
-  border-top: 1px solid #000;
-  border-bottom: 1px solid #000;
+  z-index: 1;
+  position: relative;
 }
+#about .bg {
+  position: absolute;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+#about .bg .left {
+  position: absolute;
+  top: 0px;
+  left: -230px;
+}
+#about .bg .right {
+  position: absolute;
+  top: 0px;
+  right: -300px;
+}
+#about .flowText {
+  position: absolute;
+  bottom: 300px;
+  display: flex;
+  width: max-content;
+  white-space: nowrap;
+  opacity: 0;
+  animation: about_flow 15s linear infinite;
+  overflow: hidden;
+}
+
+#about .flowText li {
+  flex: 0 0 auto; /* 줄어들지 않게 */
+  white-space: nowrap;
+  font-size: 120px;
+  font-family: "Paperozi";
+  font-weight: 800;
+  color: #3e3e3e;
+  opacity: 0.6;
+  display: inline-block;
+}
+
+/* ⭐ 무한 플로우 핵심 */
+@keyframes about_flow {
+  0% {
+    margin-left: 0px;
+  }
+  100% {
+    margin-left: -3529px;
+  }
+}
+
 /* ----------------------------------- */
 /* works 공통 */
 /* ----------------------------------- */
