@@ -365,6 +365,7 @@ const aboutTl = gsap.timeline({
 const bgLeft = document.querySelector("#about .bg .left");
 const bgRight = document.querySelector("#about .bg .right");
 const about_flowText = document.querySelector("#about .flowText");
+const profilePic = document.querySelector("#about .bg .pic");
 aboutTl
   .fromTo(
     about_flowText,
@@ -372,7 +373,7 @@ aboutTl
       y: 400,
     },
     {
-      y: 300,
+      y: 250,
       opacity: 1,
     }
   )
@@ -383,6 +384,18 @@ aboutTl
     bgRight,
     {
       x: 300,
+    },
+    "<"
+  )
+  .fromTo(
+    profilePic,
+    {
+      opacity: 0,
+      x: 400,
+    },
+    {
+      opacity: 1,
+      x: 0,
     },
     "<"
   );
