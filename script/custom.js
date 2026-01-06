@@ -1,7 +1,7 @@
 // ---------------------------------------------
 // GSAP plugin (한 번만)
 // ---------------------------------------------
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
 // ---------------------------------------------
 // header hide on scroll (그대로 사용)
@@ -352,6 +352,13 @@ setInterval(rotateTextSmooth, 2200);
 // -----------------------------------
 // about
 // -----------------------------------
+
+/* aboutTl*/
+const bgLeft = document.querySelector("#about .bg .left");
+const bgRight = document.querySelector("#about .bg .right");
+const about_flowText = document.querySelector("#about .flowText");
+const profilePic = document.querySelector("#about .bg .pic");
+
 const aboutTl = gsap.timeline({
   scrollTrigger: {
     trigger: "#about",
@@ -359,14 +366,12 @@ const aboutTl = gsap.timeline({
     end: INTRO_END,
     scrub: 1,
     pin: true,
-    markers: true,
+    // markers: true,
   },
 });
-const bgLeft = document.querySelector("#about .bg .left");
-const bgRight = document.querySelector("#about .bg .right");
-const about_flowText = document.querySelector("#about .flowText");
-const profilePic = document.querySelector("#about .bg .pic");
+
 aboutTl
+  .addLabel("aboutStart")
   .fromTo(
     about_flowText,
     {
@@ -375,29 +380,178 @@ aboutTl
     {
       y: 250,
       opacity: 1,
-    }
+    },
+    "aboutStart"
   )
-  .to(bgLeft, {
-    x: -300,
-  })
+  .to(
+    bgLeft,
+    {
+      x: -200,
+    },
+    "aboutStart"
+  )
   .to(
     bgRight,
     {
-      x: 300,
+      x: 400,
     },
-    "<"
+    "aboutStart"
   )
   .fromTo(
     profilePic,
     {
       opacity: 0,
-      x: 400,
+      x: 500,
     },
     {
       opacity: 1,
-      x: 0,
+      x: 200,
+    },
+    "aboutStart"
+  );
+
+/*aboutTl2*/
+const about_innerTitle_profile = document.querySelector(
+  "#about .profile .title"
+);
+const about_content_profile = document.querySelectorAll(
+  "#about .profile .content>div"
+);
+const about_innerTitle_edu = document.querySelector("#about .education .title");
+const about_content_edu = document.querySelectorAll(
+  "#about .education .content li"
+);
+const about_innerTitle_license = document.querySelector(
+  "#about .license .title"
+);
+const about_content_license = document.querySelectorAll(
+  "#about .license .content li"
+);
+const about_innerTitle_exp = document.querySelector("#about .exp .title");
+const about_content_exp = document.querySelectorAll("#about .exp .content li");
+const about_introduce = document.querySelector(".introduce");
+const introHTML = about_introduce.innerHTML;
+about_introduce.innerHTML = "";
+
+const aboutTl2 = gsap.timeline({
+  scrollTrigger: {
+    trigger: "#about .bg",
+    start: "10% top",
+    end: INTRO_END,
+    markers: true,
+  },
+});
+
+aboutTl2
+  .fromTo(
+    about_innerTitle_profile,
+    {
+      opacity: 0,
+      x: -100,
+    },
+    { opacity: 1, x: 0 }
+  )
+  .fromTo(
+    about_content_profile,
+    {
+      opacity: 0,
+      x: -50,
+    },
+    { opacity: 1, x: 0, stagger: 0.2 }
+  )
+  .fromTo(about_innerTitle_edu, { opacity: 0, x: -100 }, { opacity: 1, x: 0 })
+  .fromTo(
+    about_content_edu,
+    { opacity: 0, x: -50 },
+    { opacity: 1, x: 0, stagger: 0.2 }
+  )
+  .to(
+    about_introduce,
+    {
+      duration: 4,
+      text: { value: introHTML, delimiter: "" },
+      ease: "none",
     },
     "<"
+  );
+
+aboutTl
+  .addLabel("aboutHold")
+  .to({}, { duration: 3 }, "aboutHold")
+
+  .addLabel("aboutEnd1")
+  .to(about_flowText, { opacity: 0, y: 400 }, "aboutEnd1")
+  .to(profilePic, { opacity: 0, x: 500 }, "aboutEnd1")
+  .to(
+    bgLeft,
+    {
+      x: 0,
+    },
+    "aboutEnd1"
+  )
+  .to(
+    bgRight,
+    {
+      x: 0,
+    },
+    "aboutEnd1"
+  )
+  .to(
+    about_introduce,
+    {
+      opacity: 0,
+      y: -50,
+    },
+    ">"
+  )
+  .to(about_content_edu, { opacity: 0, x: -50 }, "aboutEnd1")
+  .to(about_innerTitle_edu, { opacity: 0, x: -100 }, "aboutEnd1")
+  .to(about_content_profile, { opacity: 0, x: -50 }, "aboutEnd1")
+  .to(about_innerTitle_profile, { opacity: 0, x: -100 }, "aboutEnd1")
+
+  .to(
+    "#about .bg",
+    {
+      rotateY: "180deg",
+    },
+    "aboutEnd2"
+  )
+  .to(
+    bgRight,
+    {
+      x: 200,
+    },
+    ">"
+  )
+  .to(
+    bgLeft,
+    {
+      x: -200,
+    },
+    "<"
+  );
+aboutTl2
+  .fromTo(
+    about_innerTitle_license,
+    { opacity: 0, x: 100 },
+    { opacity: 1, x: 0 }
+  )
+  .fromTo(
+    about_content_license,
+    {
+      opacity: 0,
+      x: 50,
+    },
+    { opacity: 1, x: 0, stagger: 0.2 }
+  )
+  .fromTo(about_innerTitle_exp, { opacity: 0, x: 100 }, { opacity: 1, x: 0 })
+  .fromTo(
+    about_content_exp,
+    {
+      opacity: 0,
+      x: 50,
+    },
+    { opacity: 1, x: 0, stagger: 0.2 }
   );
 
 // ---------------------------------------------

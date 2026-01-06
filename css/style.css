@@ -612,7 +612,8 @@ main {
 #about {
   height: 100vh;
   width: 100%;
-  background-image: linear-gradient(180deg, transparent, #fff 90%);
+  background-image: linear-gradient(180deg, transparent, #fff 30%);
+  /* background-color: #fff; */
   position: relative;
   overflow: hidden;
 }
@@ -630,13 +631,13 @@ main {
 #about .bg .left {
   position: absolute;
   top: 0px;
-  left: -230px;
+  left: -70px;
   z-index: 0;
 }
 #about .bg .right {
   position: absolute;
   top: 0px;
-  right: -300px;
+  right: -460px;
   z-index: 2;
 }
 #about .pic {
@@ -703,10 +704,10 @@ main {
 }
 #about .profile {
   position: absolute;
-  top: 20%;
+  top: 10%;
 }
 #about .inner > div > .title {
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 #about .inner > div > .title h4 {
   font-size: 20px;
@@ -741,23 +742,42 @@ main {
   border-left: 1px solid #fff;
   padding-left: 8px;
 }
-
-/*introduce*/
-#about .profile .introduce {
+#about .contentWrap .introduce {
+  font-family: "Paperozi";
+  position: absolute;
   margin-top: 100px;
-  font-size: 24px;
+  font-size: 30px;
   color: #333;
   width: 330px;
   word-break: keep-all;
   font-weight: 300;
+  top: 20%;
+  right: 100px;
+  z-index: 5;
 }
-#about .profile .introduce strong {
+#about .contentWrap .introduce strong {
   font-weight: 700;
 }
 #about .education {
   position: absolute;
   top: 50%;
-  right: 0px;
+}
+#about .skills {
+  position: absolute;
+  left: 55%;
+  top: 10%;
+}
+#about .license {
+  position: absolute;
+  left: 55%;
+  top: 50%;
+  /* transform: translateX(50%); */
+}
+#about .exp {
+  position: absolute;
+  left: 78%;
+  /* transform: translateX(50%); */
+  top: 50%;
 }
 /* ----------------------------------- */
 /* works 공통 */
