@@ -779,6 +779,20 @@ main {
   /* transform: translateX(50%); */
   top: 50%;
 }
+#about .icons {
+  position: relative;
+  height: calc(100% - 100px);
+}
+#about .icons li {
+  width: 90px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+#about .icons li img {
+  width: 100%;
+}
 /* ----------------------------------- */
 /* works 공통 */
 /* ----------------------------------- */
