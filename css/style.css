@@ -133,7 +133,29 @@ body {
   background-color: #181818;
   width: 100%;
 }
+#intro {
+  position: relative;
+  overflow: hidden;
+}
 
+#colorBendsBg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+#intro .pieces {
+  position: relative;
+  z-index: 1;
+}
+#webGLApp {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
 /* ----------------------------------- */
 /* header */
 /* ----------------------------------- */
@@ -920,20 +942,32 @@ main {
   left: 50%;
   top: 40%;
   transform: translate(-50%, -50%);
+
+  height: auto;
 }
 
 .interactive-project .projectOverview .text h3 {
   position: absolute;
   left: 50%;
   top: 55%;
-  transform: translate(-50%, -50%);
-  font-size: 4.5rem;
-  color: #181818;
+  transform: translate(-50%, -50%) rotate(-5deg);
+  font-size: 6rem;
   text-align: center;
   width: 100%;
   margin: 0 auto;
   font-family: "PartialSans";
   letter-spacing: 1px;
+}
+
+/* 각 줄 공통 */
+.interactive-project .projectOverview .text h3 span {
+  display: inline-block; /* 줄 단위 박스 */
+  background: linear-gradient(180deg, #4aff99, #128790);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  filter: drop-shadow(2px 5px 5px rgba(0, 0, 0, 0.8));
 }
 
 .interactive-project .projectOverview .text h3.on {
@@ -962,7 +996,7 @@ main {
 
 .interactive-project .projectOverview .text .guideLine {
   fill: none;
-  stroke: #eb5248;
+  stroke: #ff1b60;
   stroke-width: 14;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -1953,30 +1987,36 @@ main {
 .artWorks {
   height: 100vh;
   background-color: #fff;
-}
-
-#intro {
-  position: relative;
-  overflow: hidden;
-}
-
-#colorBendsBg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-}
-
-#intro .pieces {
-  position: relative;
-  z-index: 1; /* 위에 올라오게 */
-}
-#webGLApp {
-  position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
+  position: relative;
+}
+.artWorks .illust_cards {
+  width: 80%;
+  height: 350px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid blue;
+}
+.artWorks .illust_cards li {
+  border: 1px solid red;
+  width: 350px;
   height: 100%;
-  z-index: -1;
+  margin: 0px 10px;
+}
+.artWorks .illust_cards li:nth-child(1),
+.artWorks .illust_cards li:nth-child(5) {
+  width: 220px;
+  height: 220px;
+}
+.artWorks .illust_cards li:nth-child(2),
+.artWorks .illust_cards li:nth-child(4) {
+  width: 280px;
+  height: 280px;
 }
 /* ----------------------------------- */
 /* contact */

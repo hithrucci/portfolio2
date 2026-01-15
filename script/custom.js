@@ -401,7 +401,7 @@ const aboutTl = gsap.timeline({
     trigger: "#about",
     start: "top top",
     end: "=+400%",
-    scrub: 1,
+    scrub: 2,
     pin: true,
     // markers: true,
   },
@@ -644,7 +644,6 @@ const floatItems = gsap.utils.toArray(
 );
 const linkSvg = document.querySelector("#works .projectOverview .link-svg");
 const linkLine = linkSvg.querySelector(".link-line");
-
 // path 초기 세팅
 gsap.set(guide, {
   strokeDasharray: length,
@@ -688,7 +687,36 @@ function startFloating() {
     });
   });
 }
-
+gsap.fromTo(
+  "#works .text h3",
+  {
+    opacity: 0,
+  },
+  {
+    opacity: 1,
+    scrollTrigger: {
+      trigger: ".projectOverview",
+      // markers: true,
+      start: "30%",
+      scrub: 1,
+    },
+  }
+);
+gsap.fromTo(
+  "#works .overviewBg",
+  {
+    opacity: 0,
+  },
+  {
+    opacity: 1,
+    scrollTrigger: {
+      trigger: ".projectOverview",
+      // markers: true,
+      start: "40%",
+      scrub: 1,
+    },
+  }
+);
 // ---------------------------------------------
 // 1) projectOverview 전용 타임라인 (pin + scrub)
 // ---------------------------------------------
@@ -1548,3 +1576,26 @@ if (colorButtons.length) {
     });
   });
 }
+// -----------------------------------
+// artworks
+// -----------------------------------
+const artWorks = document.querySelector("#works .artWorks");
+const artWorks_ul = artWorks.querySelector(".illust_cards");
+const artWorks_li = artWorks_ul.querySelectorAll("li");
+gsap.fromTo(
+  artWorks_li,
+  { opacity: 0, width: 300, height: 300 },
+  {
+    opacity: 1,
+    scrollTrigger: {
+      trigger: artWorks,
+      markers: true,
+      start: "top top",
+      end: "+=200%", // ✅ pin 길이(스크롤 진행 구간) 명확히
+      scrub: 1,
+      pin: true,
+      onLeave: () => gsap.set(artWorks_li, { clearProps: "width,height" }),
+      onLeaveBack: () => gsap.set(artWorks_li, { width: 300, height: 300 }),
+    },
+  }
+);
