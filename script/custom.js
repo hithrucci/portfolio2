@@ -646,6 +646,7 @@ const linkSvg = document.querySelector("#works .projectOverview .link-svg");
 const linkLine = linkSvg.querySelector(".link-line");
 // path 초기 세팅
 gsap.set(guide, {
+  opacity: 0,
   strokeDasharray: length,
   strokeDashoffset: length,
 });
@@ -733,7 +734,7 @@ const overviewTl = gsap.timeline({
 });
 
 overviewTl
-  .fromTo(".flowText", { y: 300 }, { y: 50, width: "1200px" })
+  .fromTo(".flowText", { y: 350 }, { y: 250, width: "850px" })
   .fromTo(
     guide,
     { opacity: 0 },
@@ -772,7 +773,7 @@ overviewTl
     { opacity: 0 },
     {
       opacity: 1,
-      x: 490,
+      x: 600,
       y: 180,
       rotation: 26,
     },
@@ -784,7 +785,7 @@ overviewTl
     { opacity: 0 },
     {
       opacity: 1,
-      x: -550,
+      x: -580,
       y: 220,
       rotation: 26,
     },
