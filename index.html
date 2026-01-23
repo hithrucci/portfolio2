@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -12,64 +12,39 @@
       referrerpolicy="no-referrer"
     />
     <link rel="stylesheet" href="css/style.css" />
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"
-      integrity="sha512-NcZdtrT77bJr4STcmsGAESr06BYGE8woZdSdEgqnpyqac7sugNO+Tr4bGwGF3MsnEkGKhU2KL2xh6Ec+BqsaHA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"
-      integrity="sha512-P2IDYZfqSwjcSjX0BKeNhwRUH8zRPGlgcWl5n6gBLzdi4Y5/0O4zaXrtO4K9TZK6Hn1BenYpKowuCavNandERg=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/TextPlugin.min.js"></script>
-
+    <script src="script/gsap.min.js"></script>
+    <script src="script/ScrollTrigger.min.js"></script>
+    <script src="script/TextPlugin.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.159.0/three.min.js"></script>
     <script src="script/colorbends.vanilla.js"></script>
-
-    <script>
-      window.addEventListener("DOMContentLoaded", () => {
-        new ColorBendsVanilla(document.getElementById("colorBendsBg"), {
-          colors: ["#ff5c7a", "#8a5cff", "#00ffd1"],
-          rotation: 30,
-          speed: 0.3,
-          scale: 1.2,
-          frequency: 1.4,
-          warpStrength: 1.2,
-          mouseInfluence: 0.8,
-          parallax: 0.6,
-          noise: 0.08,
-          transparent: true,
-        });
-      });
-    </script>
   </head>
   <body>
     <header>
       <div class="inner">
-        <h1>
-          <a href="index.html"><img src="img/logo.png" alt="logo" /></a>
-        </h1>
         <nav>
           <ul class="gnb">
-            <li><a href="#">INTRO</a></li>
-            <li><a href="#">ABOUT</a></li>
-            <li><a href="#">WORKS</a></li>
-            <li><a href="#">CONTACT</a></li>
+            <li><a href="#">[ INTRO ]</a></li>
+            <li><a href="#">[ ABOUT ]</a></li>
+            <li><a href="#">[ WORKS ]</a></li>
           </ul>
+          <div class="contact">
+            <div class="logo"><img src="img/logo.png" /></div>
+            <a href="#">CONTACT</a>
+          </div>
         </nav>
       </div>
     </header>
-
     <main>
       <section id="intro">
         <div class="sectionTitle">
           <span class="connect">
-            <span>C</span><span>O</span><span>N</span><span>N</span
-            ><span>E</span><span>C</span><span>T</span>
+            <span>C</span>
+            <span>O</span>
+            <span>N</span>
+            <span>N</span>
+            <span>E</span>
+            <span>C</span>
+            <span>T</span>
           </span>
           <span class="folio">FOLIO</span>
         </div>
@@ -904,7 +879,7 @@
       </section>
       <section id="contact"></section>
     </main>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
     <script src="script/custom.js"></script>
   </body>
 </html>

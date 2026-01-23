@@ -126,7 +126,7 @@ void main() {
           noise: 0.08,
           transparent: true,
         },
-        options
+        options,
       );
 
       this.pointer = new THREE.Vector2(0, 0);
@@ -142,7 +142,7 @@ void main() {
       const geometry = new THREE.PlaneGeometry(2, 2);
       const colors = Array.from(
         { length: MAX_COLORS },
-        () => new THREE.Vector3()
+        () => new THREE.Vector3(),
       );
 
       this.material = new THREE.ShaderMaterial({
@@ -191,7 +191,7 @@ void main() {
         return new THREE.Vector3(
           ((n >> 16) & 255) / 255,
           ((n >> 8) & 255) / 255,
-          (n & 255) / 255
+          (n & 255) / 255,
         );
       };
 
@@ -211,7 +211,7 @@ void main() {
       const r = this.el.getBoundingClientRect();
       this.pointer.set(
         ((e.clientX - r.left) / r.width) * 2 - 1,
-        -(((e.clientY - r.top) / r.height) * 2 - 1)
+        -(((e.clientY - r.top) / r.height) * 2 - 1),
       );
     }
 

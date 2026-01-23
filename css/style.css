@@ -22,7 +22,6 @@
   font-weight: normal;
   font-display: swap;
 }
-@import url("https://cdn.jsdelivr.net/npm/galmuri@latest/dist/galmuri.css");
 
 @font-face {
   font-family: "Galmuri11";
@@ -133,29 +132,7 @@ body {
   background-color: #181818;
   width: 100%;
 }
-#intro {
-  position: relative;
-  overflow: hidden;
-}
 
-#colorBendsBg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-}
-
-#intro .pieces {
-  position: relative;
-  z-index: 1;
-}
-#webGLApp {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-}
 /* ----------------------------------- */
 /* header */
 /* ----------------------------------- */
@@ -164,94 +141,79 @@ header {
   top: 0px;
   left: 0px;
   width: 100%;
-  height: 64px;
-  background-color: rgba(0, 0, 0, 0.5);
+  height: 60px;
   backdrop-filter: blur(4px);
   color: #fff;
   z-index: 9999;
   /* border-bottom: 1px solid #ccc; */
   box-sizing: border-box;
   transition: transform 0.3s ease;
-  box-shadow: 0px 3px 20px rgba(255, 153, 0, 0.5);
 }
-header.hide {
-  transform: translateY(-100%);
-}
-
 header .inner {
   width: 1700px;
   margin: 0px auto;
   height: 100%;
-
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  position: relative;
 }
-header h1 {
-  height: 100%;
-  padding: 4px 0px;
-  box-sizing: border-box;
-}
-header h1 a {
-  height: 100%;
-  display: block;
-}
-header h1 img {
-  height: 100%;
-}
+
 header .gnb {
   display: flex;
+  width: 100%;
+  height: 100%;
 }
 .gnb li {
-  width: 100px;
-  text-align: center;
-  height: 50px;
-  line-height: 50px;
-}
-.gnb li:last-child {
-  position: relative;
-  border-radius: 50%;
-  transition: background-color 0.5s;
-}
-.gnb li:last-child::before {
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%) rotate(-20deg);
-  position: absolute;
-  content: "";
-  border: 1px solid #ff1b60;
-  width: 100%;
-  height: 50px;
-  border-radius: 50%;
-  transition: 0.5s;
-}
-.gnb li:last-child::after {
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%) rotate(20deg);
-  position: absolute;
-  content: "";
-  border: 1px solid #ff1b60;
-  width: 100%;
-  height: 50px;
-  border-radius: 50%;
-  transition: 0.5s;
-  pointer-events: none;
-}
-.gnb li:last-child.on::before {
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-}
-.gnb li:last-child.on::after {
-  transform: translate(-50%, -50%);
-  z-index: 0;
-}
-.gnb li:last-child:hover {
-  background-color: #ff1b60;
+  display: inline-block;
+  overflow: hidden;
 }
 
+.gnb li a {
+  width: 100px;
+  text-align: center;
+  position: relative;
+  display: inline-block;
+}
+
+.gnb li a::after {
+  content: "";
+  position: absolute;
+  left: 0px;
+  top: 20px;
+  width: 100%;
+  opacity: 1;
+}
+.gnb li:nth-child(1) a::after {
+  content: "[ INTRO ]";
+}
+.gnb li:nth-child(2) a::after {
+  content: "ABOUT";
+}
+.gnb li:nth-child(3) a::after {
+  content: "WORKS";
+}
+nav .contact {
+  position: absolute;
+  right: 0px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #626262;
+  padding: 4px 16px 4px 30px;
+  border-radius: 20px;
+}
+nav .contact .logo {
+  position: absolute;
+  width: 46px;
+  top: 50%;
+  transform: translateY(-50%);
+  left: -18px;
+}
+nav .contact .logo img {
+  width: 100%;
+}
 /* ----------------------------------- */
-/* main */
+/* main 공통 */
 /* ----------------------------------- */
 main {
   width: 100%;
@@ -324,24 +286,47 @@ main {
 /* intro */
 /* ----------------------------------- */
 
+#colorBendsBg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+#webGLApp {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
 #intro {
   width: 100%;
   height: 100vh;
   position: relative;
+  background-image: url(../img/bg_line.svg);
+  background-position: center;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  /* background-color: rgba(255, 255, 255, 0.1); */
+}
+
+#intro .pieces {
+  position: relative;
+  z-index: 1;
 }
 #intro .sectionTitle {
   position: absolute;
   width: 780px;
   left: 50%;
-  top: 50px;
+  top: 100px;
   transform: translateX(-50%);
   border: 1px solid #fff;
   text-align: center;
   font-size: 80px;
-  height: 120px;
-  line-height: 120px;
-  border-radius: 120px;
-  /* text-shadow: 3px 5px 10px rgba(0, 0, 0, 0.6); */
+  height: 100px;
+  line-height: 100px;
+  border-radius: 100px;
   filter: drop-shadow(2px 5px 5px rgba(0, 0, 0, 0.8));
 }
 #intro .sectionTitle .connect {
@@ -349,7 +334,6 @@ main {
   font-family: "Paperozi";
   background: linear-gradient(45deg, #fff, #999);
   -webkit-background-clip: text;
-  /* background-clip: text; */
   -webkit-fill-color: transparent;
   color: transparent;
 }
@@ -360,17 +344,16 @@ main {
   font-family: "chalker";
   color: #999;
 }
-/* 타이틀 박스에 스윕 */
 #intro .sectionTitle {
-  position: absolute; /* 이미 있음 */
-  overflow: hidden; /* ✅ 스윕이 밖으로 새지 않게 */
+  top: 60px;
+  position: absolute;
+  overflow: hidden;
 }
 
-/* 빛 반사 레이어 */
 #intro .sectionTitle::after {
   content: "";
   position: absolute;
-  inset: -30% -40%; /* 넉넉히 크게 */
+  inset: -30% -40%;
   background: linear-gradient(
     120deg,
     transparent 0%,
@@ -380,7 +363,7 @@ main {
     transparent 100%
   );
   transform: translateX(-120%) skewX(-18deg);
-  mix-blend-mode: screen; /* ✅ 빛 느낌 */
+  mix-blend-mode: screen;
   pointer-events: none;
   animation: titleSweep 10s ease-in-out infinite;
   opacity: 0.9;
@@ -448,29 +431,14 @@ main {
   top: 50%;
   transform: translate(-50%, -50%) scale(0.73);
   transform-origin: center;
-
   width: 100%;
   height: 100%;
-}
-/* 고리 본체 */
-#intro .intro_logo .saturnRing {
-  position: absolute;
-  left: 49%;
-  top: 52%;
-  transform: translate(-50%, -50%) rotateX(68deg) rotateZ(0deg);
-  width: 520px; /* 로고 크기에 맞춰 조절 */
-  height: 240px;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 5; /* 로고 위/아래 원하는 대로 조절 */
-  will-change: transform;
 }
 
 #intro .intro_logo > img {
   position: absolute;
   left: 49%;
   top: 52%;
-  transform: translate(-50%, -50%);
   z-index: 1;
   opacity: 0;
 }
@@ -486,6 +454,7 @@ main {
 #intro .intro_logo > img:nth-of-type(4) {
   z-index: 4;
   width: 1000px;
+  transform: translate(-50%, -50%);
 }
 
 #intro .scrollDown {
@@ -883,7 +852,7 @@ main {
   width: 100%;
   position: absolute;
   left: 50%;
-  top: 40%;
+  top: 50%;
   transform: translate(-50%, -50%);
 
   height: auto;
@@ -892,7 +861,7 @@ main {
 .interactive-project .projectOverview .text h3 {
   position: absolute;
   left: 50%;
-  top: 55%;
+  top: 50%;
   transform: translate(-50%, -50%) rotate(-5deg);
   font-size: 5.5rem;
   text-align: center;

@@ -1,163 +1,99 @@
-// ---------------------------------------------
-// GSAP plugin (한 번만)
-// ---------------------------------------------
 gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
-// ---------------------------------------------
-// header hide on scroll (그대로 사용)
-// ---------------------------------------------
-const header = document.querySelector("header");
-let lastScrollY = window.scrollY;
-const threshold = 5;
+// -----------------------------------
+// header
+// -----------------------------------
 
-// ✅ intro pin 구간 end 길이 통일값
-const INTRO_END = "+=300%";
+const gnb = document.querySelector("header .gnb");
+const gnb_li = gnb.querySelectorAll("li a");
 
-// ✅ intro에서는 헤더 기능 잠금
-let introLock = true;
-
-window.addEventListener("scroll", () => {
-  // intro에서는 무조건 숨김 + 나머지 로직 실행 안 함
-  if (introLock) {
-    header.classList.add("hide");
-    lastScrollY = window.scrollY; // ✅ 값 갱신해서 튐 방지
-    return;
-  }
-
-  const currentScroll = window.scrollY;
-  if (Math.abs(currentScroll - lastScrollY) < threshold) return;
-
-  if (currentScroll > lastScrollY && currentScroll > header.offsetHeight) {
-    header.classList.add("hide"); // down
-  } else {
-    header.classList.remove("hide"); // up
-  }
-
-  lastScrollY = currentScroll;
-});
-
-// ✅ intro 구간(핀 포함)에서는 헤더 잠금, 벗어나면 해제
-ScrollTrigger.create({
-  trigger: "#intro",
-  start: "top top",
-  end: INTRO_END,
-  // markers: true,
-
-  onEnter: () => {
-    introLock = true;
-    header.classList.add("hide"); // 즉시 숨김
-    lastScrollY = window.scrollY;
-  },
-  onEnterBack: () => {
-    introLock = true;
-    header.classList.add("hide");
-    lastScrollY = window.scrollY;
-  },
-
-  onLeave: () => {
-    introLock = false; // ✅ intro 끝나면 기존 기능 다시 활성화
-    header.classList.add("hide"); // 자연스러운 전환용(원하면 제거 가능)
-    lastScrollY = window.scrollY;
-  },
-  onLeaveBack: () => {
-    introLock = true; // ✅ intro 위로 완전히 벗어나면(최상단)도 잠금
-    header.classList.add("hide");
-    lastScrollY = window.scrollY;
-  },
-});
-
-// ---------------------------------------------
-// gnb contact hover (그대로 사용)
-// ---------------------------------------------
-let contact = document.querySelector(".gnb li:last-child");
-contact.addEventListener("mouseenter", () => {
-  contact.classList.add("on");
-});
-contact.addEventListener("mouseleave", () => {
-  contact.classList.remove("on");
+gnb_li.forEach((list) => {
+  list.addEventListener("mouseenter", () => {
+    gsap.to(list, {
+      y: -20,
+      "border-width": "50px",
+      ease: "expo.out",
+    });
+  });
+  list.addEventListener("mouseleave", () => {
+    gsap.to(list, {
+      y: 0,
+    });
+  });
 });
 
 // -----------------------------------
 // intro
 // -----------------------------------
 
-const pieces = document.querySelectorAll("#intro .pieces .pieceWrap");
-
-const positions = [
-  { x: -600, y: -350 }, // 0
-  { x: 480, y: -250 }, // 1
-  { x: -330, y: -150 }, // 2
-  { x: 200, y: 0 }, // 3
-  { x: -300, y: 100 }, // 4
-  { x: 300, y: 200 }, // 5
-  { x: -50, y: 230 }, // 6
-  { x: -510, y: 300 }, // 7
-];
-
-for (let i = 0; i < pieces.length; i++) {
-  gsap.set(pieces[i], {
-    x: positions[i].x,
-    y: positions[i].y,
-  });
-}
-
-// -------------------------------------------------
-// ✅ viewport 표류 (pieceWrap 고정, viewport만 움직임)
-// -------------------------------------------------
+const INTRO_END = "+=300%";
 const viewports = document.querySelectorAll(
-  "#intro .pieces .pieceWrap .viewport"
+  "#intro .pieces .pieceWrap .viewport",
 );
-
-// viewport는 이미 CSS에서 translate(-50%, -50%)로 중앙정렬 중인데,
-// GSAP transform 충돌 방지용으로 percent 기반 중앙값을 고정해줌
 gsap.set(viewports, { xPercent: -50, yPercent: -50 });
-
 let floatTweens = [];
-const RANGE_X = 200; // ✅ pieceWrap 기준 표류 범위
+const RANGE_X = 200;
 const RANGE_Y = 120;
-
-// ✅ 표류 시작/재시작 함수(스크롤 업해서 intro 다시 들어오면 표류도 다시 켜지게)
 function startIntroFloating() {
-  // 기존 tween 정리
   floatTweens.forEach((t) => t.kill());
   floatTweens = [];
-
   viewports.forEach((vp) => {
     const rx = gsap.utils.random(RANGE_X * 0.6, RANGE_X, 1);
     const ry = gsap.utils.random(RANGE_Y * 0.6, RANGE_Y, 1);
-
-    const t = gsap.to(vp, {
-      x: () => gsap.utils.random(-rx, rx),
-      y: () => gsap.utils.random(-ry, ry),
-      rotation: () => gsap.utils.random(-20, 20),
-      duration: gsap.utils.random(3, 5),
-      ease: "sine.inOut",
-      repeat: -1,
-      yoyo: true,
-      overwrite: "auto",
-    });
-
-    floatTweens.push(t);
+    floatTweens.push(
+      gsap.to(vp, {
+        x: () => gsap.utils.random(-rx, rx),
+        y: () => gsap.utils.random(-ry, ry),
+        rotation: () => gsap.utils.random(-20, 20),
+        duration: gsap.utils.random(3, 5),
+        ease: "sine.inOut",
+        repeat: -1,
+        yoyo: true,
+        overwrite: "auto",
+      }),
+    );
   });
 }
-
-// 최초 1회 표류 시작
+function stopFloatingAndSnapToZero() {
+  floatTweens.forEach((t) => t.kill());
+  floatTweens = [];
+  gsap.to(viewports, {
+    x: 0,
+    y: 0,
+    rotation: 0,
+    duration: 0.25,
+    ease: "power2.out",
+    overwrite: "auto",
+  });
+}
 startIntroFloating();
 
-// -------------------------------------------------
-// intro : viewport 모이기 (임의 좌표 버전)
-// -------------------------------------------------
+const pieces = document.querySelectorAll("#intro .pieces .pieceWrap");
+const positions = [
+  { x: -600, y: -350 },
+  { x: 520, y: -300 },
+  { x: -330, y: -150 },
+  { x: 300, y: 0 },
+  { x: -300, y: 100 },
+  { x: 500, y: 200 },
+  { x: -50, y: 230 },
+  { x: -510, y: 300 },
+];
+pieces.forEach((p, i) => gsap.set(p, positions[i]));
 
 const gatherPositions = [
-  { x: -200, y: -200 }, // 0
-  { x: 0, y: -202 }, // 1
-  { x: 25, y: -95 }, // 2
-  { x: 20, y: -62 }, // 3 (중앙 기준)
-  { x: 22, y: 40 }, // 4
-  { x: 17, y: 110 }, // 5
-  { x: -214, y: 225 }, // 6
-  { x: -278, y: 197 }, // 7
+  { x: -200, y: -200 },
+  { x: 0, y: -202 },
+  { x: 25, y: -95 },
+  { x: 20, y: -62 },
+  { x: 22, y: 40 },
+  { x: 17, y: 110 },
+  { x: -214, y: 225 },
+  { x: -278, y: 197 },
 ];
+
+const STOP_PX = 10;
+let floatingActive = true;
 
 const gatherTl = gsap.timeline({
   scrollTrigger: {
@@ -167,39 +103,41 @@ const gatherTl = gsap.timeline({
     scrub: 1,
     pin: true,
     // markers: true,
+    onUpdate: (self) => {
+      const y = self.scroll();
+      const startY = self.start;
+      if (y <= startY + STOP_PX) {
+        if (!floatingActive) {
+          startIntroFloating();
+          floatingActive = true;
+        }
+      } else {
+        if (floatingActive) {
+          stopFloatingAndSnapToZero();
+          floatingActive = false;
+        }
+      }
+    },
+    onRefresh: (self) => {
+      const y = self.scroll();
+      const startY = self.start;
 
-    // 스크롤로 intro pin 진입/복귀 시: 표류 끄기(죽이고 gather가 덮어씀)
-    onEnter: () => {
-      floatTweens.forEach((t) => t.kill());
-    },
-    onEnterBack: () => {
-      floatTweens.forEach((t) => t.kill());
-    },
-
-    // ✅ intro pin 구간을 완전히 벗어나면 표류 다시 시작
-    onLeave: () => {
-      startIntroFloating();
-    },
-    onLeaveBack: () => {
-      startIntroFloating();
+      if (y <= startY + STOP_PX) {
+        if (!floatingActive) {
+          startIntroFloating();
+          floatingActive = true;
+        }
+      } else {
+        if (floatingActive) {
+          stopFloatingAndSnapToZero();
+          floatingActive = false;
+        }
+      }
     },
   },
 });
 
 gatherTl
-  .to(
-    viewports,
-    {
-      x: 0,
-      y: 0,
-      rotation: 0,
-      duration: 0.2, // 스크럽이라 거의 즉시 느낌
-      ease: "none", // 스크럽 안정
-      overwrite: "auto", // 떠다니던 값 덮어쓰기
-      stagger: 0,
-    },
-    0
-  )
   .to(
     pieces,
     {
@@ -208,94 +146,37 @@ gatherTl
       rotation: 0,
       duration: 1.5,
       ease: "power3.out",
-      stagger: {
-        each: 0.06,
-        from: "center",
-      },
+      stagger: { each: 0.06, from: "center" },
     },
-    0
+    0,
   )
-  .to(pieces, {
-    opacity: 0,
-  })
-  .to(
+  .to(pieces, { opacity: 0 })
+  .fromTo(
     "#intro .intro_logo>img:nth-of-type(4)",
-    {
-      opacity: 1,
-    },
-    ">-0.5"
+    { xPercent: -50, yPercent: -50 },
+    { opacity: 1, xPercent: -50, yPercent: -50 },
+    ">-0.5",
   )
   .to("#intro .intro_logo>img", {
     x: 75,
-    scale: "0.7",
+    xPercent: -50,
+    yPercent: -50,
+    scale: 0.7,
   })
-  .to(
-    "#intro .intro_logo>img:nth-of-type(1)",
-    {
-      opacity: 1,
-    },
-    ">"
-  )
-  .to(
-    "#intro .intro_logo>img:nth-of-type(2)",
-    {
-      opacity: 1,
-    },
-    ">"
-  )
-  .to(
-    "#intro .intro_logo>img:nth-of-type(3)",
-    {
-      opacity: 1,
-    },
-    ">"
-  )
-
-  .to(
-    "#intro .shade",
-    {
-      opacity: 0.8,
-      x: 60,
-      scale: "0.6",
-    },
-    ">"
-  )
-  .fromTo(
-    "#intro .sectionTitle",
-    {
-      opacity: 0,
-      y: 50,
-    },
-    {
-      opacity: 1,
-      y: 0,
-    }
-  )
+  .to("#intro .intro_logo>img:nth-of-type(1)", { opacity: 1 }, ">")
+  .to("#intro .intro_logo>img:nth-of-type(2)", { opacity: 1 }, ">")
+  .to("#intro .intro_logo>img:nth-of-type(3)", { opacity: 1 }, ">")
+  .to("#intro .shade", { opacity: 0.8, x: 60, scale: 0.6 }, ">")
+  .fromTo("#intro .sectionTitle", { opacity: 0, y: 50 }, { opacity: 1, y: 30 })
   .fromTo(
     "#intro .roll",
     { opacity: 0, width: 0 },
-    { opacity: 1, width: "80%" }
+    { opacity: 1, width: "80%" },
   )
-  .fromTo(
-    "#intro .roll>div>div",
-    {
-      opacity: 0,
-    },
-    { opacity: 1 }
-  )
-  .fromTo(
-    "#intro .line",
-    {
-      width: 0,
-    },
-    {
-      width: "400px",
-    }
-  )
+  .fromTo("#intro .roll>div>div", { opacity: 0 }, { opacity: 1 })
+  .fromTo("#intro .line", { width: 0 }, { width: "400px" })
   .to({}, { duration: 2 })
-  .to("#intro", {
-    opacity: "0",
-  });
+  .to("#intro", { opacity: 0 });
 
 const content = document.querySelector("#intro .roll .right .content");
 
@@ -304,35 +185,23 @@ function applyState() {
   items.forEach((el) => el.classList.remove("is-active"));
   if (items[1]) items[1].classList.add("is-active");
 }
-
 applyState();
-
 let isRunning = false;
-
 function rotateTextSmooth() {
   if (isRunning) return;
   isRunning = true;
-
   const items = Array.from(content.children);
-
-  // 1) 살짝 위로 + 페이드 아웃(너무 크게 안 움직이게)
   gsap.to(items, {
     y: -10,
     opacity: 0.85,
     duration: 0.45,
     ease: "power3.inOut",
-    stagger: 0.02, // ✅ 아주 미세한 시간차가 부드럽게 느껴짐
+    stagger: 0.02,
     onComplete: () => {
-      // 2) DOM 순환
       content.appendChild(items[0]);
-
-      // 3) 다음 프레임 준비: 아래에서 올라오는 느낌
       const newItems = Array.from(content.children);
       gsap.set(newItems, { y: 10, opacity: 0.85 });
-
       applyState();
-
-      // 4) 원위치로 복귀 + 페이드 인
       gsap.to(newItems, {
         y: 0,
         opacity: 1,
@@ -346,7 +215,6 @@ function rotateTextSmooth() {
     },
   });
 }
-
 setInterval(rotateTextSmooth, 2200);
 
 // -----------------------------------
@@ -361,27 +229,27 @@ const profilePic = document.querySelector("#about .bg .pic");
 
 // profile/edu/skills/license/exp
 const about_innerTitle_profile = document.querySelector(
-  "#about .profile .title"
+  "#about .profile .title",
 );
 const about_content_profile = document.querySelectorAll(
-  "#about .profile .content>div"
+  "#about .profile .content>div",
 );
 
 const about_innerTitle_edu = document.querySelector("#about .education .title");
 const about_content_edu = document.querySelectorAll(
-  "#about .education .content li"
+  "#about .education .content li",
 );
 
 const about_innerTitle_skills = document.querySelector("#about .skills .title");
 const about_content_skills = document.querySelectorAll(
-  "#about .skills .content li"
+  "#about .skills .content li",
 );
 
 const about_innerTitle_license = document.querySelector(
-  "#about .license .title"
+  "#about .license .title",
 );
 const about_content_license = document.querySelectorAll(
-  "#about .license .content li"
+  "#about .license .content li",
 );
 
 const about_innerTitle_exp = document.querySelector("#about .exp .title");
@@ -416,7 +284,7 @@ aboutTl
     about_flowText,
     { y: 400, opacity: 0 },
     { y: 250, opacity: 1 },
-    "aboutStart"
+    "aboutStart",
   )
   .to(bgLeft, { x: -200 }, "aboutStart")
   .to(bgRight, { x: 400 }, "aboutStart")
@@ -424,7 +292,7 @@ aboutTl
     profilePic,
     { opacity: 0, x: 500 },
     { opacity: 1, x: 200 },
-    "aboutStart"
+    "aboutStart",
   )
 
   // -------------------------------
@@ -435,13 +303,13 @@ aboutTl
     about_innerTitle_profile,
     { opacity: 0, x: -100 },
     { opacity: 1, x: 0 },
-    "profileIn"
+    "profileIn",
   )
   .fromTo(
     about_content_profile,
     { opacity: 0, x: -50 },
     { opacity: 1, x: 0, stagger: 0.2 },
-    "profileIn"
+    "profileIn",
   )
 
   // -------------------------------
@@ -452,13 +320,13 @@ aboutTl
     about_innerTitle_edu,
     { opacity: 0, x: -100 },
     { opacity: 1, x: 0 },
-    "eduIn"
+    "eduIn",
   )
   .fromTo(
     about_content_edu,
     { opacity: 0, x: -50 },
     { opacity: 1, x: 0, stagger: 0.2 },
-    "eduIn"
+    "eduIn",
   )
 
   // -------------------------------
@@ -472,7 +340,7 @@ aboutTl
       text: { value: introHTML, delimiter: "" },
       ease: "none",
     },
-    "introTyping"
+    "introTyping",
   )
 
   // -------------------------------
@@ -513,13 +381,13 @@ aboutTl
     about_innerTitle_skills,
     { opacity: 0, x: 100 },
     { opacity: 1, x: 0 },
-    "skillsIn"
+    "skillsIn",
   )
   .fromTo(
     about_content_skills,
     { opacity: 0, x: 50 },
     { opacity: 1, x: 0, stagger: 0.2 },
-    "skillsIn"
+    "skillsIn",
   )
 
   // -------------------------------
@@ -530,61 +398,61 @@ aboutTl
     about_skillIcons[0],
     { opacity: 0 },
     { opacity: 1, x: -550, y: -250, rotate: "20deg" },
-    "iconsIn"
+    "iconsIn",
   )
   .fromTo(
     about_skillIcons[1],
     { opacity: 0 },
     { opacity: 1, x: -300, y: -170, rotate: "-5deg" },
-    "<"
+    "<",
   )
   .fromTo(
     about_skillIcons[2],
     { opacity: 0 },
     { opacity: 1, x: -400, y: 0, rotate: "10deg" },
-    "<"
+    "<",
   )
   .fromTo(
     about_skillIcons[3],
     { opacity: 0 },
     { opacity: 1, x: -180, y: 10, rotate: "5deg" },
-    "<"
+    "<",
   )
   .fromTo(
     about_skillIcons[4],
     { opacity: 0 },
     { opacity: 1, x: -520, y: 50, rotate: "-5deg" },
-    "<"
+    "<",
   )
   .fromTo(
     about_skillIcons[5],
     { opacity: 0 },
     { opacity: 1, x: -350, y: 100, rotate: "5deg" },
-    "<"
+    "<",
   )
   .fromTo(
     about_skillIcons[6],
     { opacity: 0 },
     { opacity: 1, x: -200, y: 180, rotate: "10deg" },
-    "<"
+    "<",
   )
   .fromTo(
     about_skillIcons[7],
     { opacity: 0 },
     { opacity: 1, x: -100, y: -200, rotate: "-10deg" },
-    "<"
+    "<",
   )
   .fromTo(
     about_skillIcons[8],
     { opacity: 0 },
     { opacity: 1, x: -520, y: 280, rotate: "-10deg" },
-    "<"
+    "<",
   )
   .fromTo(
     about_skillIcons[9],
     { opacity: 0 },
     { opacity: 1, x: -280, y: 340, rotate: "-10deg" },
-    "<"
+    "<",
   )
 
   // -------------------------------
@@ -595,13 +463,13 @@ aboutTl
     about_innerTitle_license,
     { opacity: 0, x: 100 },
     { opacity: 1, x: 0 },
-    "licenseIn"
+    "licenseIn",
   )
   .fromTo(
     about_content_license,
     { opacity: 0, x: 50 },
     { opacity: 1, x: 0, stagger: 0.2 },
-    "licenseIn"
+    "licenseIn",
   )
 
   // -------------------------------
@@ -612,13 +480,13 @@ aboutTl
     about_innerTitle_exp,
     { opacity: 0, x: 100 },
     { opacity: 1, x: 0 },
-    "expIn"
+    "expIn",
   )
   .fromTo(
     about_content_exp,
     { opacity: 0, x: 50 },
     { opacity: 1, x: 0, stagger: 0.2 },
-    "expIn"
+    "expIn",
   )
   .addLabel("aboutHold2")
   .to({}, { duration: 3 }, "aboutHold2");
@@ -640,7 +508,7 @@ const todoList = projects.querySelector("li:nth-child(7)");
 const rect4 = projects.querySelector("li:nth-child(8)");
 
 const floatItems = gsap.utils.toArray(
-  "#works .projectOverview .lists li .itemInner"
+  "#works .projectOverview .lists li .itemInner",
 );
 const linkSvg = document.querySelector("#works .projectOverview .link-svg");
 const linkLine = linkSvg.querySelector(".link-line");
@@ -701,7 +569,7 @@ gsap.fromTo(
       start: "30%",
       scrub: 1,
     },
-  }
+  },
 );
 gsap.fromTo(
   "#works .overviewBg",
@@ -716,7 +584,7 @@ gsap.fromTo(
       start: "40%",
       scrub: 1,
     },
-  }
+  },
 );
 // ---------------------------------------------
 // 1) projectOverview 전용 타임라인 (pin + scrub)
@@ -724,17 +592,17 @@ gsap.fromTo(
 const overviewTl = gsap.timeline({
   scrollTrigger: {
     trigger: ".projectOverview",
-    start: "35% center",
-    end: "+=3500",
+    start: "25% 25%",
+    end: "+=3700",
     scrub: 1,
     pin: true,
     onUpdate: updateLinkLine,
-    // markers: true,
+    markers: true,
   },
 });
 
 overviewTl
-  .fromTo(".flowText", { y: 350 }, { y: 250, width: "850px" })
+  .fromTo(".flowText", { y: 400 }, { y: 370, width: "850px" })
   .fromTo(
     guide,
     { opacity: 0 },
@@ -742,7 +610,7 @@ overviewTl
       strokeDashoffset: 0,
       opacity: 1,
     },
-    0.2
+    0.2,
   )
   .fromTo(
     numList,
@@ -750,46 +618,46 @@ overviewTl
     {
       opacity: 1,
       x: -600,
-      y: -320,
+      y: -250,
       rotation: -30,
     },
-    0.6
+    0.6,
   )
-  .fromTo(rect1, { opacity: 0 }, { opacity: 1, x: 0, y: -310 })
+  .fromTo(rect1, { opacity: 0 }, { opacity: 1, x: 0, y: -240 })
   .fromTo(
     weatherList,
     { opacity: 0 },
     {
       opacity: 1,
-      x: 550,
-      y: -350,
+      x: 600,
+      y: -250,
       rotation: 35,
     },
-    0.8
+    0.8,
   )
-  .fromTo(rect2, { opacity: 0 }, { opacity: 1, x: 500, y: -50 })
+  .fromTo(rect2, { opacity: 0 }, { opacity: 1, x: 500, y: -80 })
   .fromTo(
     dreamList,
     { opacity: 0 },
     {
       opacity: 1,
       x: 600,
-      y: 180,
+      y: 280,
       rotation: 26,
     },
-    1
+    1,
   )
-  .fromTo(rect3, { opacity: 0 }, { opacity: 1, x: 0, y: 120 })
+  .fromTo(rect3, { opacity: 0 }, { opacity: 1, x: 0, y: 250 })
   .fromTo(
     todoList,
     { opacity: 0 },
     {
       opacity: 1,
       x: -580,
-      y: 220,
+      y: 300,
       rotation: 26,
     },
-    1.2
+    1.2,
   )
   .fromTo(rect4, { opacity: 0 }, { opacity: 1, x: -500, y: -40 })
   .add(startFloating, 0);
@@ -798,7 +666,7 @@ overviewTl
 // 2) projectDetail 영역 입장 애니메이션
 // ---------------------------------------------
 const projectDetail = document.querySelector(
-  ".interactive-project .projectDetail"
+  ".interactive-project .projectDetail",
 );
 const projectWrap = projectDetail.querySelector(".projectWrap");
 const projectDetail_title = projectDetail.querySelector(".titleWrap");
@@ -824,13 +692,13 @@ enterTl
       duration: 1.5,
       ease: "power3.out",
     },
-    0
+    0,
   )
   .fromTo(
     projectDetail_title,
     { opacity: 0, x: -100 },
     { opacity: 1, x: 0 },
-    0
+    0,
   );
 
 // ---------------------------------------------
@@ -839,7 +707,7 @@ enterTl
 
 // 3-1. 각 article마다 들어갈 타임라인 먼저 만들기
 const articles = gsap.utils.toArray(
-  ".interactive-project .projectDetail .projectWrap article"
+  ".interactive-project .projectDetail .projectWrap article",
 );
 
 const articleData = articles.map((article) => {
@@ -861,7 +729,7 @@ const articleData = articles.map((article) => {
         y: 0,
         duration: 0.6,
         ease: "power3.out",
-      }
+      },
     )
     .to(
       mobile,
@@ -871,7 +739,7 @@ const articleData = articles.map((article) => {
         y: -32,
         rotation: 15,
       },
-      "-=0.5"
+      "-=0.5",
     )
     .to(mobile, {
       rotate: 10,
@@ -890,7 +758,7 @@ const articleData = articles.map((article) => {
         ease: "power3.out",
         stagger: 0.1,
       },
-      "-=0.3"
+      "-=0.3",
     )
     .from(
       shortCut,
@@ -900,7 +768,7 @@ const articleData = articles.map((article) => {
         duration: 0.8,
         ease: "elastic.out(1, 0.5)",
       },
-      "-=0.2"
+      "-=0.2",
     );
 
   return {
@@ -951,7 +819,7 @@ window.addEventListener("resize", updateArticleCenterStates);
 
 // 타이틀 요소들
 const subTitleText = document.querySelector(
-  "#works .sectionTitle .subTitle span"
+  "#works .sectionTitle .subTitle span",
 );
 const worksTitle = document.querySelector("#works .sectionTitle");
 
@@ -1071,7 +939,7 @@ pages.forEach((page, i) => {
       duration: 0.6,
       ease: "power2.out",
     },
-    "<" // 위 애니메이션과 동시에 시작
+    "<", // 위 애니메이션과 동시에 시작
   );
 });
 
@@ -1092,7 +960,7 @@ tl_upDown
     {
       y: 0,
       duration: 1.5,
-    }
+    },
   )
   .to(bg, {
     y: -25,
@@ -1284,7 +1152,7 @@ class GradientBackground {
       viewSize.width,
       viewSize.height,
       1,
-      1
+      1,
     );
 
     const material = new THREE.ShaderMaterial({
@@ -1440,7 +1308,7 @@ class GradientBackground {
         viewSize.width,
         viewSize.height,
         1,
-        1
+        1,
       );
     }
     this.uniforms.uResolution.value.set(width, height);
@@ -1479,7 +1347,7 @@ class App {
       45,
       window.innerWidth / window.innerHeight,
       0.1,
-      10000
+      10000,
     );
     this.camera.position.z = 50;
 
@@ -1590,13 +1458,13 @@ gsap.fromTo(
     opacity: 1,
     scrollTrigger: {
       trigger: artWorks,
-      markers: true,
+      // markers: true,
       start: "top top",
-      end: "+=200%", // ✅ pin 길이(스크롤 진행 구간) 명확히
+      end: "+=200%",
       scrub: 1,
       pin: true,
       onLeave: () => gsap.set(artWorks_li, { clearProps: "width,height" }),
       onLeaveBack: () => gsap.set(artWorks_li, { width: 300, height: 300 }),
     },
-  }
+  },
 );
