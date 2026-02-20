@@ -188,10 +188,10 @@ header .gnb {
   content: "[ INTRO ]";
 }
 .gnb li:nth-child(2) a::after {
-  content: "ABOUT";
+  content: "[ ABOUT ]";
 }
 .gnb li:nth-child(3) a::after {
-  content: "WORKS";
+  content: "[ WORKS ]";
 }
 nav .contact {
   position: absolute;
@@ -283,7 +283,19 @@ main {
   background-color: #f44f55;
 }
 /* ----------------------------------- */
-/* intro */
+/* hero 공통 */
+/* ----------------------------------- */
+#hero {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+#hero .scene {
+  position: absolute;
+  inset: 0;
+}
+/* ----------------------------------- */
+/* hero intro */
 /* ----------------------------------- */
 
 #colorBendsBg {
@@ -300,10 +312,9 @@ main {
   height: 100%;
   z-index: -1;
 }
-#intro {
+#hero .intro {
   width: 100%;
   height: 100vh;
-  position: relative;
   background-image: url(../img/bg_line.svg);
   background-position: center;
   background-size: 100%;
@@ -311,11 +322,11 @@ main {
   /* background-color: rgba(255, 255, 255, 0.1); */
 }
 
-#intro .pieces {
+#hero .intro .pieces {
   position: relative;
   z-index: 1;
 }
-#intro .sectionTitle {
+#hero .intro .sectionTitle {
   position: absolute;
   width: 780px;
   left: 50%;
@@ -329,7 +340,7 @@ main {
   border-radius: 100px;
   filter: drop-shadow(2px 5px 5px rgba(0, 0, 0, 0.8));
 }
-#intro .sectionTitle .connect {
+#hero .intro .sectionTitle .connect {
   display: inline-block;
   font-family: "Paperozi";
   background: linear-gradient(45deg, #fff, #999);
@@ -337,20 +348,20 @@ main {
   -webkit-fill-color: transparent;
   color: transparent;
 }
-#intro .sectionTitle .connect > span {
+#hero .intro .sectionTitle .connect > span {
   color: inherit;
 }
-#intro .sectionTitle .folio {
+#hero .intro .sectionTitle .folio {
   font-family: "chalker";
   color: #999;
 }
-#intro .sectionTitle {
+#hero .intro .sectionTitle {
   top: 60px;
   position: absolute;
   overflow: hidden;
 }
 
-#intro .sectionTitle::after {
+#hero .intro .sectionTitle::after {
   content: "";
   position: absolute;
   inset: -30% -40%;
@@ -381,7 +392,7 @@ main {
   }
 }
 
-#intro .pieces {
+#hero .intro .pieces {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -390,7 +401,7 @@ main {
   transform: translate(-50%, -50%);
 }
 
-#intro .pieceWrap {
+#hero .intro .pieceWrap {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -398,7 +409,7 @@ main {
   width: 400px;
   height: 400px;
 }
-#intro .pieceWrap .viewport {
+#hero .intro .pieceWrap .viewport {
   width: 50%;
   position: absolute;
   left: 50%;
@@ -407,7 +418,7 @@ main {
   will-change: transform;
 }
 
-#intro .cls-1 {
+#hero .intro .cls-1 {
   fill: rgba(255, 255, 255, 0.2);
   width: 150px;
   stroke: #fff;
@@ -417,7 +428,7 @@ main {
   transform: scale(0.7);
   transform-origin: center;
 }
-#intro .shade {
+#hero .intro .shade {
   position: absolute;
   left: 45%;
   top: 53%;
@@ -425,7 +436,7 @@ main {
   transform-origin: center;
   opacity: 0;
 }
-#intro .intro_logo {
+#hero .intro .intro_logo {
   position: absolute;
   left: 45%;
   top: 50%;
@@ -433,31 +444,32 @@ main {
   transform-origin: center;
   width: 100%;
   height: 100%;
+  z-index: 1;
 }
 
-#intro .intro_logo > img {
+#hero .intro .intro_logo > img {
   position: absolute;
   left: 49%;
   top: 52%;
   z-index: 1;
   opacity: 0;
 }
-#intro .intro_logo > img:nth-of-type(1) {
+#hero .intro .intro_logo > img:nth-of-type(1) {
   z-index: 3;
 }
-#intro .intro_logo > img:nth-of-type(2) {
+#hero .intro .intro_logo > img:nth-of-type(2) {
   z-index: 2;
 }
-#intro .intro_logo > img:nth-of-type(3) {
+#hero .intro .intro_logo > img:nth-of-type(3) {
   z-index: 1;
 }
-#intro .intro_logo > img:nth-of-type(4) {
+#hero .intro .intro_logo > img:nth-of-type(4) {
   z-index: 4;
   width: 1000px;
   transform: translate(-50%, -50%);
 }
 
-#intro .scrollDown {
+#hero .intro .scrollDown {
   color: #fff;
   position: absolute;
   left: 50%;
@@ -465,7 +477,7 @@ main {
   bottom: 100px;
   text-align: center;
 }
-#intro .scrollDown > div:nth-child(2) {
+#hero .intro .scrollDown > div:nth-child(2) {
   position: absolute;
   left: 50%;
   bottom: -30px;
@@ -481,7 +493,7 @@ main {
     margin-bottom: 0px;
   }
 }
-#intro .roll {
+#hero .intro .roll {
   position: absolute;
   width: 80%;
   height: 50%;
@@ -492,19 +504,19 @@ main {
   backdrop-filter: blur(5px);
   /* background-color: rgba(140, 140, 140, 0.2); */
 }
-#intro .roll > div {
+#hero .intro .roll > div {
   width: 28%;
   position: absolute;
   height: 100%;
 }
-#intro .roll .left {
+#hero .intro .roll .left {
   border-top: 1px solid #2d2d2d;
   border-left: 1px solid #2d2d2d;
   border-bottom: 1px solid #2d2d2d;
   left: 0px;
   box-shadow: -12px 8px 12px rgba(0, 0, 0, 0.2);
 }
-#intro .roll .right {
+#hero .intro .roll .right {
   border-top: 1px solid #2d2d2d;
   border-right: 1px solid #2d2d2d;
   border-bottom: 1px solid #2d2d2d;
@@ -512,27 +524,27 @@ main {
   box-shadow: 12px 8px 12px rgba(0, 0, 0, 0.2);
 }
 
-#intro .roll > div > div {
+#hero .intro .roll > div > div {
   width: 105%;
   height: 90%;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
 }
-#intro .roll .left .bg {
+#hero .intro .roll .left .bg {
   border-top: 1px solid #7d7c7c;
   border-left: 1px solid #7d7c7c;
   border-bottom: 1px solid #7d7c7c;
   left: 20px;
 }
-#intro .roll .right .bg {
+#hero .intro .roll .right .bg {
   right: 20px;
   border-top: 1px solid #7d7c7c;
   border-right: 1px solid #7d7c7c;
   border-bottom: 1px solid #7d7c7c;
 }
 
-#intro .roll > div > div > div {
+#hero .intro .roll > div > div > div {
   width: 105%;
   height: 90%;
   position: absolute;
@@ -546,7 +558,7 @@ main {
   font-family: "Paperozi";
   font-weight: 400;
 }
-#intro .roll .left > div > div {
+#hero .intro .roll .left > div > div {
   left: 20px;
   border-top: 1px solid #fff;
   border-left: 1px solid #fff;
@@ -555,7 +567,7 @@ main {
   justify-content: flex-end;
   text-shadow: 1px 3px 5px rgba(0, 0, 0, 0.4);
 }
-#intro .roll .right > div > div {
+#hero .intro .roll .right > div > div {
   right: 20px;
   border-top: 1px solid #fff;
   border-right: 1px solid #fff;
@@ -568,7 +580,7 @@ main {
   text-align: left;
 }
 /* 기본(dim) */
-#intro .roll .right .content > div {
+#hero .intro .roll .right .content > div {
   color: #373737;
   filter: blur(4px);
   margin-left: 30px;
@@ -581,7 +593,7 @@ main {
 }
 
 /* active(가운데) */
-#intro .roll .right .content > div.is-active {
+#hero .intro .roll .right .content > div.is-active {
   color: #fff;
   filter: blur(0px);
   margin-left: 0px;
@@ -589,7 +601,7 @@ main {
   text-shadow: 1px 3px 5px rgba(0, 0, 0, 0.4);
 }
 
-#intro .roll .line {
+#hero .intro .roll .line {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -602,61 +614,71 @@ main {
 /* ----------------------------------- */
 /* about */
 /* ----------------------------------- */
-#about {
+#hero .about {
   height: 100vh;
   width: 100%;
-  background-image: linear-gradient(180deg, transparent, #fff 30%);
+  /* background-image: linear-gradient(180deg, transparent, #fff 30%); */
   /* background-color: #fff; */
-  position: relative;
   overflow: hidden;
 }
-#about .sectionTitle {
+#hero .about .sectionTitle {
   z-index: 1;
   position: relative;
+  margin-top: 60px;
 }
-#about .bg {
+#hero .about .bg {
   position: absolute;
   top: 0px;
   width: 100%;
   height: 100%;
   z-index: 0;
 }
-#about .bg .left {
+#hero .about .bg .left {
   position: absolute;
   top: 0px;
   left: -70px;
   z-index: 0;
 }
-#about .bg .right {
+#hero .about .bg .right {
   position: absolute;
   top: 0px;
   right: -460px;
   z-index: 2;
 }
-#about .pic {
+#hero .about .pic {
   left: 50%;
   transform: translateX(-50%);
   position: absolute;
   bottom: 0px;
   z-index: 1;
-  /* opacity: 0; */
+  opacity: 0;
 }
-#about .pic img {
+#hero .about .pic img {
   width: 100%;
 }
-#about .flowText {
+#hero .about .flowText {
   position: absolute;
-  bottom: 300px;
+  bottom: 10px;
   display: flex;
   gap: 30px;
   width: max-content;
   white-space: nowrap;
-  opacity: 0;
-  animation: about_flow 20s linear infinite;
-  overflow: hidden;
+  width: 100%;
+  /* border: 1px solid blue; */
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 30%,
+    black 70%,
+    transparent 100%
+  );
 }
-
-#about .flowText li {
+#hero .about .flowText .inner {
+  width: 80%;
+  margin: 0px auto;
+  animation: about_flow 20s linear infinite;
+}
+#hero .about .flowText .inner > div {
   flex: 0 0 auto;
   white-space: nowrap;
   font-size: 120px;
@@ -675,13 +697,13 @@ main {
     margin-left: -3559px;
   }
 }
-#about .contentWrap {
+#hero .about .contentWrap {
   z-index: 5;
   position: relative;
   width: 100%;
   height: calc(100% - 100px);
 }
-#about .contentWrap .inner {
+#hero .about .contentWrap .inner {
   width: 1700px;
   padding: 0px 30px;
   box-sizing: border-box;
@@ -692,41 +714,41 @@ main {
   font-size: 24px;
   font-family: "Paperozi";
 }
-#about .contentWrap .inner .content {
+#hero .about .contentWrap .inner .content {
   color: #eee;
 }
-#about .profile {
+#hero .about .profile {
   position: absolute;
   top: 10%;
 }
-#about .inner > div > .title {
+#hero .about .inner > div > .title {
   margin-bottom: 30px;
 }
-#about .inner > div > .title h4 {
+#hero .about .inner > div > .title h4 {
   font-size: 20px;
   font-weight: 400;
   text-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
 }
-#about .inner > div > .title h3 {
+#hero .about .inner > div > .title h3 {
   font-size: 32px;
   line-height: 28px;
   font-weight: 500;
   font-weight: 400;
   text-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
 }
-#about .inner > div > .content > div,
-#about .inner > div > .content > li {
+#hero .about .inner > div > .content > div,
+#hero .about .inner > div > .content > li {
   margin-bottom: 12px;
   font-size: 20px;
 }
-#about .inner > div > .content > div span,
-#about .inner > div > .content > li span {
+#hero .about .inner > div > .content > div span,
+#hero .about .inner > div > .content > li span {
   font-weight: 400;
   font-size: 18px;
 }
 
-#about .inner > div > .content > div .title,
-#about .inner > div > .content > li .date {
+#hero .about .inner > div > .content > div .title,
+#hero .about .inner > div > .content > li .date {
   margin-left: 2px;
   display: inline-block;
   width: 120px;
@@ -735,7 +757,7 @@ main {
   border-left: 1px solid #fff;
   padding-left: 8px;
 }
-#about .contentWrap .introduce {
+#hero .about .contentWrap .introduce {
   font-family: "Paperozi";
   position: absolute;
   margin-top: 100px;
@@ -748,42 +770,46 @@ main {
   right: 100px;
   z-index: 5;
 }
-#about .contentWrap .introduce strong {
+#hero .about .contentWrap .introduce strong {
   font-weight: 700;
 }
-#about .education {
+#hero .about .education {
   position: absolute;
   top: 50%;
 }
-#about .skills {
+#hero .about .skills {
   position: absolute;
   left: 55%;
   top: 10%;
+  opacity: 0;
 }
-#about .license {
+#hero .about .license {
   position: absolute;
   left: 55%;
   top: 50%;
   /* transform: translateX(50%); */
+  opacity: 0;
 }
-#about .exp {
+#hero .about .exp {
   position: absolute;
   left: 78%;
   /* transform: translateX(50%); */
   top: 50%;
+  opacity: 0;
 }
-#about .icons {
+#hero .about .icons {
   position: relative;
   height: calc(100% - 100px);
 }
-#about .icons li {
+#hero .about .icons li {
   width: 90px;
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  opacity: 0;
 }
-#about .icons li img {
+#hero .about .icons li img {
   width: 100%;
 }
 /* ----------------------------------- */

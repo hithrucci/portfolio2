@@ -26,9 +26,9 @@ gnb_li.forEach((list) => {
 // intro
 // -----------------------------------
 
-const INTRO_END = "+=300%";
+const INTRO_END = "+=500%";
 const viewports = document.querySelectorAll(
-  "#intro .pieces .pieceWrap .viewport",
+  "#hero .intro .pieces .pieceWrap .viewport",
 );
 gsap.set(viewports, { xPercent: -50, yPercent: -50 });
 let floatTweens = [];
@@ -68,7 +68,7 @@ function stopFloatingAndSnapToZero() {
 }
 startIntroFloating();
 
-const pieces = document.querySelectorAll("#intro .pieces .pieceWrap");
+const pieces = document.querySelectorAll("#hero .intro .pieces .pieceWrap");
 const positions = [
   { x: -600, y: -350 },
   { x: 520, y: -300 },
@@ -94,10 +94,25 @@ const gatherPositions = [
 
 const STOP_PX = 10;
 let floatingActive = true;
+const about = document.querySelector("#hero .about");
+const about_flow = about.querySelector(".flowText");
+const profile_pic = about.querySelector(".bg .pic");
+const aboutBg_left = about.querySelector(".bg .left");
+const aboutBg_right = about.querySelector(".bg .right");
+/*profile*/
+const about_profile = about.querySelector(".contentWrap .inner .profile");
+const about_profile_title = about_profile.querySelector(".title");
+const about_profile_contents = about_profile.querySelectorAll(".content>div");
+/*education*/
+const about_edu = about.querySelector(".contentWrap .inner .education");
+const about_edu_title = about_edu.querySelector(".title");
+const about_edu_contents = about_edu.querySelectorAll(".content li");
+/*introduce*/
+const about_introduce = about.querySelector(".contentWrap .inner .introduce");
 
 const gatherTl = gsap.timeline({
   scrollTrigger: {
-    trigger: "#intro",
+    trigger: "#hero",
     start: "top top",
     end: INTRO_END,
     scrub: 1,
@@ -152,33 +167,97 @@ gatherTl
   )
   .to(pieces, { opacity: 0 })
   .fromTo(
-    "#intro .intro_logo>img:nth-of-type(4)",
+    "#hero .intro .intro_logo>img:nth-of-type(4)",
     { xPercent: -50, yPercent: -50 },
     { opacity: 1, xPercent: -50, yPercent: -50 },
     ">-0.5",
   )
-  .to("#intro .intro_logo>img", {
+  .to("#hero .intro .intro_logo>img", {
     x: 75,
     xPercent: -50,
     yPercent: -50,
     scale: 0.7,
   })
-  .to("#intro .intro_logo>img:nth-of-type(1)", { opacity: 1 }, ">")
-  .to("#intro .intro_logo>img:nth-of-type(2)", { opacity: 1 }, ">")
-  .to("#intro .intro_logo>img:nth-of-type(3)", { opacity: 1 }, ">")
-  .to("#intro .shade", { opacity: 0.8, x: 60, scale: 0.6 }, ">")
-  .fromTo("#intro .sectionTitle", { opacity: 0, y: 50 }, { opacity: 1, y: 30 })
+  .to("#hero .intro .intro_logo>img:nth-of-type(1)", { opacity: 1 }, ">")
+  .to("#hero .intro .intro_logo>img:nth-of-type(2)", { opacity: 1 }, ">")
+  .to("#hero .intro .intro_logo>img:nth-of-type(3)", { opacity: 1 }, ">")
+  .to("#hero .intro .shade", { opacity: 0.8, x: 60, scale: 0.6 }, ">")
   .fromTo(
-    "#intro .roll",
+    "#hero .intro .sectionTitle",
+    { opacity: 0, y: 50 },
+    { opacity: 1, y: 30 },
+  )
+  .fromTo(
+    "#hero .intro .roll",
     { opacity: 0, width: 0 },
     { opacity: 1, width: "80%" },
   )
-  .fromTo("#intro .roll>div>div", { opacity: 0 }, { opacity: 1 })
-  .fromTo("#intro .line", { width: 0 }, { width: "400px" })
-  .to({}, { duration: 2 })
-  .to("#intro", { opacity: 0 });
+  .fromTo("header", { opacity: 0 }, { opacity: 1 })
+  .fromTo("#hero .intro .roll>div>div", { opacity: 0 }, { opacity: 1 })
+  .fromTo("#hero .intro .line", { width: 0 }, { width: "400px" })
+  .to({}, { duration: 5 }, ">")
+  .to("#hero .intro .sectionTitle", { opacity: 0, y: -50 }, ">")
+  .to("#hero .intro .roll", { opacity: 0, y: -50 })
+  .fromTo(
+    aboutBg_left,
+    { opacity: 1, x: -1300 },
+    {
+      x: -200,
+      opacity: 1,
+    },
+  )
+  .fromTo(aboutBg_right, { opacity: 1, x: 1300 }, { x: -200 }, "<")
+  .to("#hero .intro_logo", { yPercent: -10, opacity: 0 })
+  .to("#hero .intro", { opacity: 0 })
+  .fromTo(
+    "#hero .about .sectionTitle",
+    { opacity: 0, x: -400 },
+    { opacity: 1, x: 0 },
+  )
+  .to(aboutBg_left, { x: 0 })
+  .to(aboutBg_right, { x: 0 })
+  .to(aboutBg_left, { x: -400 })
+  .to(aboutBg_right, { x: 120 }, "<")
+  .fromTo(profile_pic, { opaicty: 0, x: 250 }, { opacity: 1, x: 0 });
 
-const content = document.querySelector("#intro .roll .right .content");
+/*새 타임라인 */
+const aboutTl = gsap.timeline({ paused: true });
+aboutTl
+
+  .fromTo(
+    about_profile_title,
+    { x: -200, opacity: 0 },
+    {
+      x: 0,
+      opacity: 1,
+    },
+  )
+  .fromTo(
+    about_profile_contents,
+    { y: 20, opacity: 0 },
+    {
+      y: 0,
+      opacity: 1,
+      stagger: { each: 0.15, from: "start", ease: "power2.out" },
+    },
+  )
+  .fromTo(about_edu_title, { x: -200, opacity: 0 }, { x: 0, opacity: 1 })
+  .fromTo(
+    about_edu_contents,
+    { y: 20, opacity: 0 },
+    {
+      y: 0,
+      opacity: 1,
+      stagger: { each: 0.15, from: "start", ease: "power2.out" },
+    },
+  );
+ScrollTrigger.create({
+  trigger: "#hero",
+  start: () => `top top+=${INTRO_END}`,
+  onEnter: () => aboutTl.play(),
+  onLeaveBack: () => aboutTl.reverse(),
+});
+const content = document.querySelector("#hero .intro .roll .right .content");
 
 function applyState() {
   const items = Array.from(content.children);
@@ -216,280 +295,9 @@ function rotateTextSmooth() {
   });
 }
 setInterval(rotateTextSmooth, 2200);
-
 // -----------------------------------
-// about (single timeline version)
+// about
 // -----------------------------------
-
-/* aboutTl */
-const bgLeft = document.querySelector("#about .bg .left");
-const bgRight = document.querySelector("#about .bg .right");
-const about_flowText = document.querySelector("#about .flowText");
-const profilePic = document.querySelector("#about .bg .pic");
-
-// profile/edu/skills/license/exp
-const about_innerTitle_profile = document.querySelector(
-  "#about .profile .title",
-);
-const about_content_profile = document.querySelectorAll(
-  "#about .profile .content>div",
-);
-
-const about_innerTitle_edu = document.querySelector("#about .education .title");
-const about_content_edu = document.querySelectorAll(
-  "#about .education .content li",
-);
-
-const about_innerTitle_skills = document.querySelector("#about .skills .title");
-const about_content_skills = document.querySelectorAll(
-  "#about .skills .content li",
-);
-
-const about_innerTitle_license = document.querySelector(
-  "#about .license .title",
-);
-const about_content_license = document.querySelectorAll(
-  "#about .license .content li",
-);
-
-const about_innerTitle_exp = document.querySelector("#about .exp .title");
-const about_content_exp = document.querySelectorAll("#about .exp .content li");
-
-// introduce + icons
-const about_introduce = document.querySelector("#about .introduce"); // ✅ 기존 ".introduce"면 그대로 바꿔도 됨
-const about_skillIcons = document.querySelectorAll("#about .icons li");
-
-// introduce typing 준비
-const introHTML = about_introduce.innerHTML;
-about_introduce.innerHTML = "";
-
-// timeline
-const aboutTl = gsap.timeline({
-  scrollTrigger: {
-    trigger: "#about",
-    start: "top top",
-    end: "=+400%",
-    scrub: 2,
-    pin: true,
-    // markers: true,
-  },
-});
-
-aboutTl
-  // -------------------------------
-  // 0) aboutStart : bg + flowText + pic 등장
-  // -------------------------------
-  .addLabel("aboutStart")
-  .fromTo(
-    about_flowText,
-    { y: 400, opacity: 0 },
-    { y: 250, opacity: 1 },
-    "aboutStart",
-  )
-  .to(bgLeft, { x: -200 }, "aboutStart")
-  .to(bgRight, { x: 400 }, "aboutStart")
-  .fromTo(
-    profilePic,
-    { opacity: 0, x: 500 },
-    { opacity: 1, x: 200 },
-    "aboutStart",
-  )
-
-  // -------------------------------
-  // 1) PROFILE 등장
-  // -------------------------------
-  .addLabel("profileIn", ">")
-  .fromTo(
-    about_innerTitle_profile,
-    { opacity: 0, x: -100 },
-    { opacity: 1, x: 0 },
-    "profileIn",
-  )
-  .fromTo(
-    about_content_profile,
-    { opacity: 0, x: -50 },
-    { opacity: 1, x: 0, stagger: 0.2 },
-    "profileIn",
-  )
-
-  // -------------------------------
-  // 2) EDU 등장
-  // -------------------------------
-  .addLabel("eduIn", ">")
-  .fromTo(
-    about_innerTitle_edu,
-    { opacity: 0, x: -100 },
-    { opacity: 1, x: 0 },
-    "eduIn",
-  )
-  .fromTo(
-    about_content_edu,
-    { opacity: 0, x: -50 },
-    { opacity: 1, x: 0, stagger: 0.2 },
-    "eduIn",
-  )
-
-  // -------------------------------
-  // 3) INTRODUCE 타이핑 (EDU와 겹치게 시작)
-  // -------------------------------
-  .addLabel("introTyping", "<")
-  .to(
-    about_introduce,
-    {
-      duration: 4,
-      text: { value: introHTML, delimiter: "" },
-      ease: "none",
-    },
-    "introTyping",
-  )
-
-  // -------------------------------
-  // 4) aboutHold : 잠깐 머무르기
-  // -------------------------------
-  .addLabel("aboutHold", ">")
-  .to({}, { duration: 3 }, "aboutHold")
-
-  // -------------------------------
-  // 5) aboutEnd1 : 1막 전체 퇴장(정리)
-  // -------------------------------
-  .addLabel("aboutEnd1", ">")
-  .to(about_flowText, { opacity: 0, y: 400 }, "aboutEnd1")
-  .to(profilePic, { opacity: 0, x: 500 }, "aboutEnd1")
-  .to(bgLeft, { x: 0 }, "aboutEnd1")
-  .to(bgRight, { x: 0 }, "aboutEnd1")
-
-  .to(about_content_edu, { opacity: 0, x: -50 }, "aboutEnd1")
-  .to(about_innerTitle_edu, { opacity: 0, x: -100 }, "aboutEnd1")
-  .to(about_content_profile, { opacity: 0, x: -50 }, "aboutEnd1")
-  .to(about_innerTitle_profile, { opacity: 0, x: -100 }, "aboutEnd1")
-
-  .to(about_introduce, { opacity: 0, y: -50 }, ">")
-
-  // -------------------------------
-  // 6) aboutEnd2 : flip + bg 벌리기
-  // -------------------------------
-  .addLabel("aboutEnd2", ">")
-  .to("#about .bg", { rotateY: "180deg" }, "aboutEnd2")
-  .to(bgRight, { x: 200 }, ">")
-  .to(bgLeft, { x: -200 }, "<")
-
-  // -------------------------------
-  // 7) SKILLS 텍스트 등장
-  // -------------------------------
-  .addLabel("skillsIn", ">")
-  .fromTo(
-    about_innerTitle_skills,
-    { opacity: 0, x: 100 },
-    { opacity: 1, x: 0 },
-    "skillsIn",
-  )
-  .fromTo(
-    about_content_skills,
-    { opacity: 0, x: 50 },
-    { opacity: 1, x: 0, stagger: 0.2 },
-    "skillsIn",
-  )
-
-  // -------------------------------
-  // 8) SKILL ICONS 10개 연출
-  // -------------------------------
-  .addLabel("iconsIn", ">")
-  .fromTo(
-    about_skillIcons[0],
-    { opacity: 0 },
-    { opacity: 1, x: -550, y: -250, rotate: "20deg" },
-    "iconsIn",
-  )
-  .fromTo(
-    about_skillIcons[1],
-    { opacity: 0 },
-    { opacity: 1, x: -300, y: -170, rotate: "-5deg" },
-    "<",
-  )
-  .fromTo(
-    about_skillIcons[2],
-    { opacity: 0 },
-    { opacity: 1, x: -400, y: 0, rotate: "10deg" },
-    "<",
-  )
-  .fromTo(
-    about_skillIcons[3],
-    { opacity: 0 },
-    { opacity: 1, x: -180, y: 10, rotate: "5deg" },
-    "<",
-  )
-  .fromTo(
-    about_skillIcons[4],
-    { opacity: 0 },
-    { opacity: 1, x: -520, y: 50, rotate: "-5deg" },
-    "<",
-  )
-  .fromTo(
-    about_skillIcons[5],
-    { opacity: 0 },
-    { opacity: 1, x: -350, y: 100, rotate: "5deg" },
-    "<",
-  )
-  .fromTo(
-    about_skillIcons[6],
-    { opacity: 0 },
-    { opacity: 1, x: -200, y: 180, rotate: "10deg" },
-    "<",
-  )
-  .fromTo(
-    about_skillIcons[7],
-    { opacity: 0 },
-    { opacity: 1, x: -100, y: -200, rotate: "-10deg" },
-    "<",
-  )
-  .fromTo(
-    about_skillIcons[8],
-    { opacity: 0 },
-    { opacity: 1, x: -520, y: 280, rotate: "-10deg" },
-    "<",
-  )
-  .fromTo(
-    about_skillIcons[9],
-    { opacity: 0 },
-    { opacity: 1, x: -280, y: 340, rotate: "-10deg" },
-    "<",
-  )
-
-  // -------------------------------
-  // 9) LICENSE 등장
-  // -------------------------------
-  .addLabel("licenseIn", ">")
-  .fromTo(
-    about_innerTitle_license,
-    { opacity: 0, x: 100 },
-    { opacity: 1, x: 0 },
-    "licenseIn",
-  )
-  .fromTo(
-    about_content_license,
-    { opacity: 0, x: 50 },
-    { opacity: 1, x: 0, stagger: 0.2 },
-    "licenseIn",
-  )
-
-  // -------------------------------
-  // 10) EXP 등장
-  // -------------------------------
-  .addLabel("expIn", ">")
-  .fromTo(
-    about_innerTitle_exp,
-    { opacity: 0, x: 100 },
-    { opacity: 1, x: 0 },
-    "expIn",
-  )
-  .fromTo(
-    about_content_exp,
-    { opacity: 0, x: 50 },
-    { opacity: 1, x: 0, stagger: 0.2 },
-    "expIn",
-  )
-  .addLabel("aboutHold2")
-  .to({}, { duration: 3 }, "aboutHold2");
 
 // ---------------------------------------------
 // works 영역 세팅
@@ -602,7 +410,7 @@ const overviewTl = gsap.timeline({
 });
 
 overviewTl
-  .fromTo(".flowText", { y: 400 }, { y: 370, width: "850px" })
+  .fromTo("#works .flowText", { y: 400 }, { y: 370, width: "850px" })
   .fromTo(
     guide,
     { opacity: 0 },
