@@ -1,4 +1,4 @@
-gsap.registerPlugin(ScrollTrigger, TextPlugin);
+gsap.registerPlugin(ScrollTrigger, TextPlugin, ScrollToPlugin);
 
 // -----------------------------------
 // header
@@ -6,7 +6,7 @@ gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
 const gnb = document.querySelector("header .gnb");
 const gnb_li = gnb.querySelectorAll("li a");
-
+const nav_contact = document.querySelector("nav .contact");
 gnb_li.forEach((list) => {
   list.addEventListener("mouseenter", () => {
     gsap.to(list, {
@@ -21,25 +21,98 @@ gnb_li.forEach((list) => {
     });
   });
 });
+nav_contact.addEventListener("mouseenter", () => {
+  gsap.to(nav_contact, {
+    "border-radius": "20px",
+    "background-image": "linear-gradient(-135deg, #9a35b3, #db2777)",
+  });
+});
+nav_contact.addEventListener("mouseleave", () => {
+  gsap.to(nav_contact, {
+    "border-radius": "5px",
+    "background-image": "linear-gradient(135deg, #9a35b3, #db2777)",
+  });
+});
+
+gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
 // -----------------------------------
 // intro
 // -----------------------------------
-
-const INTRO_END = "+=500%";
+const INTRO_END = "+=800%";
 const viewports = document.querySelectorAll(
   "#hero .intro .pieces .pieceWrap .viewport",
 );
+const pieces = document.querySelectorAll("#hero .intro .pieces .pieceWrap");
+const content = document.querySelector("#hero .intro .roll .right .content");
+
+const about = document.querySelector("#hero .about");
+const profile_pic = about.querySelector(".bg .pic");
+const aboutBg_left = about.querySelector(".bg .left");
+const aboutBg_right = about.querySelector(".bg .right");
+
+/* profile */
+const about_profile = about.querySelector(".contentWrap .inner .profile");
+const about_profile_title = about_profile.querySelector(".title");
+const about_profile_contents = about_profile.querySelectorAll(".content > div");
+
+/* education */
+const about_edu = about.querySelector(".contentWrap .inner .education");
+const about_edu_title = about_edu.querySelector(".title");
+const about_edu_contents = about_edu.querySelectorAll(".content li");
+
+/* introduce */
+const about_introduce = about.querySelector(".contentWrap .inner .introduce");
+
+/* skills */
+const about_skills = about.querySelector(".contentWrap .inner .skills");
+const about_skills_title = about_skills.querySelector(".title");
+const about_skills_content = about_skills.querySelectorAll(".content li");
+
+/* license */
+const about_license = about.querySelector(".contentWrap .inner .license");
+const about_license_title = about_license.querySelector(".title");
+const about_license_content = about_license.querySelectorAll(".content li");
+
+/* experience */
+const about_exp = about.querySelector(".contentWrap .inner .exp");
+const about_exp_title = about_exp.querySelector(".title");
+const about_exp_content = about_exp.querySelectorAll(".content li");
+
+/* icons */
+const about_icons = about.querySelector(".contentWrap .inner .icons");
+const about_icons_li = about_icons.querySelectorAll("li");
+const iconPositions = [
+  { x: -270, y: -140 },
+  { x: -430, y: -260 },
+  { x: -540, y: -100 },
+  { x: -380, y: 30 },
+  { x: -510, y: 80 },
+  { x: -450, y: 180 },
+  { x: -240, y: 130 },
+  { x: -310, y: 210 },
+  { x: -130, y: 10 },
+  { x: -90, y: -200 },
+];
+/* flowText */
+const about_flowText = about.querySelector(" .flowText");
+// -----------------------------------
+// intro floating
+// -----------------------------------
 gsap.set(viewports, { xPercent: -50, yPercent: -50 });
+
 let floatTweens = [];
 const RANGE_X = 200;
 const RANGE_Y = 120;
+
 function startIntroFloating() {
   floatTweens.forEach((t) => t.kill());
   floatTweens = [];
+
   viewports.forEach((vp) => {
     const rx = gsap.utils.random(RANGE_X * 0.6, RANGE_X, 1);
     const ry = gsap.utils.random(RANGE_Y * 0.6, RANGE_Y, 1);
+
     floatTweens.push(
       gsap.to(vp, {
         x: () => gsap.utils.random(-rx, rx),
@@ -54,9 +127,11 @@ function startIntroFloating() {
     );
   });
 }
+
 function stopFloatingAndSnapToZero() {
   floatTweens.forEach((t) => t.kill());
   floatTweens = [];
+
   gsap.to(viewports, {
     x: 0,
     y: 0,
@@ -66,9 +141,61 @@ function stopFloatingAndSnapToZero() {
     overwrite: "auto",
   });
 }
+
 startIntroFloating();
 
-const pieces = document.querySelectorAll("#hero .intro .pieces .pieceWrap");
+// -----------------------------------
+// intro rolling text
+// -----------------------------------
+function applyState() {
+  const items = Array.from(content.children);
+  items.forEach((el) => el.classList.remove("is-active"));
+  if (items[1]) items[1].classList.add("is-active");
+}
+
+applyState();
+
+let isRunning = false;
+
+function rotateTextSmooth() {
+  if (isRunning) return;
+  isRunning = true;
+
+  const items = Array.from(content.children);
+
+  gsap.to(items, {
+    y: -10,
+    opacity: 0.85,
+    duration: 0.45,
+    ease: "power3.inOut",
+    stagger: 0.02,
+    onComplete: () => {
+      content.appendChild(items[0]);
+
+      const newItems = Array.from(content.children);
+      gsap.set(newItems, { y: 10, opacity: 0.85 });
+
+      applyState();
+
+      gsap.to(newItems, {
+        y: 0,
+        opacity: 1,
+        duration: 0.55,
+        ease: "power3.out",
+        stagger: 0.02,
+        onComplete: () => {
+          isRunning = false;
+        },
+      });
+    },
+  });
+}
+
+setInterval(rotateTextSmooth, 2200);
+
+// -----------------------------------
+// intro piece positions
+// -----------------------------------
 const positions = [
   { x: -600, y: -350 },
   { x: 520, y: -300 },
@@ -79,6 +206,7 @@ const positions = [
   { x: -50, y: 230 },
   { x: -510, y: 300 },
 ];
+
 pieces.forEach((p, i) => gsap.set(p, positions[i]));
 
 const gatherPositions = [
@@ -92,35 +220,24 @@ const gatherPositions = [
   { x: -278, y: 197 },
 ];
 
+// -----------------------------------
+// main timeline
+// -----------------------------------
 const STOP_PX = 10;
 let floatingActive = true;
-const about = document.querySelector("#hero .about");
-const about_flow = about.querySelector(".flowText");
-const profile_pic = about.querySelector(".bg .pic");
-const aboutBg_left = about.querySelector(".bg .left");
-const aboutBg_right = about.querySelector(".bg .right");
-/*profile*/
-const about_profile = about.querySelector(".contentWrap .inner .profile");
-const about_profile_title = about_profile.querySelector(".title");
-const about_profile_contents = about_profile.querySelectorAll(".content>div");
-/*education*/
-const about_edu = about.querySelector(".contentWrap .inner .education");
-const about_edu_title = about_edu.querySelector(".title");
-const about_edu_contents = about_edu.querySelectorAll(".content li");
-/*introduce*/
-const about_introduce = about.querySelector(".contentWrap .inner .introduce");
 
 const gatherTl = gsap.timeline({
   scrollTrigger: {
     trigger: "#hero",
     start: "top top",
-    end: INTRO_END,
+    end: "+=14000",
     scrub: 1,
     pin: true,
     // markers: true,
     onUpdate: (self) => {
       const y = self.scroll();
       const startY = self.start;
+
       if (y <= startY + STOP_PX) {
         if (!floatingActive) {
           startIntroFloating();
@@ -152,6 +269,66 @@ const gatherTl = gsap.timeline({
   },
 });
 
+// -----------------------------------
+// custom nav scroll (for pinned sections)
+// -----------------------------------
+const navLinks = document.querySelectorAll("[data-nav]");
+
+function smoothScrollTo(y) {
+  window.scrollTo({
+    top: y,
+    behavior: "smooth",
+  });
+}
+
+navLinks.forEach((link) => {
+  link.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    const type = link.dataset.nav;
+    const heroST = gatherTl.scrollTrigger;
+
+    if (!heroST) return;
+
+    switch (type) {
+      case "intro": {
+        smoothScrollTo(heroST.start);
+        break;
+      }
+
+      case "about": {
+        const aboutProgress = 0.9;
+        const targetY =
+          heroST.start + (heroST.end - heroST.start) * aboutProgress;
+
+        smoothScrollTo(targetY);
+        break;
+      }
+
+      case "works": {
+        const works = document.querySelector("#works");
+        if (!works) return;
+
+        const y = works.getBoundingClientRect().top + window.pageYOffset + 400;
+        smoothScrollTo(y);
+        break;
+      }
+
+      case "contact": {
+        const contact = document.querySelector("#contact");
+        if (!contact) return;
+
+        const y = contact.getBoundingClientRect().top + window.pageYOffset;
+        smoothScrollTo(y);
+        break;
+      }
+    }
+  });
+});
+
+// -----------------------------------
+// timeline animation
+// -----------------------------------
 gatherTl
   .to(
     pieces,
@@ -167,20 +344,20 @@ gatherTl
   )
   .to(pieces, { opacity: 0 })
   .fromTo(
-    "#hero .intro .intro_logo>img:nth-of-type(4)",
+    "#hero .intro .intro_logo > img:nth-of-type(4)",
     { xPercent: -50, yPercent: -50 },
     { opacity: 1, xPercent: -50, yPercent: -50 },
     ">-0.5",
   )
-  .to("#hero .intro .intro_logo>img", {
+  .to("#hero .intro .intro_logo > img", {
     x: 75,
     xPercent: -50,
     yPercent: -50,
     scale: 0.7,
   })
-  .to("#hero .intro .intro_logo>img:nth-of-type(1)", { opacity: 1 }, ">")
-  .to("#hero .intro .intro_logo>img:nth-of-type(2)", { opacity: 1 }, ">")
-  .to("#hero .intro .intro_logo>img:nth-of-type(3)", { opacity: 1 }, ">")
+  .to("#hero .intro .intro_logo > img:nth-of-type(1)", { opacity: 1 }, ">")
+  .to("#hero .intro .intro_logo > img:nth-of-type(2)", { opacity: 1 }, ">")
+  .to("#hero .intro .intro_logo > img:nth-of-type(3)", { opacity: 1 }, ">")
   .to("#hero .intro .shade", { opacity: 0.8, x: 60, scale: 0.6 }, ">")
   .fromTo(
     "#hero .intro .sectionTitle",
@@ -192,46 +369,31 @@ gatherTl
     { opacity: 0, width: 0 },
     { opacity: 1, width: "80%" },
   )
-  .fromTo("header", { opacity: 0 }, { opacity: 1 })
-  .fromTo("#hero .intro .roll>div>div", { opacity: 0 }, { opacity: 1 })
+  .fromTo(gnb_li, { opacity: 0, y: 50 }, { opacity: 1, y: 0, stagger: 0.1 })
+  .fromTo(nav_contact, { opacity: 0 }, { opacity: 1 })
+  .fromTo("#hero .intro .roll > div > div", { opacity: 0 }, { opacity: 1 })
   .fromTo("#hero .intro .line", { width: 0 }, { width: "400px" })
   .to({}, { duration: 5 }, ">")
   .to("#hero .intro .sectionTitle", { opacity: 0, y: -50 }, ">")
   .to("#hero .intro .roll", { opacity: 0, y: -50 })
-  .fromTo(
-    aboutBg_left,
-    { opacity: 1, x: -1300 },
-    {
-      x: -200,
-      opacity: 1,
-    },
-  )
-  .fromTo(aboutBg_right, { opacity: 1, x: 1300 }, { x: -200 }, "<")
+  .fromTo(aboutBg_left, { opacity: 1, x: -1000 }, { x: 30, opacity: 1 })
+  .fromTo(aboutBg_right, { opacity: 1, x: 1000 }, { x: -240 }, "<")
   .to("#hero .intro_logo", { yPercent: -10, opacity: 0 })
   .to("#hero .intro", { opacity: 0 })
   .fromTo(
     "#hero .about .sectionTitle",
     { opacity: 0, x: -400 },
-    { opacity: 1, x: 0 },
+    { opacity: 1, x: -80 },
   )
-  .to(aboutBg_left, { x: 0 })
-  .to(aboutBg_right, { x: 0 })
-  .to(aboutBg_left, { x: -400 })
-  .to(aboutBg_right, { x: 120 }, "<")
-  .fromTo(profile_pic, { opaicty: 0, x: 250 }, { opacity: 1, x: 0 });
+  .to({}, { duration: 3 }, ">")
+  .to(aboutBg_left, { x: -200 })
+  .to(aboutBg_right, { x: 100 }, "<")
+  .fromTo(profile_pic, { opacity: 0, x: 450 }, { opacity: 1, x: -400 })
 
-/*새 타임라인 */
-const aboutTl = gsap.timeline({ paused: true });
-aboutTl
-
-  .fromTo(
-    about_profile_title,
-    { x: -200, opacity: 0 },
-    {
-      x: 0,
-      opacity: 1,
-    },
-  )
+  // -----------------------------------
+  // about
+  // -----------------------------------
+  .fromTo(about_profile_title, { x: -200, opacity: 0 }, { x: 0, opacity: 1 })
   .fromTo(
     about_profile_contents,
     { y: 20, opacity: 0 },
@@ -250,54 +412,86 @@ aboutTl
       opacity: 1,
       stagger: { each: 0.15, from: "start", ease: "power2.out" },
     },
-  );
-ScrollTrigger.create({
-  trigger: "#hero",
-  start: () => `top top+=${INTRO_END}`,
-  onEnter: () => aboutTl.play(),
-  onLeaveBack: () => aboutTl.reverse(),
-});
-const content = document.querySelector("#hero .intro .roll .right .content");
-
-function applyState() {
-  const items = Array.from(content.children);
-  items.forEach((el) => el.classList.remove("is-active"));
-  if (items[1]) items[1].classList.add("is-active");
-}
-applyState();
-let isRunning = false;
-function rotateTextSmooth() {
-  if (isRunning) return;
-  isRunning = true;
-  const items = Array.from(content.children);
-  gsap.to(items, {
-    y: -10,
-    opacity: 0.85,
-    duration: 0.45,
-    ease: "power3.inOut",
-    stagger: 0.02,
-    onComplete: () => {
-      content.appendChild(items[0]);
-      const newItems = Array.from(content.children);
-      gsap.set(newItems, { y: 10, opacity: 0.85 });
-      applyState();
-      gsap.to(newItems, {
-        y: 0,
-        opacity: 1,
-        duration: 0.55,
-        ease: "power3.out",
-        stagger: 0.02,
-        onComplete: () => {
-          isRunning = false;
-        },
-      });
+  )
+  .fromTo(about_introduce, { opacity: 0 }, { opacity: 1 })
+  .fromTo(about_flowText, { opacity: 0, y: 100 }, { opacity: 1, y: 0 })
+  .to({}, { duration: 5 })
+  .to(about_edu, { opacity: 0, y: -50 })
+  .to(about_profile, { opacity: 0, y: -50 }, "<")
+  .to(about_introduce, { opacity: 0, y: -50 }, "<")
+  .to(profile_pic, { opacity: 0, x: 250 })
+  .to(aboutBg_left, { x: 30 })
+  .to(aboutBg_right, { x: -240 }, "<")
+  .to({}, { duration: 3 })
+  .to(aboutBg_left, { x: -330 })
+  .fromTo(
+    about_icons_li,
+    { opacity: 0, x: 0, y: 0, scale: 0.5 },
+    {
+      opacity: 1,
+      scale: 1,
+      x: (i) => iconPositions[i].x,
+      y: (i) => iconPositions[i].y,
+      duration: 1.2,
+      ease: "power3.out",
+      stagger: {
+        each: 0.08,
+        from: "center",
+      },
+      onComplete: () => {
+        gsap.delayedCall(0.3, () => floatingIcons(about_icons_li));
+      },
     },
+  )
+  .fromTo(about_skills_title, { x: -200, opacity: 0 }, { x: 0, opacity: 1 })
+  .fromTo(
+    about_skills_content,
+    { y: 20, opacity: 0 },
+    {
+      y: 0,
+      opacity: 1,
+      stagger: { each: 0.15, from: "start", ease: "power2.out" },
+    },
+  )
+  .fromTo(about_license_title, { x: -200, opacity: 0 }, { x: 0, opacity: 1 })
+  .fromTo(
+    about_license_content,
+    { y: 20, opacity: 0 },
+    {
+      y: 0,
+      opacity: 1,
+      stagger: { each: 0.15, from: "start", ease: "power2.out" },
+    },
+  )
+  .fromTo(about_exp_title, { x: -200, opacity: 0 }, { x: 0, opacity: 1 }, "<")
+  .fromTo(
+    about_exp_content,
+    { y: 20, opacity: 0 },
+    {
+      y: 0,
+      opacity: 1,
+      stagger: { each: 0.15, from: "start", ease: "power2.out" },
+    },
+  )
+  .to({}, { duration: 3 });
+
+function floatingIcons(targets) {
+  targets.forEach((icon, i) => {
+    if (icon.dataset.floating === "true") return;
+    icon.dataset.floating = "true";
+
+    gsap.to(icon, {
+      y: "+=" + gsap.utils.random(-30, 30),
+      x: "+=" + gsap.utils.random(-18, 18),
+      rotation: gsap.utils.random(-10, 10),
+      duration: gsap.utils.random(2.2, 4.2),
+      ease: "sine.inOut",
+      repeat: -1,
+      yoyo: true,
+      delay: i * 0.08,
+    });
   });
 }
-setInterval(rotateTextSmooth, 2200);
-// -----------------------------------
-// about
-// -----------------------------------
 
 // ---------------------------------------------
 // works 영역 세팅
@@ -321,6 +515,14 @@ const floatItems = gsap.utils.toArray(
 const linkSvg = document.querySelector("#works .projectOverview .link-svg");
 const linkLine = linkSvg.querySelector(".link-line");
 // path 초기 세팅
+const flows = document.querySelectorAll(
+  ".brand-commerce .bg .flow1, .brand-commerce .bg .flow2, .brand-commerce .bg .flow3",
+);
+
+flows.forEach((flow) => {
+  flow.innerHTML += flow.innerHTML;
+});
+
 gsap.set(guide, {
   opacity: 0,
   strokeDasharray: length,
@@ -388,7 +590,6 @@ gsap.fromTo(
     opacity: 1,
     scrollTrigger: {
       trigger: ".projectOverview",
-      // markers: true,
       start: "40%",
       scrub: 1,
     },
@@ -405,11 +606,16 @@ const overviewTl = gsap.timeline({
     scrub: 1,
     pin: true,
     onUpdate: updateLinkLine,
-    markers: true,
+    // markers: true,
   },
 });
 
 overviewTl
+  .fromTo(
+    "#works > .sectionTitle",
+    { opacity: 0, x: -200 },
+    { x: -80, opacity: 1 },
+  )
   .fromTo("#works .flowText", { y: 400 }, { y: 370, width: "850px" })
   .fromTo(
     guide,
@@ -621,32 +827,91 @@ const pinTl = gsap.timeline({
 
 // projectWrap을 왼쪽으로 쭉 이동
 pinTl.fromTo(projectWrap, { x: 200 }, { x: -4000 });
+// ---------------------------------------------
+// projectOverview 카드 클릭 → 실제 article 중앙 위치로 이동
+// ---------------------------------------------
 
+const overviewCards = document.querySelectorAll(
+  ".projectOverview .lists li:nth-child(odd)",
+);
+
+function findScrollForArticle(index) {
+  const st = pinTl.scrollTrigger;
+  const article = articles[index];
+
+  if (!st || !article) return null;
+
+  const viewportCenter = window.innerWidth / 2;
+  const currentProgress = pinTl.progress();
+
+  let bestProgress = 0;
+  let bestDiff = Infinity;
+
+  // 1차 탐색: 0~1 구간을 쭉 훑으면서 article이 가장 중앙에 가까운 progress 찾기
+  for (let i = 0; i <= 300; i++) {
+    const progress = i / 300;
+
+    pinTl.progress(progress, true);
+
+    const rect = article.getBoundingClientRect();
+    const articleCenter = rect.left + rect.width / 2;
+    const diff = Math.abs(articleCenter - viewportCenter);
+
+    if (diff < bestDiff) {
+      bestDiff = diff;
+      bestProgress = progress;
+    }
+  }
+
+  // 원래 progress로 복구
+  pinTl.progress(currentProgress, true);
+
+  return st.start + (st.end - st.start) * bestProgress;
+}
+
+overviewCards.forEach((card, index) => {
+  card.addEventListener("click", () => {
+    ScrollTrigger.refresh();
+
+    const targetScroll = findScrollForArticle(index);
+    if (targetScroll === null) return;
+
+    gsap.to(window, {
+      scrollTo: targetScroll,
+      duration: 1.2,
+      ease: "power3.inOut",
+    });
+  });
+});
 // 리사이즈 시에도 한번 업데이트해서 중앙 감지 값 보정
 window.addEventListener("resize", updateArticleCenterStates);
 
-// 타이틀 요소들
-const subTitleText = document.querySelector(
-  "#works .sectionTitle .subTitle span",
-);
-const worksTitle = document.querySelector("#works .sectionTitle");
+// ---------------------------------------------
+// works 고정 타이틀 + 섹션별 subtitle 변경
+// ---------------------------------------------
 
-// 현재 텍스트 저장 (중복 실행 방지)
+const worksTitle = document.querySelector("#works > .sectionTitle");
+const subTitleText = document.querySelector(
+  "#works > .sectionTitle .subTitle span",
+);
+
 let currentTitle = "";
 
-// subTitle 변경 함수
 function changeSubTitle(text) {
+  if (!subTitleText) return;
   if (currentTitle === text) return;
+
   currentTitle = text;
 
   gsap.killTweensOf(subTitleText);
 
   gsap.to(subTitleText, {
     opacity: 0,
-    x: -200,
+    x: -120,
     duration: 0.2,
     onComplete: () => {
       subTitleText.textContent = text;
+
       gsap.to(subTitleText, {
         opacity: 1,
         x: 0,
@@ -657,123 +922,134 @@ function changeSubTitle(text) {
   });
 }
 
-// works 안의 각 섹션 감지
-document.querySelectorAll("#works section[data-title]").forEach((section) => {
+const webSection =
+  document.querySelector(".brand-commerce") ||
+  document.querySelector(".web-publishing");
+
+const stage = webSection?.querySelector(".inner");
+const pages = gsap.utils.toArray(
+  ".brand-commerce .page, .web-publishing .page",
+);
+
+const OFFSET_Y = 60; //남길 높이
+
+// 페이지 초기 상태 세팅
+if (webSection && stage && pages.length) {
+  gsap.set(pages, {
+    rotateX: -75,
+    transformOrigin: "center bottom",
+    opacity: 0,
+    y: 0,
+  });
+
+  const gearTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: webSection,
+      start: "top top",
+      end: "+=400%",
+      scrub: 3,
+      pin: stage,
+      anticipatePin: 1,
+    },
+  });
+  // WORKS 타이틀을 #works 영역 안에서만 fixed처럼 따라오게 처리
+  if (worksTitle) {
+    ScrollTrigger.create({
+      trigger: "#works",
+      start: "top top",
+      end: "bottom top",
+      pin: worksTitle,
+      pinSpacing: false,
+      anticipatePin: 1,
+    });
+  }
+
+  pages.forEach((page, i) => {
+    // 1) 현재 페이지가 고개 들고 올라오기
+    gearTl.to(page, {
+      rotateX: 0,
+      opacity: 1,
+      zIndex: 60 + i, // 뒤에 있는 페이지보다 항상 위에 오게
+      duration: 0.6,
+      ease: "power2.out",
+    });
+
+    // 2) 지금까지 지나온 페이지들 위치를 "파일철"처럼 누적 이동
+    gearTl.to(
+      pages,
+      {
+        y: (index) => {
+          // i번째까지의 페이지는 위로 누적해서 올리기
+          if (index <= i) {
+            // i - index 만큼 60px씩 차이 나게
+            return -(i - index) * OFFSET_Y;
+          }
+          // 아직 등장 전인 페이지는 제자리
+          return 0;
+        },
+        duration: 0.6,
+        ease: "power2.out",
+      },
+      "<", // 위 애니메이션과 동시에 시작
+    );
+  });
+}
+// #works 바로 아래에 있는 하위 섹션만 감지
+document.querySelectorAll("#works > section[data-title]").forEach((section) => {
   const title = section.dataset.title;
 
   ScrollTrigger.create({
     trigger: section,
     start: "top center",
+    end: "bottom center",
 
     onEnter: () => {
-      // ✅ 서브타이틀 변경
       changeSubTitle(title);
 
-      // ✅ 특정 섹션에서 스타일 변경
       if (section.classList.contains("team-project")) {
-        worksTitle.classList.add("is-team");
+        worksTitle?.classList.add("is-team");
       } else {
-        worksTitle.classList.remove("is-team");
+        worksTitle?.classList.remove("is-team");
       }
     },
 
-    onLeaveBack: () => {
-      const prev = section.previousElementSibling;
+    onEnterBack: () => {
+      changeSubTitle(title);
 
-      // 이전 섹션 타이틀로 복구
-      if (prev && prev.dataset.title) {
-        changeSubTitle(prev.dataset.title);
-
-        if (prev.classList.contains("team-project")) {
-          worksTitle.classList.add("is-team");
-        } else {
-          worksTitle.classList.remove("is-team");
-        }
+      if (section.classList.contains("team-project")) {
+        worksTitle?.classList.add("is-team");
       } else {
-        changeSubTitle("");
-        worksTitle.classList.remove("is-team");
+        worksTitle?.classList.remove("is-team");
       }
     },
   });
 });
-
-const webSection = document.querySelector(".web-publishing");
-const stage = webSection.querySelector(".inner");
-const pages = gsap.utils.toArray(".web-publishing .page");
-
-const OFFSET_Y = 60; //남길 높이
-
-// 페이지 초기 상태 세팅
-gsap.set(pages, {
-  rotateX: -75,
-  transformOrigin: "center bottom",
-  opacity: 0,
-  y: 0,
-});
-const gearTl = gsap.timeline({
-  scrollTrigger: {
-    trigger: webSection,
-    start: "top top",
-    end: "+=400%",
-    scrub: 3,
-    pin: stage,
-    anticipatePin: 1,
-  },
-});
-
-pages.forEach((page, i) => {
-  // 1) 현재 페이지가 고개 들고 올라오기
-  gearTl.to(page, {
-    rotateX: 0,
-    opacity: 1,
-    zIndex: 60 + i, // 뒤에 있는 페이지보다 항상 위에 오게
-    duration: 0.6,
-    ease: "power2.out",
-  });
-
-  // 2) 지금까지 지나온 페이지들 위치를 "파일철"처럼 누적 이동
-  gearTl.to(
-    pages,
-    {
-      y: (index) => {
-        // i번째까지의 페이지는 위로 누적해서 올리기
-        if (index <= i) {
-          // i - index 만큼 60px씩 차이 나게
-          return -(i - index) * OFFSET_Y;
-        }
-        // 아직 등장 전인 페이지는 제자리
-        return 0;
-      },
-      duration: 0.6,
-      ease: "power2.out",
-    },
-    "<", // 위 애니메이션과 동시에 시작
-  );
-});
-
 const bg = document.querySelector(".mobileContent .bg");
 
-let tl_upDown = gsap.timeline({
-  repeat: -1,
-  default: {
-    ease: "bounce",
-  },
-});
-tl_upDown
-  .fromTo(
-    bg,
-    {
-      y: -25,
+if (bg) {
+  let tl_upDown = gsap.timeline({
+    repeat: -1,
+    default: {
+      ease: "bounce",
     },
-    {
-      y: 0,
-      duration: 1.5,
-    },
-  )
-  .to(bg, {
-    y: -25,
-    duration: 1.5,
   });
+
+  tl_upDown
+    .fromTo(
+      bg,
+      {
+        y: -25,
+      },
+      {
+        y: 0,
+        duration: 1.5,
+      },
+    )
+    .to(bg, {
+      y: -25,
+      duration: 1.5,
+    });
+}
 
 // ---------------------------------------------------------
 // ✅ YOUR PALETTE (여기만 수정)
@@ -1253,26 +1529,143 @@ if (colorButtons.length) {
     });
   });
 }
-// -----------------------------------
-// artworks
-// -----------------------------------
-const artWorks = document.querySelector("#works .artWorks");
-const artWorks_ul = artWorks.querySelector(".illust_cards");
-const artWorks_li = artWorks_ul.querySelectorAll("li");
+
+const contact = document.querySelector("#contact");
+const contact_sectionTitle = contact.querySelector(".sectionTitle");
+const contact_submit = contact.querySelector("button");
 gsap.fromTo(
-  artWorks_li,
-  { opacity: 0, width: 300, height: 300 },
+  contact_sectionTitle,
+  {
+    opacity: 0,
+    x: -400,
+  },
   {
     opacity: 1,
+    x: -80,
+    duration: 1,
+    ease: "power3.out",
+
     scrollTrigger: {
-      trigger: artWorks,
+      trigger: contact,
+      start: "top 10%",
+      toggleActions: "play reverse play reverse",
       // markers: true,
-      start: "top top",
-      end: "+=200%",
-      scrub: 1,
-      pin: true,
-      onLeave: () => gsap.set(artWorks_li, { clearProps: "width,height" }),
-      onLeaveBack: () => gsap.set(artWorks_li, { width: 300, height: 300 }),
     },
   },
 );
+contact_submit.addEventListener("mouseenter", () => {
+  gsap.to(contact_submit, {
+    "border-radius": "20px",
+    "background-image": "linear-gradient(-135deg, #9a35b3, #db2777)",
+    duration: 0.5,
+  });
+});
+contact_submit.addEventListener("mouseleave", () => {
+  gsap.to(contact_submit, {
+    "border-radius": "10px",
+    "background-image": "linear-gradient(135deg, #9a35b3, #db2777)",
+    duration: 0.5,
+  });
+});
+
+window.addEventListener("load", () => {
+  ScrollTrigger.refresh();
+});
+const contactCard = contact.querySelector(".contact-card");
+const outroThanks = contact.querySelector(".outro-thanks");
+const outroMessageLines = contact.querySelectorAll(".outro-message span");
+
+/* THANK YOU 선 그려지는 느낌 */
+gsap.fromTo(
+  outroThanks,
+  {
+    opacity: 0,
+    WebkitTextStrokeColor: "transparent",
+    textShadow: "0 0 0 rgba(255, 27, 96, 0)",
+  },
+  {
+    opacity: 1,
+    WebkitTextStrokeColor: "#ff1b60",
+    textShadow: "0 0 12px rgba(255, 27, 96, 0.6)",
+    duration: 1.4,
+    ease: "power2.out",
+    scrollTrigger: {
+      trigger: contact,
+      start: "top 20%",
+      toggleActions: "play reverse play reverse",
+    },
+  },
+);
+
+/* I'm / READY. 각각 등장 */
+gsap.fromTo(
+  outroMessageLines,
+  {
+    opacity: 0,
+    y: 80,
+  },
+  {
+    opacity: 1,
+    y: 0,
+    duration: 0.9,
+    stagger: 0.18,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: contact,
+      start: "top 20%",
+      toggleActions: "play reverse play reverse",
+    },
+  },
+);
+
+/* 카드 기울기 약하게 */
+contactCard.addEventListener("mousemove", (e) => {
+  const rect = contactCard.getBoundingClientRect();
+
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+
+  const centerX = rect.width / 2;
+  const centerY = rect.height / 2;
+
+  const rotateY = (x - centerX) / 120;
+  const rotateX = -(y - centerY) / 120;
+
+  gsap.to(contactCard, {
+    rotateX: rotateX,
+    rotateY: rotateY,
+    duration: 0.35,
+    ease: "power2.out",
+  });
+});
+
+contactCard.addEventListener("mouseleave", () => {
+  gsap.to(contactCard, {
+    rotateX: 0,
+    rotateY: 0,
+    duration: 0.5,
+    ease: "power3.out",
+  });
+});
+const contactForm = contact.querySelector(".contact-form");
+
+contactForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const formData = new FormData(contactForm);
+
+  const res = await fetch(contactForm.action, {
+    method: "POST",
+    body: formData,
+    headers: {
+      Accept: "application/json",
+    },
+  });
+
+  if (res.ok) {
+    alert("메시지가 전송되었습니다. 감사합니다!");
+    contactForm.reset();
+  } else {
+    alert("전송에 실패했습니다. 잠시 후 다시 시도해주세요.");
+  }
+});
