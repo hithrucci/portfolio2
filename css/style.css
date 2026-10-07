@@ -1650,19 +1650,8 @@ main {
 .brand-commerce .p1 .title,
 .brand-commerce .p3 .title {
   margin-top: 30px;
-  /* font-family: "Tmon"; */
-  /* font-size: 100px; */
-  /* line-height: 0.95; */
 }
-.brand-commerce .page .subTitle {
-  /* display: block; */
-  /* font-size: 30px; */
-  /* font-family: sans-serif; */
-  /* font-weight: 400; */
-  /* letter-spacing: 5px; */
-  /* margin-top: 0px; */
-  /* width: 380px; */
-}
+
 .brand-commerce .page .detail {
   margin-top: 100px;
   position: relative;
@@ -1714,8 +1703,7 @@ main {
   font-weight: bold;
   font-size: 1.2rem;
 }
-.brand-commerce .p1 .view,
-.brand-commerce .p3 .view {
+.brand-commerce .view {
   margin-top: 100px;
   display: flex;
   align-items: center;
@@ -1729,12 +1717,17 @@ main {
   background-color: #333;
   color: #fff;
   position: relative;
+  cursor: pointer;
+  transition: 0.4s;
 }
 .brand-commerce .view a {
   display: flex;
   gap: 10px;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
 }
 .brand-commerce .view:hover {
   background-color: #000;
@@ -1771,9 +1764,7 @@ main {
   font-family: "GMarketSans";
   font-size: 95px;
   font-weight: 800;
-  /* text-align: center; */
-  /* margin-bottom: 50px; */
-  /* border: 1px solid #222; */
+
   width: 100%;
   position: relative;
   /* color: #eee; */
@@ -1888,6 +1879,31 @@ main {
   background-color: #333;
   color: #fff;
   position: relative;
+  transition: 0.4s;
+}
+.brand-commerce .p2 .view:hover {
+  background-color: #000;
+}
+.p2 .project-visual > div:not(.mobile) {
+  padding: 8px;
+  background-color: #fceae0;
+  border-radius: 5px;
+  box-shadow: -10px 8px 20px rgba(0, 0, 0, 0.4);
+}
+.p2 .project-visual > div:nth-child(1) {
+  transform: rotate(5deg) translateY(40px);
+}
+.p2 .project-visual > div:nth-child(2) {
+  bottom: 180px;
+  left: -200px;
+  width: 70%;
+  transform: rotate(-3deg);
+}
+.p2 .project-visual > div:nth-child(3) {
+  width: 30%;
+  bottom: 150px;
+  right: 40px;
+  transform: rotate(5deg);
 }
 /*개별 페이지 설정-3*/
 .p3 {
