@@ -223,6 +223,38 @@ const gatherPositions = [
 // -----------------------------------
 // main timeline
 // -----------------------------------
+// Intro 로고 전체 기준 위치
+gsap.set("#hero .intro .intro_logo", {
+  left: "45%",
+  top: "50%",
+  xPercent: -50,
+  yPercent: -50,
+  scale: 0.73,
+});
+
+// 로고 내부 이미지 4개
+gsap.set("#hero .intro .intro_logo > img", {
+  left: "49%",
+  top: "52%",
+  xPercent: -50,
+  yPercent: -50,
+});
+
+// Shade 기준 위치
+gsap.set("#hero .intro .shade", {
+  left: "45%",
+  top: "53%",
+  xPercent: -50,
+  yPercent: -50,
+  scale: 0.7,
+});
+gsap.set(profile_pic, {
+  left: "50%",
+  bottom: 0,
+  xPercent: -50,
+  y: 0,
+  opacity: 0,
+});
 const STOP_PX = 10;
 let floatingActive = true;
 
@@ -329,6 +361,10 @@ navLinks.forEach((link) => {
 // -----------------------------------
 // timeline animation
 // -----------------------------------
+gsap.set("#hero .intro .intro_logo > img", {
+  xPercent: -50,
+  yPercent: -50,
+});
 gatherTl
   .to(
     pieces,
@@ -372,7 +408,11 @@ gatherTl
   .fromTo(gnb_li, { opacity: 0, y: 50 }, { opacity: 1, y: 0, stagger: 0.1 })
   .fromTo(nav_contact, { opacity: 0 }, { opacity: 1 })
   .fromTo("#hero .intro .roll > div > div", { opacity: 0 }, { opacity: 1 })
-  .fromTo("#hero .intro .line", { width: 0 }, { width: "400px" })
+  .fromTo(
+    "#hero .intro .line",
+    { width: 0 },
+    { width: "clamp(200px,20vw,500px)" },
+  )
   .to({}, { duration: 5 }, ">")
   .to("#hero .intro .sectionTitle", { opacity: 0, y: -50 }, ">")
   .to("#hero .intro .roll", { opacity: 0, y: -50 })
@@ -383,12 +423,12 @@ gatherTl
   .fromTo(
     "#hero .about .sectionTitle",
     { opacity: 0, x: -400 },
-    { opacity: 1, x: -80 },
+    { opacity: 1, x: 20 },
   )
   .to({}, { duration: 3 }, ">")
   .to(aboutBg_left, { x: -200 })
   .to(aboutBg_right, { x: 100 }, "<")
-  .fromTo(profile_pic, { opacity: 0, x: 450 }, { opacity: 1, x: -400 })
+  .fromTo(profile_pic, { opacity: 0, x: 300 }, { opacity: 1, x: 0 })
 
   // -----------------------------------
   // about
@@ -614,7 +654,7 @@ overviewTl
   .fromTo(
     "#works > .sectionTitle",
     { opacity: 0, x: -200 },
-    { x: -80, opacity: 1 },
+    { x: 20, opacity: 1 },
   )
   .fromTo("#works .flowText", { y: 400 }, { y: 370, width: "850px" })
   .fromTo(
@@ -1541,7 +1581,7 @@ gsap.fromTo(
   },
   {
     opacity: 1,
-    x: -80,
+    x: 20,
     duration: 1,
     ease: "power3.out",
 

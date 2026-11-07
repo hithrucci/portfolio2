@@ -212,7 +212,8 @@ header {
 }
 
 header .inner {
-  width: 1700px;
+  width: 90%;
+  max-width: 1700px;
   margin: 0px auto;
   height: 100%;
   display: flex;
@@ -267,19 +268,15 @@ nav .contact {
 }
 nav .contact::before {
   content: "";
-
   position: absolute;
   inset: 0;
-
   background: radial-gradient(
     circle at var(--x) var(--y),
     rgba(255, 255, 255, 0.35),
     transparent 40%
   );
-
   opacity: 0;
   transition: opacity 0.3s;
-
   z-index: -1;
 }
 nav .contact a {
@@ -296,6 +293,7 @@ nav .contact a {
 main {
   width: 100%;
   height: auto;
+  overflow: hidden;
 }
 .sectionTitle {
   font-family: "Paperozi";
@@ -311,7 +309,7 @@ main {
 .sectionTitle .inner {
   margin: 0px auto;
   width: 100%;
-  max-width: 1700px;
+  /* max-width: 1700px; */
   display: flex;
   align-items: center;
   gap: 10px;
@@ -399,15 +397,17 @@ main {
 }
 #hero .intro .sectionTitle {
   position: absolute;
-  width: 780px;
+  max-width: 780px;
+  width: 50%;
+  padding: 1% 3%;
   left: 50%;
   top: 100px;
   transform: translateX(-50%);
   border: 1px solid #fff;
   text-align: center;
-  font-size: 80px;
-  height: 100px;
-  line-height: 100px;
+  font-size: clamp(40px, 5vw, 80px);
+  height: auto;
+  line-height: 1;
   border-radius: 100px;
   filter: drop-shadow(2px 5px 5px rgba(0, 0, 0, 0.8));
 }
@@ -501,29 +501,28 @@ main {
 }
 #hero .intro .shade {
   position: absolute;
-  left: 45%;
-  top: 53%;
-  transform: translate(-50%, -50%) scale(0.7);
   transform-origin: center;
   opacity: 0;
 }
 #hero .intro .intro_logo {
   position: absolute;
-  left: 45%;
-  top: 50%;
-  transform: translate(-50%, -50%) scale(0.73);
   transform-origin: center;
   width: 100%;
   height: 100%;
   z-index: 1;
 }
-
+#hero .intro .shade > img {
+  max-width: 1000px;
+  width: 100%;
+}
 #hero .intro .intro_logo > img {
   position: absolute;
   left: 49%;
   top: 52%;
   z-index: 1;
   opacity: 0;
+  max-width: 1000px;
+  width: 60%;
 }
 #hero .intro .intro_logo > img:nth-of-type(1) {
   z-index: 3;
@@ -536,7 +535,6 @@ main {
 }
 #hero .intro .intro_logo > img:nth-of-type(4) {
   z-index: 4;
-  width: 1000px;
   transform: translate(-50%, -50%);
 }
 
@@ -566,6 +564,7 @@ main {
 }
 #hero .intro .roll {
   position: absolute;
+  max-width: 1500px;
   width: 80%;
   height: 50%;
   left: 50%;
@@ -573,9 +572,8 @@ main {
   transform: translate(-50%, -50%);
   z-index: -1;
   backdrop-filter: blur(5px);
-  /* background-color: rgba(140, 140, 140, 0.2); */
 }
-#hero .intro .roll > div {
+#hero .intro .roll > div:not(:nth-child(2)) {
   width: 28%;
   position: absolute;
   height: 100%;
@@ -625,7 +623,7 @@ main {
   justify-content: center;
   align-items: center;
   color: #fff;
-  font-size: 3rem;
+  font-size: clamp(16px, 2.2rem, 50px);
   font-family: "Paperozi";
   font-weight: 400;
 }
@@ -677,9 +675,7 @@ main {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 400px;
   height: 1px;
-
   background-color: #fff;
 }
 /* ----------------------------------- */
@@ -714,19 +710,21 @@ main {
 #hero .about .bg .right {
   z-index: 2;
 }
-
 #hero .about .pic {
-  left: 50%;
-  transform: translateX(-50%);
   position: absolute;
-  bottom: 0px;
-  z-index: 1;
+  /* left: 50%; */
+  /* bottom: 0; */
+  width: clamp(680px, 50vw, 800px);
+  height: auto;
+  /* transform: translateX(-50%); */
   opacity: 0;
-  width: auto;
+  z-index: 1;
 }
+
 #hero .about .pic img {
+  display: block;
   width: 100%;
-  height: 100%;
+  height: auto;
 }
 #hero .about .flowText {
   position: absolute;
@@ -784,7 +782,7 @@ main {
   height: calc(100% - 100px);
 }
 #hero .about .contentWrap .inner {
-  width: 1700px;
+  max-width: 1700px;
   padding: 0px 30px;
   box-sizing: border-box;
   height: 100%;
@@ -811,7 +809,7 @@ main {
   color: #627d97;
 }
 #hero .about .inner > div > .title h3 {
-  font-size: 32px;
+  font-size: clamp(22px, 2vw, 32px);
   line-height: 28px;
   font-weight: 500;
   font-weight: 400;
@@ -881,20 +879,20 @@ main {
 
 #hero .about .skills {
   position: absolute;
-  left: 55%;
+  left: 50%;
   top: 10%;
   /* opacity: 0; */
 }
 #hero .about .license {
   position: absolute;
-  left: 55%;
+  left: 50%;
   top: 50%;
   /* transform: translateX(50%); */
   /* opacity: 0; */
 }
 #hero .about .exp {
   position: absolute;
-  left: 78%;
+  left: 75%;
   /* transform: translateX(50%); */
   top: 50%;
   /* opacity: 0; */
@@ -910,7 +908,6 @@ main {
   top: 50%;
   transform: translate(-50%, -50%);
 }
-
 #hero .about .icons li img {
   width: 100%;
 }
@@ -982,7 +979,7 @@ main {
 }
 
 .interactive-project .projectOverview .inner {
-  width: 1700px;
+  max-width: 1700px;
   margin: 0 auto;
   height: 100%;
   position: relative;
@@ -1239,7 +1236,7 @@ main {
 .interactive-project .projectDetail .titleWrap {
   display: flex;
   justify-content: space-between;
-  width: 1700px;
+  max-width: 1700px;
   margin: 30px auto;
   padding: 0 30px;
   box-sizing: border-box;
@@ -1255,7 +1252,7 @@ main {
   align-items: center;
 }
 .interactive-project .projectDetail .projectWrap {
-  width: 1700px;
+  max-width: 1700px;
   display: flex;
   margin: 0px auto;
   justify-content: flex-start;
@@ -1611,7 +1608,7 @@ main {
 }
 /* 공통 페이지 스타일 */
 .brand-commerce .page {
-  width: 1700px;
+  max-width: 1700px;
   margin: 0px auto;
   margin-top: 20px;
   position: absolute;
@@ -2091,7 +2088,7 @@ main {
 }
 
 .team-project .inner {
-  width: 1700px;
+  max-width: 1700px;
   padding: 100px 0px;
   box-sizing: border-box;
   margin: 0px auto;
@@ -2437,13 +2434,13 @@ main {
   width: 100%;
 }
 #contact .sectionTitle {
-  padding-top: 40px;
+  padding-top: 60px;
   width: 100%;
 }
 
 /*contact .contentwrap*/
 #contact .contentWrap {
-  width: 1700px;
+  max-width: 1700px;
   display: flex;
   justify-content: center;
   align-items: center;
