@@ -1764,7 +1764,7 @@ main {
   font-family: "GMarketSans";
   font-size: 95px;
   font-weight: 800;
-
+  z-index: 1000;
   width: 100%;
   position: relative;
   /* color: #eee; */
@@ -1849,7 +1849,6 @@ main {
 .p1 .shortCut > div:hover {
   background-color: #000;
 }
-
 .p1 .shortCut > div:nth-child(1)::after {
   content: "";
   position: absolute;
@@ -1862,6 +1861,75 @@ main {
   border-radius: 20px;
   pointer-events: none;
 }
+
+/*project-visual*/
+.p1 .project-visual {
+  perspective: 1000px;
+  position: relative;
+}
+.p1 .project-visual > div:nth-child(1) {
+  right: 0px;
+  top: 20px;
+  width: 50%;
+  aspect-ratio: 770 / 1200;
+  transform: rotateY(-15deg);
+  border-radius: 20px;
+  z-index: 999;
+}
+.p1 .project-visual > div:nth-child(2) {
+  right: 350px;
+  top: 20px;
+  width: 35%;
+  aspect-ratio: 770 / 1200;
+  transform: rotateY(-15deg);
+  border-radius: 20px;
+  z-index: 998;
+}
+.p1 .project-visual > div:nth-child(3) {
+  right: 550px;
+  top: 20px;
+  width: 33%;
+  aspect-ratio: 770 / 1200;
+  transform: rotateY(-15deg);
+  border-radius: 20px;
+  z-index: 997;
+}
+.p1 .project-visual > div:nth-child(4) {
+  bottom: 100px;
+  left: -150px;
+  background-color: transparent;
+  z-index: 999;
+  width: 70%;
+}
+.p1 .project-visual > div > div:nth-child(1) {
+  background-color: #333;
+  color: #fff;
+  padding: 5px 10px;
+  display: inline-block;
+  border-radius: 8px 8px 0px 0px;
+  margin-left: 20px;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.p1 .project-visual > div > div:nth-child(1) > div {
+  border-radius: 4px;
+  background-color: #228c5c;
+  padding: 5px;
+  margin-right: 5px;
+}
+.p1 .project-visual > div > div:nth-child(2) {
+  overflow: hidden;
+  border: 3px solid transparent;
+  box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.5);
+  background:
+    linear-gradient(#fff, #fff) padding-box,
+    linear-gradient(135deg, #228c5c, #128790) border-box;
+  border-radius: 20px;
+  height: 100%;
+}
+
 /*개별 페이지 설정-2*/
 .p2 {
   background: #fff;
