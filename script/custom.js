@@ -635,9 +635,40 @@ gsap.fromTo(
     },
   },
 );
-// ---------------------------------------------
-// 1) projectOverview 전용 타임라인 (pin + scrub)
-// ---------------------------------------------
+
+// projectOverview
+
+const overviewScale = () =>
+  Math.max(
+    0.1,
+    Math.min(1, projects.clientWidth / 1700, projects.clientHeight / 850),
+  );
+
+// 요소, x좌표, y좌표, 회전각도, 등장시점
+const overviewItems = [
+  [numList, -600, -250, -30, 0.6],
+  [rect1, 0, -240, 0, 1.1],
+  [weatherList, 600, -250, 35, 0.8],
+  [rect2, 500, -80, 0, 1.3],
+  [dreamList, 600, 280, 26, 1.0],
+  [rect3, 0, 250, 0, 1.5],
+  [todoList, -580, 300, 26, 1.2],
+  [rect4, -500, -40, 0, 1.7],
+];
+
+// 중앙 정렬 초기값
+gsap.set(
+  overviewItems.map(([el]) => el),
+  {
+    left: "50%",
+    top: "50%",
+    xPercent: -50,
+    yPercent: -50,
+  },
+);
+
+let overviewFloatingStarted = false;
+
 const overviewTl = gsap.timeline({
   scrollTrigger: {
     trigger: ".projectOverview",
@@ -645,8 +676,8 @@ const overviewTl = gsap.timeline({
     end: "+=3700",
     scrub: 1,
     pin: true,
+    invalidateOnRefresh: true,
     onUpdate: updateLinkLine,
-    // markers: true,
   },
 });
 
@@ -656,65 +687,38 @@ overviewTl
     { opacity: 0, x: -200 },
     { x: 20, opacity: 1 },
   )
-  .fromTo("#works .flowText", { y: 400 }, { y: 370, width: "850px" })
   .fromTo(
-    guide,
-    { opacity: 0 },
+    "#works .flowText",
+    { y: () => 400 * overviewScale() },
     {
-      strokeDashoffset: 0,
-      opacity: 1,
+      y: () => 370 * overviewScale(),
+      width: () => `${Math.min(850, projects.clientWidth * 0.9)}px`,
     },
-    0.2,
   )
-  .fromTo(
-    numList,
-    { opacity: 0 },
-    {
-      opacity: 1,
-      x: -600,
-      y: -250,
-      rotation: -30,
-    },
-    0.6,
-  )
-  .fromTo(rect1, { opacity: 0 }, { opacity: 1, x: 0, y: -240 })
-  .fromTo(
-    weatherList,
+  .fromTo(guide, { opacity: 0 }, { strokeDashoffset: 0, opacity: 1 }, 0.2);
+
+// 카드들의 위치·크기를 반응형으로 제어
+overviewItems.forEach(([el, x, y, rotation, at]) => {
+  overviewTl.fromTo(
+    el,
     { opacity: 0 },
     {
       opacity: 1,
-      x: 600,
-      y: -250,
-      rotation: 35,
+      x: () => x * overviewScale(),
+      y: () => y * overviewScale(),
+      rotation,
+      scale: overviewScale,
     },
-    0.8,
-  )
-  .fromTo(rect2, { opacity: 0 }, { opacity: 1, x: 500, y: -80 })
-  .fromTo(
-    dreamList,
-    { opacity: 0 },
-    {
-      opacity: 1,
-      x: 600,
-      y: 280,
-      rotation: 26,
-    },
-    1,
-  )
-  .fromTo(rect3, { opacity: 0 }, { opacity: 1, x: 0, y: 250 })
-  .fromTo(
-    todoList,
-    { opacity: 0 },
-    {
-      opacity: 1,
-      x: -580,
-      y: 300,
-      rotation: 26,
-    },
-    1.2,
-  )
-  .fromTo(rect4, { opacity: 0 }, { opacity: 1, x: -500, y: -40 })
-  .add(startFloating, 0);
+    at,
+  );
+});
+
+// 떠다니는 애니메이션 중복 실행 방지
+overviewTl.add(() => {
+  if (overviewFloatingStarted) return;
+  overviewFloatingStarted = true;
+  startFloating();
+}, 0);
 
 // ---------------------------------------------
 // 2) projectDetail 영역 입장 애니메이션
@@ -887,7 +891,6 @@ function findScrollForArticle(index) {
   let bestProgress = 0;
   let bestDiff = Infinity;
 
-  // 1차 탐색: 0~1 구간을 쭉 훑으면서 article이 가장 중앙에 가까운 progress 찾기
   for (let i = 0; i <= 300; i++) {
     const progress = i / 300;
 
