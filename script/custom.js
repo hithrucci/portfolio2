@@ -223,7 +223,7 @@ const gatherPositions = [
 // -----------------------------------
 // main timeline
 // -----------------------------------
-// Intro 로고 전체 기준 위치
+// Intro 로고
 gsap.set("#hero .intro .intro_logo", {
   left: "45%",
   top: "50%",
@@ -234,8 +234,8 @@ gsap.set("#hero .intro .intro_logo", {
 
 // 로고 내부 이미지 4개
 gsap.set("#hero .intro .intro_logo > img", {
-  left: "49%",
-  top: "52%",
+  left: "50%",
+  top: "54%",
   xPercent: -50,
   yPercent: -50,
 });
@@ -243,7 +243,7 @@ gsap.set("#hero .intro .intro_logo > img", {
 // Shade 기준 위치
 gsap.set("#hero .intro .shade", {
   left: "45%",
-  top: "53%",
+  top: "54%",
   xPercent: -50,
   yPercent: -50,
   scale: 0.7,
@@ -774,7 +774,15 @@ const articleData = articles.map((article) => {
   const shortCut = article.querySelector(".shortCut");
   const mobile = article.querySelector(".mobile");
   const articleTl = gsap.timeline({ paused: true });
-
+  gsap.set(mobile, {
+    right: "100px",
+    top: "-10px",
+  });
+  gsap.set(shortCut, {
+    left: "50%",
+    bottom: "-10",
+    xPercent: "-50%",
+  });
   articleTl
     .fromTo(
       descriptionP,
@@ -793,7 +801,7 @@ const articleData = articles.map((article) => {
       mobile,
       {
         opacity: 1,
-        x: 430,
+        right: -20,
         y: -32,
         rotation: 15,
       },
@@ -832,7 +840,7 @@ const articleData = articles.map((article) => {
   return {
     article,
     tl: articleTl,
-    active: false, // 현재 활성화 여부
+    active: false,
   };
 });
 
@@ -856,7 +864,30 @@ function updateArticleCenterStates() {
   });
 }
 
-// 3-3. projectWrap 가로 플로우 + pinTl 생성
+// ---------------------------------------------
+// 3-3. projectWrap 가로 플로우 + pinTl
+// ---------------------------------------------
+
+// 마지막 article이 화면 중앙에 오기 위한 x 좌표
+function getProjectEndX() {
+  const lastArticle = articles[articles.length - 1];
+
+  const rect = lastArticle.getBoundingClientRect();
+
+  // 현재 GSAP이 적용한 x 이동값
+  const currentX = Number(gsap.getProperty(projectWrap, "x")) || 0;
+
+  // 뷰포트의 가로 중앙
+  const viewportCenter = document.documentElement.clientWidth / 2;
+
+  // 마지막 카드의 가로 중앙
+  const articleCenter = rect.left + rect.width / 2;
+
+  // 현재 이동값을 고려해 목표 x 좌표 계산
+  return currentX + viewportCenter - articleCenter;
+}
+
+// 가로 스크롤 타임라인
 const pinTl = gsap.timeline({
   scrollTrigger: {
     trigger: ".interactive-project .projectDetail",
@@ -864,13 +895,22 @@ const pinTl = gsap.timeline({
     end: "+=3500",
     pin: true,
     scrub: 1,
+    invalidateOnRefresh: true,
+    onUpdate: updateArticleCenterStates,
     // markers: true,
-    onUpdate: updateArticleCenterStates, // 스크롤될 때마다 중앙 감지
   },
 });
 
-// projectWrap을 왼쪽으로 쭉 이동
-pinTl.fromTo(projectWrap, { x: 200 }, { x: -4000 });
+// 프로젝트 가로 이동
+pinTl.fromTo(
+  projectWrap,
+  { x: 200 },
+  {
+    x: getProjectEndX,
+    ease: "none",
+  },
+);
+
 // ---------------------------------------------
 // projectOverview 카드 클릭 → 실제 article 중앙 위치로 이동
 // ---------------------------------------------
@@ -965,19 +1005,158 @@ function changeSubTitle(text) {
   });
 }
 
+// =============================================
+// Brand & Commerce - 페이지 넘김 + 이미지 등장
+// =============================================
+
 const webSection =
   document.querySelector(".brand-commerce") ||
   document.querySelector(".web-publishing");
 
 const stage = webSection?.querySelector(".inner");
+
 const pages = gsap.utils.toArray(
   ".brand-commerce .page, .web-publishing .page",
 );
 
-const OFFSET_Y = 60; //남길 높이
+const OFFSET_Y = 60;
 
-// 페이지 초기 상태 세팅
 if (webSection && stage && pages.length) {
+  // 등장 순서를 유지하기 위한 요소 선택 함수
+  const pick = (selectors) =>
+    selectors
+      .map((selector) => document.querySelector(selector))
+      .filter(Boolean);
+
+  // -------------------------------
+  // 1. 등장할 이미지 선택
+  // -------------------------------
+
+  // P1: 기획서 → 스토리보드 → 상세페이지
+  const p1Docs = pick([
+    ".brand-commerce .p1 .visual-planning",
+    ".brand-commerce .p1 .visual-story",
+    ".brand-commerce .p1 .visual-detail",
+  ]);
+
+  const p1Product = document.querySelector(
+    ".brand-commerce .p1 .visual-product",
+  );
+
+  // P2: 사이트 → 노트북 → 모바일
+  const p2Visuals = pick([
+    ".brand-commerce .p2 .site",
+    ".brand-commerce .p2 .lapTop",
+    ".brand-commerce .p2 .mobile",
+  ]);
+
+  // P3: 메인 사이트 → 모바일 → 태블릿 → 노트북
+  const p3Site = document.querySelector(".brand-commerce .p3 .site");
+
+  const p3Devices = pick([
+    ".brand-commerce .p3 .mobile",
+    ".brand-commerce .p3 .tablet",
+    ".brand-commerce .p3 .lapTop",
+  ]);
+
+  // -------------------------------
+  // 2. gsap.set() 초기 상태
+  // -------------------------------
+
+  // P1
+  gsap.set([...p1Docs, p1Product].filter(Boolean), {
+    autoAlpha: 0,
+    y: 50,
+    scale: 0.95,
+  });
+
+  // P2: 왼쪽에서 등장
+  gsap.set(p2Visuals, {
+    autoAlpha: 0,
+    x: -60,
+  });
+
+  // P3
+  gsap.set([p3Site, ...p3Devices].filter(Boolean), {
+    autoAlpha: 0,
+    y: 35,
+    scale: 0.96,
+  });
+
+  // -------------------------------
+  // 3. 독립적인 등장 타임라인
+  // scrub 없음
+  // -------------------------------
+
+  // P1
+  const p1RevealTl = gsap.timeline({
+    paused: true,
+  });
+
+  p1RevealTl
+    .to(p1Docs, {
+      autoAlpha: 1,
+      y: 0,
+      scale: 1,
+      duration: 0.65,
+      stagger: 0.22,
+      ease: "power2.out",
+    })
+    .to(
+      p1Product,
+      {
+        autoAlpha: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.55,
+        ease: "back.out(1.2)",
+      },
+      "-=0.05",
+    );
+
+  // P2
+  const p2RevealTl = gsap.timeline({
+    paused: true,
+  });
+
+  p2RevealTl.to(p2Visuals, {
+    autoAlpha: 1,
+    x: 0,
+    duration: 0.8,
+    stagger: 0.18,
+    ease: "power3.out",
+  });
+
+  // P3
+  const p3RevealTl = gsap.timeline({
+    paused: true,
+  });
+
+  p3RevealTl
+    .to(p3Site, {
+      autoAlpha: 1,
+      y: 0,
+      scale: 1,
+      duration: 0.7,
+      ease: "power2.out",
+    })
+    .to(
+      p3Devices,
+      {
+        autoAlpha: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.65,
+        stagger: 0.2,
+        ease: "power2.out",
+      },
+      "-=0.1",
+    );
+
+  // -------------------------------
+  // 4. 페이지 넘김 초기 설정
+  // -------------------------------
+
   gsap.set(pages, {
     rotateX: -75,
     transformOrigin: "center bottom",
@@ -995,7 +1174,8 @@ if (webSection && stage && pages.length) {
       anticipatePin: 1,
     },
   });
-  // WORKS 타이틀을 #works 영역 안에서만 fixed처럼 따라오게 처리
+
+  // WORKS 타이틀 고정
   if (worksTitle) {
     ScrollTrigger.create({
       trigger: "#works",
@@ -1007,36 +1187,70 @@ if (webSection && stage && pages.length) {
     });
   }
 
+  // -------------------------------
+  // 5. 페이지 펼침 타임라인
+  // -------------------------------
+
+  const OPEN_DURATION = 0.6;
+
+  const reveals = [p1RevealTl, p2RevealTl, p3RevealTl];
+
+  const revealAt = [];
+  const revealed = [false, false, false];
+
   pages.forEach((page, i) => {
-    // 1) 현재 페이지가 고개 들고 올라오기
+    // 현재 페이지가 펼쳐지기 시작하는 시점
+    const openStart = gearTl.duration();
+
+    // 페이지 펼치기
     gearTl.to(page, {
       rotateX: 0,
       opacity: 1,
-      zIndex: 60 + i, // 뒤에 있는 페이지보다 항상 위에 오게
-      duration: 0.6,
+      zIndex: 60 + i,
+      duration: OPEN_DURATION,
       ease: "power2.out",
     });
 
-    // 2) 지금까지 지나온 페이지들 위치를 "파일철"처럼 누적 이동
+    // 기존 파일철처럼 쌓이는 연출
     gearTl.to(
       pages,
       {
         y: (index) => {
-          // i번째까지의 페이지는 위로 누적해서 올리기
           if (index <= i) {
-            // i - index 만큼 60px씩 차이 나게
             return -(i - index) * OFFSET_Y;
           }
-          // 아직 등장 전인 페이지는 제자리
           return 0;
         },
-        duration: 0.6,
+        duration: OPEN_DURATION,
         ease: "power2.out",
       },
-      "<", // 위 애니메이션과 동시에 시작
+      "<",
     );
+
+    // 페이지가 70% 펼쳐지는 시점 기록
+    revealAt[i] = openStart + OPEN_DURATION * 0.7;
+  });
+
+  // -------------------------------
+  // 6. 이미지 등장 - 최초 한 번만
+  // -------------------------------
+
+  gearTl.eventCallback("onUpdate", () => {
+    const currentTime = gearTl.time();
+
+    reveals.forEach((tl, i) => {
+      // 이미 등장한 페이지는 다시 실행하지 않음
+      if (revealed[i]) return;
+
+      // 해당 페이지가 70% 펼쳐지면 실행
+      if (currentTime >= revealAt[i]) {
+        revealed[i] = true;
+        tl.play(0);
+      }
+    });
   });
 }
+
 // #works 바로 아래에 있는 하위 섹션만 감지
 document.querySelectorAll("#works > section[data-title]").forEach((section) => {
   const title = section.dataset.title;

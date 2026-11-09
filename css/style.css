@@ -1269,6 +1269,7 @@ main {
   border-radius: 50px;
   display: flex;
   width: 80%;
+  max-width: 1265px;
   padding: 40px 50px;
   box-sizing: border-box;
   justify-content: center;
@@ -1292,13 +1293,14 @@ main {
   display: block;
   border-radius: 10px;
   overflow: hidden;
+  position: relative;
 }
 
 .interactive-project .projectDetail .projectImg .mobile {
   width: 24%;
   position: absolute;
-  top: -10px;
-  right: 70%;
+  /* top: -10px;
+  left: 0; */
   opacity: 0;
 }
 
@@ -1335,7 +1337,7 @@ main {
 
 /* Description */
 .interactive-project .projectDetail .projectContent .description {
-  height: 50%;
+  height: auto;
   opacity: 1;
 }
 .interactive-project .projectDetail .projectContent .description h4 {
@@ -1349,8 +1351,9 @@ main {
 
 /* Skills */
 .interactive-project .projectDetail .projectContent .skills {
+  margin-top: 30px;
   opacity: 1;
-  height: 25%;
+  height: auto;
 }
 .interactive-project .projectDetail .projectContent .skills h4 {
   font-size: 1.2rem;
@@ -1377,15 +1380,18 @@ main {
 
 /* Shortcut Button */
 .interactive-project .projectDetail .projectContent .shortCut {
-  height: 25%;
+  position: absolute;
+  transform: translateX(-50%);
+  /* margin-top: 25px; */
+  height: auto;
   display: flex;
   justify-content: center;
-  align-items: flex-end;
+  /* align-items: flex-end; */
 }
 
 .interactive-project .projectDetail .projectContent .shortCut a {
   display: block;
-  width: 150px;
+  width: clamp(150px, 16vw, 220px);
   height: 50px;
   line-height: 50px;
   border-radius: 50px;
@@ -1414,18 +1420,17 @@ main {
 }
 
 .brand-commerce .inner {
-  position: sticky; /* layout 안정화 */
-  top: 80px; /* header 고려 */
+  position: relative;
   width: 100%;
-  height: 930px;
+  height: 100vh;
   margin: 0 auto;
+
   display: flex;
   justify-content: center;
   align-items: center;
   perspective: 2500px;
   transform-style: preserve-3d;
 }
-
 /* bg 공통 */
 .brand-commerce .inner .bg {
   height: 100%;
@@ -1435,6 +1440,8 @@ main {
   top: 0;
   left: 0;
   z-index: 1;
+  height: 100%;
+  box-sizing: border-box;
   padding-top: 80px;
   overflow: hidden;
   display: flex;
@@ -1611,11 +1618,13 @@ main {
 }
 /* 공통 페이지 스타일 */
 .brand-commerce .page {
+  pointer-events: none;
   max-width: 1700px;
+  width: 90%;
   margin: 0px auto;
   margin-top: 20px;
   position: absolute;
-  inset: 0;
+  inset: 80px 0 0;
   padding: 10px 20px;
   border-radius: 24px;
   backface-visibility: hidden;
@@ -1624,7 +1633,9 @@ main {
   opacity: 0;
   box-shadow: 3px 1px 8px rgba(0, 0, 0, 0.6);
 }
-
+.brand-commerce .page .title {
+  white-space: nowrap;
+}
 .brand-commerce .page .titleNo {
   font-weight: bold;
   font-size: 14px;
@@ -1653,7 +1664,7 @@ main {
 }
 
 .brand-commerce .page .detail {
-  margin-top: 100px;
+  margin-top: clamp(24px, 5vh, 100px);
   position: relative;
   font-size: 18px;
 }
@@ -1667,7 +1678,7 @@ main {
 .brand-commerce .page .tech {
   display: flex;
   gap: 10px;
-  margin-top: 30px;
+  margin-top: 5%;
 }
 .brand-commerce .p1 .tech li,
 .brand-commerce .p3 .tech li {
@@ -1678,7 +1689,7 @@ main {
   border-radius: 5px;
 }
 .brand-commerce .project-info {
-  margin-top: 60px;
+  margin-top: clamp(20px, 3vh, 60px);
   display: flex;
   gap: 20px;
 }
@@ -1704,7 +1715,7 @@ main {
   font-size: 1.2rem;
 }
 .brand-commerce .view {
-  margin-top: 100px;
+  margin-top: clamp(24px, 5vh, 100px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1721,13 +1732,16 @@ main {
   transition: 0.4s;
 }
 .brand-commerce .view a {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
+  display: block;
+  text-align: center;
   width: 100%;
   height: 100%;
   box-sizing: border-box;
+}
+.brand-commerce .view,
+.planning,
+.story {
+  pointer-events: auto;
 }
 .brand-commerce .view:hover {
   background-color: #000;
@@ -1755,6 +1769,9 @@ main {
 .brand-commerce .page .contentWrap .project-visual > div img {
   width: 100%;
 }
+.page .shortCut > div {
+  margin-top: clamp(40px, 5vh, 70px);
+}
 /*개별 페이지 설정-1*/
 .p1 {
   background-image: url(../img/p1bg.png);
@@ -1762,7 +1779,7 @@ main {
 }
 .p1 .title {
   font-family: "GMarketSans";
-  font-size: 95px;
+  font-size: clamp(30px, 5vw, 90px);
   font-weight: 800;
   z-index: 1000;
   width: 100%;
@@ -1813,11 +1830,14 @@ main {
 .p1 .shortCut {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
+}
+.p1 .detail {
+  z-index: 10000;
+  width: 90%;
 }
 
 .p1 .shortCut > div {
-  margin-top: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1868,38 +1888,38 @@ main {
   position: relative;
 }
 .p1 .project-visual > div:nth-child(1) {
-  right: 0px;
+  left: 45%;
   top: 20px;
-  width: 50%;
+  width: clamp(260px, 19vw, 370px);
   aspect-ratio: 770 / 1200;
   transform: rotateY(-15deg);
   border-radius: 20px;
   z-index: 999;
 }
 .p1 .project-visual > div:nth-child(2) {
-  right: 350px;
+  left: 13%;
   top: 20px;
-  width: 35%;
+  width: clamp(200px, 15vw, 290px);
   aspect-ratio: 770 / 1200;
   transform: rotateY(-15deg);
   border-radius: 20px;
   z-index: 998;
 }
 .p1 .project-visual > div:nth-child(3) {
-  right: 550px;
+  left: -8%;
   top: 20px;
-  width: 33%;
+  width: clamp(180px, 13vw, 250px);
   aspect-ratio: 770 / 1200;
   transform: rotateY(-15deg);
   border-radius: 20px;
   z-index: 997;
 }
 .p1 .project-visual > div:nth-child(4) {
-  bottom: 100px;
-  left: -150px;
-  background-color: transparent;
+  bottom: 2%;
+  left: -10%;
+  /* background-color: transparent; */
   z-index: 999;
-  width: 70%;
+  width: clamp(200px, 26vw, 430px);
 }
 .p1 .project-visual > div > div:nth-child(1) {
   background-color: #333;
@@ -1908,10 +1928,11 @@ main {
   display: inline-block;
   border-radius: 8px 8px 0px 0px;
   margin-left: 20px;
-  width: 50%;
+  max-width: 150px;
   display: flex;
   align-items: center;
   gap: 4px;
+  white-space: nowrap;
 }
 .p1 .project-visual > div > div:nth-child(1) > div {
   border-radius: 4px;
@@ -1935,7 +1956,7 @@ main {
   background: #fff;
   color: #222;
   background-image: url(../img/p2bg.png);
-  background-size: 100%;
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
@@ -1955,7 +1976,7 @@ main {
   color: #f4937e;
 }
 .p2 .title {
-  font-size: 200px;
+  font-size: clamp(138px, 11vw, 190px);
   font-family: "Whisper", cursive;
   /* font-weight: 200; */
   font-style: normal;
@@ -1965,7 +1986,7 @@ main {
 }
 .p2 .title span {
   display: block;
-  font-size: 30px;
+  font-size: clamp(22px, 2vw, 30px);
   letter-spacing: 20px;
   font-family: "Zalando Sans SemiExpanded", sans-serif;
   font-optical-sizing: auto;
@@ -1985,7 +2006,6 @@ main {
   border: 1px solid #f4937e;
 }
 .brand-commerce .p2 .view {
-  margin-top: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2011,25 +2031,26 @@ main {
 }
 .p2 .project-visual > div:nth-child(1) {
   transform: rotate(5deg) translateY(40px);
+  width: 100%;
 }
 .p2 .project-visual > div:nth-child(2) {
-  bottom: 180px;
-  left: -200px;
-  width: 70%;
+  bottom: 10%;
+  left: -10%;
+  width: clamp(380px, 24vw, 460px);
   transform: rotate(-3deg);
 }
 .p2 .project-visual > div:nth-child(3) {
-  width: 30%;
-  bottom: 150px;
-  right: 40px;
+  width: clamp(160px, 10vw, 220px);
+  bottom: 5%;
+  right: 2%;
   transform: rotate(5deg);
 }
 /*개별 페이지 설정-3*/
 .p3 {
   color: #222;
   background-image: url(../img/p3bg.png);
-  background-size: 100%;
-  background-position: center -80px;
+  background-size: cover;
+  background-position: center;
   /* background-position: center; */
   background-repeat: no-repeat;
 }
@@ -2039,7 +2060,7 @@ main {
   font-optical-sizing: auto;
   font-weight: 800;
   font-style: normal;
-  font-size: 130px;
+  font-size: clamp(80px, 7vw, 124px);
   line-height: 1.25;
 }
 
@@ -2051,30 +2072,35 @@ main {
   background-color: #fdb512;
 }
 .p3 .subTitle {
-  font-size: 30px;
+  font-size: clamp(22px, 2.5vw, 30px);
 }
-.p3 .project-visual .site {
-  left: 100px;
-  width: 600px;
-  transform: rotate(5deg);
-}
+
 .p3 .project-info > div span {
   color: #fdb512;
 }
+.p3 .project-visual {
+  /* border: 1px solid; */
+  position: relative;
+}
+.p3 .project-visual .site {
+  left: 100px;
+  width: clamp(385px, 32vw, 600px);
+  transform: rotate(5deg);
+}
 .p3 .project-visual .lapTop {
-  width: 800px;
-  left: -250px;
-  top: 100px;
+  width: clamp(570px, 37vw, 760px);
+  left: -30%;
+  top: 10%;
 }
 .p3 .project-visual .tablet {
-  width: 500px;
-  left: 200px;
-  top: 320px;
+  width: clamp(410px, 28vw, 500px);
+  left: 25%;
+  top: 30%;
 }
 .p3 .project-visual .mobile {
-  width: 350px;
-  left: 400px;
-  top: 410px;
+  width: clamp(250px, 20vw, 330px);
+  left: 60%;
+  top: 45%;
 }
 .p3 .detail::before {
   background-color: #fdb312;
@@ -2092,7 +2118,7 @@ main {
 
 .team-project .inner {
   max-width: 1700px;
-  padding: 100px 0px;
+  padding: 100px 20px;
   box-sizing: border-box;
   margin: 0px auto;
 }
@@ -2249,8 +2275,6 @@ main {
 .projectDetail2 .viewport {
   position: relative;
   overflow: hidden;
-
-  /* 좌→투명 → 중앙→불투명 → 우→투명 */
   -webkit-mask-image: linear-gradient(
     to top,
     transparent,
@@ -2281,7 +2305,7 @@ main {
 }
 .projectDetail2 .mobileWrap ul {
   padding: 0px 15px;
-  width: 200px;
+  width: clamp(150px, 16vw, 200px);
   height: 1000px;
   /* overflow: hidden; */
   /* border: 1px solid blue; */
@@ -2341,9 +2365,9 @@ main {
   border-radius: 14px;
 }
 .projectDetail2 .mobileContent {
-  margin-left: 100px;
-  width: 100%;
-
+  flex: 1;
+  min-width: 0;
+  margin-left: clamp(20px, 4vw, 100px);
   position: relative;
 }
 
@@ -2353,15 +2377,17 @@ main {
   width: 100%;
 }
 .mobileContent .concept ul {
+  width: 100%;
   display: flex;
   margin: 20px 0px;
 }
 .mobileContent .concept .color {
+  width: 100%;
   gap: 20px;
   text-align: center;
 }
 .mobileContent .concept .color li {
-  width: 135px;
+  width: calc(100% / 5);
   height: 45px;
   line-height: 45px;
   border-radius: 8px;
@@ -2393,17 +2419,19 @@ main {
   text-align: center;
 }
 .mobileContent .contribution {
+  width: 100%;
   margin-bottom: 70px;
 }
 .mobileContent .contribution h4 {
   margin-bottom: 20px;
 }
 .mobileContent .contribution .bar {
-  width: 755px;
+  width: 100%;
   height: 25px;
   border-radius: 25px;
   background-color: #ccc;
 }
+
 .mobileContent .contribution .bar .cont {
   width: 20%;
   height: 100%;
@@ -2413,9 +2441,9 @@ main {
 /*comment*/
 .mobileContent .comment {
   position: relative;
-  width: 755px;
-  height: 400px;
-  padding: 30px;
+  width: 100%;
+  height: auto;
+  padding: 80px 30px;
   box-sizing: border-box;
   z-index: 1;
 }
@@ -2457,7 +2485,7 @@ main {
 /* contact */
 /* ----------------------------------- */
 #contact {
-  height: calc(100vh - 80px);
+  height: auto;
   /* background-color: rgba(255, 255, 255, 0.5); */
   width: 100%;
 }
@@ -2475,6 +2503,7 @@ main {
   gap: 50px;
   margin: 0px auto;
   perspective: 1000px;
+  padding: 0px 20px;
 }
 #contact .contentWrap .contact-card {
   background: linear-gradient(
@@ -2580,6 +2609,7 @@ main {
 }
 /*footer*/
 footer {
+  margin-top: 40px;
   width: 100%;
   height: 80px;
   /* background-color: rgba(255, 255, 255, 0.5); */
