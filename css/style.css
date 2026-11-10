@@ -930,15 +930,33 @@ main {
 /* projectOverview */
 /* ----------------------------------- */
 #works > .sectionTitle {
-  margin-top: 40px;
+  margin-top: 0;
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
+  top: 40px;
+  left: 20px;
+  width: calc(100% - 40px);
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
   z-index: 999;
 }
+/* One visual system for every WORKS section heading. */
+#works .sectionTitle .subTitle {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 7px;
+  min-width: 0;
+}
+#works .sectionTitle .subTitle::before {
+  content: "–";
+  color: #ff9f00;
+  font-weight: 800;
+}
+#works .sectionTitle .subTitle > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
 .projectOverview .lists li:nth-child(odd) {
   cursor: pointer;
 }
@@ -1135,13 +1153,6 @@ main {
 
 .interactive-project .projectOverview .lists li:nth-child(5) .itemInner {
   font-family: "ChangwonDanggamAsak";
-  width: 280px;
-  height: 200px;
-  color: #fff;
-}
-
-.interactive-project .projectOverview .lists li:nth-child(7) .itemInner {
-  font-family: "ChangwonDanggamAsak";
   width: 200px;
   height: 350px;
   color: #ff67a1;
@@ -1198,7 +1209,7 @@ main {
     margin-left: 0;
   }
   100% {
-    margin-left: -2520px;
+    margin-left: -1890px;
   }
 }
 .interactive-project .projectOverview .flowText .wrap li {
@@ -2488,7 +2499,7 @@ main {
 /* contact */
 /* ----------------------------------- */
 #contact {
-  height: auto;
+  height: calc(100vh - 120px);
   /* background-color: rgba(255, 255, 255, 0.5); */
   width: 100%;
 }
@@ -2519,7 +2530,7 @@ main {
   filter: drop-shadow(5px 5px 3px rgba(0, 0, 0, 0.9));
   border: 1px solid rgba(255, 255, 255, 0.2);
   width: 500px;
-  padding: 32px;
+  padding: 18px;
   border-radius: 20px;
   filter: drop-shadow(1px 3px 3px rgba(0, 0, 0, 0.5));
   transform-style: preserve-3d;
@@ -2547,7 +2558,7 @@ main {
   /* color: rgb(255, 92, 163); */
   color: rgb(110, 170, 255);
   font-size: 16px;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
 .form-row label {
@@ -2577,6 +2588,9 @@ main {
   resize: none;
 }
 
+#contact .contentWrap .contact-form {
+  margin-top: 16px;
+}
 .contact-form button {
   width: 100%;
   height: 48px;
@@ -2848,9 +2862,12 @@ footer .inner .copy {
   }
   .mobileContent .concept .color,
   .mobileContent .concept .keyword {
-    overflow: auto;
-    scrollbar-width: thin;
-    scrollbar-color: #888 transparent;
+    flex-wrap: wrap;
+    gap: 2%;
+  }
+
+  .mobileContent .concept .color li {
+    font-size: 14px;
   }
   .projectDetail2 {
     position: relative;
@@ -2875,16 +2892,1843 @@ footer .inner .copy {
     bottom: 80px;
     right: 0;
   }
+  #contact .contentWrap .contact-head p {
+    font-size: clamp(13px, 1.7vw, 16px);
+  }
+  .outro {
+    font-size: 60px;
+  }
+  #contact .contentWrap .contact-card {
+    padding: 2%;
+    height: 100%;
+  }
+}
+
+/* Added for mobile About; desktop About keeps its original layout. */
+#hero .about .mobilePortrait,
+#hero .about .mobileSkillIcons {
+  display: none;
+}
+
+/* Mobile intro logo is a 5-layer composition; hidden on desktop/tablet. */
+#hero .intro .mobileIntroJ {
+  display: none;
+}
+
+/* -------------------------------------------------------
+   MOBILE (<= 769px): auto-play Intro + normal-flow About
+   PC/tablet rules above this block remain unchanged.
+   ------------------------------------------------------- */
+@media (max-width: 769px) {
+  /* Navigation needs room for both the three links and CONTACT. */
+  header {
+    height: 72px;
+  }
+  header .inner {
+    width: 96%;
+    max-width: none;
+  }
+  header nav {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+  header .gnb {
+    width: auto;
+    height: auto;
+    gap: 2px;
+    padding-right: 87px;
+    box-sizing: border-box;
+  }
+  header .gnb li {
+    flex: 0 0 auto;
+  }
+  header .gnb li a {
+    width: auto;
+    padding: 0 clamp(4px, 1.5vw, 9px);
+    font-size: clamp(11px, 3.1vw, 14px);
+    white-space: nowrap;
+  }
+  header nav .contact {
+    right: 0;
+    white-space: nowrap;
+  }
+  header nav .contact a {
+    padding: 5px 9px;
+    font-size: 12px;
+  }
+
+  /* Desktop hero is a pinned stack. Mobile is two normal sections. */
+  #hero {
+    height: auto;
+    overflow: visible;
+  }
+  #hero .scene {
+    position: relative;
+    inset: auto;
+  }
+
+  #hero .intro {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100svh;
+    min-height: 590px;
+    padding: 0;
+    box-sizing: border-box;
+    background-size: cover;
+    overflow: hidden;
+  }
+
+  /* Preserve old assets for desktop, but don't draw them on mobile. */
+  #hero .intro .pieces,
+  #hero .intro .intro_logo,
+  #hero .intro .shade,
+  #hero .intro .scrollDown {
+    display: none;
+  }
+
+  /* Title: 16px below the 72px fixed navigation, NOT centered by flex. */
+  #hero .intro .sectionTitle {
+    position: absolute;
+    z-index: 6;
+    left: 50%;
+    top: 88px;
+    transform: none; /* GSAP owns xPercent centering. */
+    width: calc(100% - 36px);
+    max-width: 420px;
+    padding: 8px 6px;
+    margin: 0;
+    box-sizing: border-box;
+    height: auto;
+    line-height: 1.1;
+    font-size: clamp(26px, 7vw, 43px);
+    white-space: nowrap;
+  }
+
+  /* All five PNG layers move as ONE composed J. */
+  #hero .intro .mobileIntroJ {
+    display: block;
+    position: absolute;
+    z-index: 4;
+    left: 50%;
+    top: 46%;
+    transform: none; /* GSAP owns xPercent/yPercent centering. */
+    width: min(62vw, 270px);
+    height: auto;
+    aspect-ratio: 1;
+    margin: 0;
+    pointer-events: none;
+  }
+  #hero .intro .mobileIntroJ img {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  #hero .intro .mobileIntroJ img:nth-child(1) {
+    z-index: 1;
+    transform: scale(1.15);
+  }
+  #hero .intro .mobileIntroJ img:nth-child(2) {
+    z-index: 2;
+  }
+  #hero .intro .mobileIntroJ img:nth-child(3) {
+    z-index: 3;
+  }
+  #hero .intro .mobileIntroJ img:nth-child(4) {
+    z-index: 4;
+  }
+  #hero .intro .mobileIntroJ img:nth-child(5) {
+    z-index: 5;
+  }
+
+  /* Keep I CONNECT and the existing rotating 3 phrases, stack vertically. */
+  #hero .intro .roll {
+    position: absolute;
+    z-index: 5;
+    left: 50%;
+    top: auto;
+    bottom: clamp(24px, 5svh, 48px);
+    transform: none; /* GSAP owns xPercent centering. */
+    width: calc(100% - 40px);
+    max-width: 420px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    backdrop-filter: none;
+  }
+  #hero .intro .roll > div:not(:nth-child(2)) {
+    position: relative;
+    left: auto;
+    right: auto;
+    top: auto;
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+  }
+  #hero .intro .roll .left,
+  #hero .intro .roll .right {
+    min-height: 48px;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+    background: rgba(10, 12, 24, 0.28);
+  }
+  #hero .intro .roll .left .bg,
+  #hero .intro .roll .right .bg {
+    position: relative;
+    inset: auto;
+    transform: none;
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+    border: none;
+  }
+  #hero .intro .roll .left .content,
+  #hero .intro .roll .right .content {
+    position: relative;
+    inset: auto;
+    transform: none;
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #hero .intro .roll .left .content {
+    min-height: 45px;
+    padding: 7px 12px;
+    font-size: clamp(17px, 5vw, 22px);
+  }
+  #hero .intro .roll .right .content {
+    min-height: 92px;
+    padding: 8px 10px;
+    flex-direction: column;
+    gap: 5px;
+    font-size: clamp(12px, 3.5vw, 16px);
+  }
+  #hero .intro .roll .right .content > div {
+    margin-left: 0;
+    white-space: nowrap;
+    font-size: inherit;
+  }
+  #hero .intro .roll .right .content > div.is-active {
+    margin-left: 0;
+  }
+  #hero .intro .roll .line {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    align-self: center;
+    width: 62%;
+    height: 1px;
+    background-color: #fff;
+    flex: 0 0 1px;
+  }
+
+  /* --------------------------------------------------
+     ABOUT: compact title, introduction + fully visible
+     portrait, glass cards, skills icons inside SKILLS.
+     Only active below 770px.
+     -------------------------------------------------- */
+  #hero .about {
+    position: relative;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    padding: 98px 0 54px;
+    box-sizing: border-box;
+    scroll-margin-top: 72px;
+  }
+
+  /* Section titles for mobile are smaller across About and Works. */
+  #hero .about .sectionTitle {
+    position: relative;
+    width: 90%;
+    height: auto;
+    margin: 0 auto 14px;
+    line-height: 1.1;
+    z-index: 5;
+  }
+  #hero .about .sectionTitle .inner {
+    width: 100%;
+  }
+  #hero .about .sectionTitle h3 {
+    font-size: clamp(24px, 6vw, 32px);
+    line-height: 1.15;
+  }
+  #hero .about .sectionTitle .blink {
+    width: 10px;
+    height: 10px;
+    flex: 0 0 10px;
+  }
+
+  /* Hide the large desktop portrait. Mobile portrait is in the lead block. */
+  #hero .about > .bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  #hero .about > .bg .left,
+  #hero .about > .bg .right,
+  #hero .about > .bg .pic {
+    display: none;
+  }
+
+  #hero .about .contentWrap {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    height: auto;
+  }
+  #hero .about .contentWrap .inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 90%;
+    max-width: 640px;
+    height: auto;
+    padding: 0;
+    margin: 0 auto;
+    color: #fff;
+    font-size: 15px;
+  }
+
+  /* Reset desktop's absolute positioning on the five info sections. */
+  #hero .about .contentWrap .inner > .profile,
+  #hero .about .contentWrap .inner > .education,
+  #hero .about .contentWrap .inner > .introduce,
+  #hero .about .contentWrap .inner > .skills,
+  #hero .about .contentWrap .inner > .license,
+  #hero .about .contentWrap .inner > .exp {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    transform: none;
+    box-sizing: border-box;
+  }
+
+  /* Intro + profile photo: one composition directly under ABOUT. */
+  #hero .about .contentWrap .inner > .introduce {
+    order: 0;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(4px, 2vw, 14px);
+    min-height: 180px;
+    padding: 0 0 8px;
+    background: none;
+    font-size: clamp(13px, 3.8vw, 19px);
+    line-height: 1.65;
+    font-weight: 400;
+    word-break: keep-all;
+  }
+  #hero .about .introduce .introCopy {
+    position: relative;
+    z-index: 2;
+    min-width: 0;
+    white-space: nowrap;
+    letter-spacing: -0.045em;
+  }
+  #hero .about .introduce strong {
+    font-weight: 800;
+  }
+  #hero .about .introduce::before {
+    left: 34%;
+    top: 50%;
+    width: 110%;
+    height: 70%;
+    background: rgba(246, 69, 131, 0.16);
+    filter: blur(65px);
+  }
+  #hero .about .introduce .mobilePortrait {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    min-width: 0;
+    min-height: 0;
+    max-height: clamp(190px, 54vw, 300px);
+    overflow: visible;
+  }
+  #hero .about .introduce .mobilePortrait img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: clamp(190px, 54vw, 300px);
+    object-fit: contain;
+    object-position: center bottom;
+    opacity: 1;
+    filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.25));
+  }
+
+  /* Glass card treatment for the five information sections. */
+  #hero .about .contentWrap .inner > .profile,
+  #hero .about .contentWrap .inner > .education,
+  #hero .about .contentWrap .inner > .skills,
+  #hero .about .contentWrap .inner > .license,
+  #hero .about .contentWrap .inner > .exp {
+    padding: clamp(16px, 4vw, 22px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.13),
+      rgba(255, 255, 255, 0.045)
+    );
+    box-shadow:
+      0 10px 30px rgba(0, 0, 0, 0.22),
+      inset 0 1px rgba(255, 255, 255, 0.08);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+  #hero .about .contentWrap .inner > .profile {
+    order: 1;
+  }
+  #hero .about .contentWrap .inner > .education {
+    order: 2;
+  }
+  #hero .about .contentWrap .inner > .skills {
+    order: 3;
+  }
+  #hero .about .contentWrap .inner > .license {
+    order: 4;
+  }
+  #hero .about .contentWrap .inner > .exp {
+    order: 5;
+  }
+
+  #hero .about .inner > div > .title {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  #hero .about .inner > div > .title h4 {
+    flex: 0 0 auto;
+    margin: 0;
+    font-size: 13px;
+    color: #8db6da;
+  }
+  #hero .about .inner > div > .title h3 {
+    margin: 0;
+    font-size: clamp(19px, 5.1vw, 24px);
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  #hero .about .inner > div > .content > div,
+  #hero .about .inner > div > .content > li {
+    margin: 0 0 10px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  #hero .about .inner > div > .content > div:last-child,
+  #hero .about .inner > div > .content > li:last-child {
+    margin-bottom: 0;
+  }
+  #hero .about .inner > div > .content > div span,
+  #hero .about .inner > div > .content > li span {
+    font-size: clamp(12px, 3.5vw, 14px);
+  }
+  #hero .about .inner > div > .content > div .title,
+  #hero .about .inner > div > .content > li .date {
+    margin-left: 0;
+    width: 88px;
+    min-width: 88px;
+    padding-left: 10px;
+    box-sizing: border-box;
+    font-size: 12px;
+    color: #a6c3da;
+  }
+  #hero .about .profile .content > div,
+  #hero .about .education .content > li,
+  #hero .about .license .content > li,
+  #hero .about .exp .content > li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    min-width: 0;
+  }
+  #hero .about .profile .content > div > span:last-child,
+  #hero .about .education .content > li > span:last-child,
+  #hero .about .license .content > li > span:last-child,
+  #hero .about .exp .content > li > span:last-child {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  #hero .about .skills .content > li {
+    border-left: 2px solid rgba(141, 182, 218, 0.65);
+    padding-left: 10px;
+  }
+
+  /* Icons are shown INSIDE the skills glass card on mobile. */
+  #hero .about .icons {
+    display: none;
+  }
+  #hero .about .skills .mobileSkillIcons {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    justify-items: center;
+    align-items: center;
+    gap: 14px 8px;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  #hero .about .skills .mobileSkillIcons li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+    height: 44px;
+  }
+  #hero .about .skills .mobileSkillIcons img {
+    display: block;
+    width: min(100%, 38px);
+    max-height: 42px;
+    height: auto;
+    object-fit: contain;
+  }
+
+  #hero .about .flowText {
+    position: relative;
+    bottom: auto;
+    margin-top: 34px;
+  }
+  #hero .about .flowText .inner > div {
+    font-size: 40px;
+  }
+
+  /* This section is fixed and empty until its own desktop timeline runs;
+     on mobile show the title in normal flow instead. */
+  #works > .sectionTitle {
+    position: relative;
+    top: auto;
+    margin-top: 0;
+    opacity: 1;
+    padding: 20px 4%;
+    box-sizing: border-box;
+    height: auto;
+    line-height: 1.1;
+  }
+  #works > .sectionTitle .inner {
+    flex-wrap: wrap;
+  }
+  #works > .sectionTitle h3 {
+    font-size: clamp(26px, 7vw, 38px);
+  }
+  #works > .sectionTitle .subTitle {
+    font-size: 12px;
+  }
+}
+
+/* ===============================================================
+   MOBILE WORKS -> BRAND & COMMERCE -> TEAM -> CONTACT (<=769px)
+   No pinned layout, no scrub; clear stacked content instead.
+   =============================================================== */
+#works .mobileSectionTitle {
+  display: none;
+}
+@media (max-width: 769px) {
+  /* All titles use EXACTLY the same visual scale/alignment as mobile ABOUT. */
+  #works > .sectionTitle,
+  #works .mobileSectionTitle,
+  #contact > .sectionTitle {
+    display: block;
+    position: relative;
+    inset: auto;
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+    width: 90%;
+    max-width: 640px;
+    height: auto;
+    margin: 0 auto 16px;
+    padding: 0;
+    box-sizing: border-box;
+    line-height: 1.1;
+    color: #fff;
+    pointer-events: auto;
+  }
+  #works > .sectionTitle .inner,
+  #works .mobileSectionTitle .inner,
+  #contact > .sectionTitle .inner {
+    width: 100%;
+    max-width: none;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px;
+    align-items: center;
+  }
+  #works > .sectionTitle h3,
+  #works .mobileSectionTitle h3,
+  #contact > .sectionTitle h3 {
+    font-size: clamp(24px, 6vw, 32px);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    font-weight: 800;
+    white-space: normal;
+  }
+  #works > .sectionTitle .blink,
+  #works .mobileSectionTitle .blink,
+  #contact > .sectionTitle .blink {
+    width: 10px;
+    height: 10px;
+    flex: 0 0 10px;
+  }
+  #works > .sectionTitle .sectionName {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  #works > .sectionTitle .subTitle {
+    display: inline-flex;
+  }
+  #works .sectionTitle.is-team {
+    color: #fff;
+  }
+
+  /* WORKS intro: keep the SVG drawing; remove floating cards/link lines. */
+  #works {
+    min-height: 0;
+    width: 100%;
+    overflow: visible;
+  }
+  #works > .sectionTitle {
+    margin-top: 44px;
+    margin-bottom: 22px;
+  }
+  #works .interactive-project {
+    position: relative;
+    height: auto;
+    overflow: visible;
+  }
+  .interactive-project .projectOverview {
+    position: relative;
+    height: auto;
+    min-height: 0;
+    padding: 0 0 22px;
+    overflow: visible;
+  }
+  .interactive-project .projectOverview .inner {
+    position: relative;
+    width: 90%;
+    max-width: 640px;
+    margin: 0 auto;
+    height: auto;
+  }
+  .interactive-project .projectOverview .text {
+    position: relative;
+    inset: auto;
+    transform: none;
+    height: auto;
+    width: 100%;
+    padding: 20px 10px 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .interactive-project .projectOverview .text h3 {
+    position: relative;
+    inset: auto;
+    transform: rotate(-3deg);
+    font-size: clamp(30px, 8vw, 44px);
+    letter-spacing: -0.015em;
+    width: 100%;
+    line-height: 1.1;
+  }
+  .interactive-project .projectOverview .text svg {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    width: min(100%, 490px);
+    height: auto;
+    aspect-ratio: 288.47 / 143.6;
+    display: block;
+    overflow: visible;
+    z-index: 1;
+    filter: drop-shadow(0 0 14px rgba(255, 27, 96, 0.3));
+  }
+  .interactive-project .projectOverview .text .guideLine {
+    stroke: #ff1b60;
+    stroke-width: 9;
+    opacity: 1;
+  }
+  .interactive-project .projectOverview .overviewBg,
+  .interactive-project .projectOverview .projects,
+  .interactive-project .projectOverview .lists,
+  .interactive-project .projectOverview .link-svg,
+  .interactive-project .projectOverview .flowText {
+    display: none !important;
+  }
+
+  /* Four Interactive projects as vertical glass cards. */
+  .interactive-project .projectDetail {
+    position: relative;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    padding: 10px 0 64px;
+    overflow: visible;
+    perspective: none;
+    box-sizing: border-box;
+    background: linear-gradient(180deg, rgba(34, 34, 34, 0), #222 80%);
+  }
+  .interactive-project .projectDetail .titleWrap {
+    display: none;
+  }
+  .interactive-project .projectDetail .projectWrap {
+    position: relative;
+    transform: none;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+    width: 90%;
+    max-width: 640px;
+    height: auto;
+    margin: 0 auto;
+  }
+  .interactive-project .projectDetail .projectWrap > article {
+    width: 100%;
+    max-width: none;
+    flex: 0 0 auto;
+    height: auto;
+    min-width: 0;
+    padding: clamp(14px, 4vw, 24px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 14px;
+    border-radius: 22px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.14),
+      rgba(255, 255, 255, 0.035)
+    );
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+  .interactive-project .projectDetail .projectImg,
+  .interactive-project .projectDetail .projectContent {
+    width: 100%;
+    height: auto;
+    min-width: 0;
+    position: relative;
+  }
+  .interactive-project .projectDetail .projectImg > img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    max-height: 270px;
+    object-fit: cover;
+    object-position: top center;
+    border-radius: 14px;
+  }
+  .interactive-project .projectDetail .projectImg .mobile {
+    position: absolute;
+    width: clamp(54px, 21%, 100px);
+    height: auto;
+    right: 0;
+    top: 12%;
+    bottom: auto;
+    left: auto;
+    opacity: 1;
+    transform: rotate(8deg);
+    filter: drop-shadow(0 5px 12px rgba(0, 0, 0, 0.5));
+  }
+  .interactive-project .projectDetail .projectImg .mobile img {
+    width: 100%;
+    height: auto;
+  }
+  .interactive-project .projectDetail .projectImg h4 {
+    font-size: clamp(22px, 6vw, 30px);
+    padding: 10px 0;
+    margin: 12px 0 0;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+  }
+  .interactive-project .projectDetail .projectContent h4 {
+    font-size: 18px;
+  }
+  #works .interactive-project .projectDetail .projectContent .description p {
+    height: auto;
+    max-height: none;
+    overflow: visible;
+    padding-right: 0;
+    margin-top: 12px;
+    font-size: clamp(13px, 3.5vw, 15px);
+    line-height: 1.75;
+    word-break: keep-all;
+  }
+  .interactive-project .projectDetail .projectContent .skills {
+    margin-top: 20px;
+  }
+  .interactive-project .projectDetail .projectContent .skills ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+  }
+  .interactive-project .projectDetail .projectContent .skills li,
+  .interactive-project .projectDetail .projectContent .skills li:last-child {
+    flex: 0 0 38px;
+    width: 38px;
+    height: 38px;
+    line-height: 38px;
+    padding: 0;
+    margin-top: 10px;
+  }
+  .interactive-project .projectDetail .projectContent .skills img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  .interactive-project .projectDetail .projectContent .shortCut {
+    position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    top: auto;
+    transform: none;
+    width: 100%;
+    margin-top: 24px;
+  }
+  .interactive-project .projectDetail .projectContent .shortCut a {
+    width: 100%;
+    max-width: 280px;
+    height: 46px;
+    line-height: 46px;
+    font-size: 15px;
+    border-radius: 23px;
+  }
+
+  /* BRAND & COMMERCE: a normal vertical three-panel showcase. */
+  #works .brand-commerce {
+    height: auto;
+    min-height: 0;
+    position: relative;
+    padding: 54px 0 70px;
+    background-color: #222;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+  #works .brand-commerce .mobileSectionTitle {
+    margin-bottom: 22px;
+  }
+  #works .brand-commerce .inner {
+    position: relative;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 28px;
+    perspective: none;
+    transform-style: flat;
+  }
+  #works .brand-commerce .inner > .bg {
+    display: none;
+  }
+  #works .brand-commerce .page {
+    position: relative;
+    inset: auto;
+    left: auto;
+    right: auto;
+    top: auto;
+    bottom: auto;
+    transform: none;
+    opacity: 1;
+    z-index: auto;
+    width: 90%;
+    max-width: 640px;
+    height: auto;
+    min-height: 0;
+    margin: 0 auto;
+    padding: clamp(18px, 5vw, 30px);
+    box-sizing: border-box;
+    border-radius: 22px;
+    overflow: hidden;
+    backface-visibility: visible;
+    pointer-events: auto;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
+  }
+  #works .brand-commerce .page .contentWrap {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    margin: 0;
+    gap: 20px;
+  }
+  #works .brand-commerce .page .contentWrap .project-visual {
+    order: 0;
+    width: 100%;
+    min-height: 0;
+    height: auto;
+    display: grid;
+    gap: 10px;
+    align-items: center;
+    justify-items: center;
+    box-sizing: border-box;
+  }
+  #works .brand-commerce .page .contentWrap .description {
+    order: 1;
+    width: 100%;
+    height: auto;
+    min-width: 0;
+  }
+  #works .brand-commerce .page .project-visual > div,
+  #works .brand-commerce .p1 .project-visual > div,
+  #works .brand-commerce .p2 .project-visual > div,
+  #works .brand-commerce .p3 .project-visual > div {
+    position: relative;
+    left: auto;
+    top: auto;
+    bottom: auto;
+    right: auto;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: auto;
+    transform: none;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  #works .brand-commerce .page .project-visual > div img {
+    display: block;
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+  #works .brand-commerce .p1 .project-visual {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  #works .brand-commerce .p1 .project-visual .visual-product {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    max-width: min(70%, 290px);
+    max-height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+  }
+  #works .brand-commerce .p1 .project-visual .visual-product img {
+    max-height: 250px;
+  }
+  #works .brand-commerce .p1 .project-visual .visual-planning,
+  #works .brand-commerce .p1 .project-visual .visual-story,
+  #works .brand-commerce .p1 .project-visual .visual-detail {
+    grid-row: 2;
+    width: 100%;
+    align-self: start;
+  }
+  #works .brand-commerce .p1 .project-visual .visual-planning {
+    grid-column: 1;
+  }
+  #works .brand-commerce .p1 .project-visual .visual-story {
+    grid-column: 2;
+  }
+  #works .brand-commerce .p1 .project-visual .visual-detail {
+    grid-column: 3;
+  }
+  #works .brand-commerce .p1 .project-visual > div > div:nth-child(1) {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 5px 3px;
+    font-size: 10px;
+    border-radius: 6px 6px 0 0;
+    box-sizing: border-box;
+    justify-content: center;
+    gap: 2px;
+    white-space: normal;
+    line-height: 1.3;
+  }
+  #works .brand-commerce .p1 .project-visual > div > div:nth-child(1) > div {
+    padding: 1px 3px;
+    margin-right: 1px;
+  }
+  #works .brand-commerce .p1 .project-visual > div > div:nth-child(2) {
+    height: auto;
+    border-radius: 8px;
+  }
+  #works .brand-commerce .p2 .project-visual {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  }
+  #works .brand-commerce .p2 .project-visual .site {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+  #works .brand-commerce .p2 .project-visual .lapTop {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  #works .brand-commerce .p2 .project-visual .mobile {
+    grid-column: 2;
+    grid-row: 2;
+    max-width: 110px;
+  }
+  #works .brand-commerce .p2 .project-visual .site img {
+    max-height: 200px;
+    object-fit: cover;
+    object-position: top;
+  }
+  #works .brand-commerce .p3 .project-visual {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  #works .brand-commerce .p3 .project-visual .site {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+  #works .brand-commerce .p3 .project-visual .lapTop {
+    grid-column: 1 / 3;
+    grid-row: 2;
+  }
+  #works .brand-commerce .p3 .project-visual .tablet {
+    grid-column: 3;
+    grid-row: 2;
+  }
+  #works .brand-commerce .p3 .project-visual .mobile {
+    grid-column: 3;
+    grid-row: 3;
+    max-width: 92px;
+    justify-self: center;
+  }
+  #works .brand-commerce .p3 .project-visual .site img {
+    max-height: 220px;
+    object-fit: cover;
+    object-position: top;
+  }
+  #works .brand-commerce .page .titleWrap {
+    width: 100%;
+    height: auto;
+  }
+  #works .brand-commerce .page .title {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  #works .brand-commerce .p1 .title,
+  #works .brand-commerce .p3 .title {
+    margin-top: 12px;
+  }
+  #works .brand-commerce .p1 .title {
+    font-size: clamp(25px, 8.3vw, 43px);
+    line-height: 1.15;
+  }
+  #works .brand-commerce .p1 .title > span {
+    display: inline-block;
+    width: auto;
+    padding: 4px 9px;
+    font-size: 13px;
+  }
+  #works .brand-commerce .p1 .title::before {
+    transform: translate(3px, 2px);
+  }
+  #works .brand-commerce .p2 .title {
+    font-size: clamp(60px, 17vw, 96px);
+    line-height: 0.95;
+  }
+  #works .brand-commerce .p2 .title span {
+    font-size: clamp(12px, 3.5vw, 18px);
+    letter-spacing: 0.14em;
+  }
+  #works .brand-commerce .p2 .subTitle {
+    margin-top: 12px;
+    letter-spacing: 0.12em;
+    font-size: 12px;
+  }
+  #works .brand-commerce .p3 .title {
+    font-size: clamp(40px, 12vw, 62px);
+    line-height: 1.15;
+  }
+  #works .brand-commerce .p3 .subTitle {
+    font-size: clamp(12px, 3vw, 17px);
+    letter-spacing: 0.14em;
+  }
+  #works .brand-commerce .page .detail,
+  #works .brand-commerce .p1 .detail {
+    width: 100%;
+    max-width: 100%;
+    margin: 24px 0 0;
+    font-size: clamp(13px, 3.6vw, 16px);
+    line-height: 1.7;
+    word-break: keep-all;
+  }
+  #works .brand-commerce .page .detail br {
+    display: none;
+  }
+  #works .brand-commerce .page .tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 18px;
+  }
+  #works .brand-commerce .page .tech li {
+    padding: 5px 8px;
+    font-size: 12px;
+  }
+  #works .brand-commerce .page .project-info {
+    margin-top: 20px;
+    gap: 15px;
+    flex-wrap: wrap;
+    font-size: 13px;
+  }
+  #works .brand-commerce .page .project-info > div span {
+    font-size: 17px;
+  }
+  #works .brand-commerce .p1 .shortCut {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+  }
+  #works .brand-commerce .p1 .shortCut > div,
+  #works .brand-commerce .page .view {
+    width: auto;
+    min-width: 0;
+    max-width: 100%;
+    margin: 20px 0 0;
+    padding: 10px 14px;
+    font-size: 13px;
+    line-height: 1.3;
+    border-radius: 12px;
+  }
+  #works .brand-commerce .p1 .shortCut > div {
+    margin: 0;
+    flex: 1 1 110px;
+  }
+  #works .brand-commerce .p1 .shortCut > div::after,
+  #works .brand-commerce .page .view::after {
+    border-radius: 10px;
+  }
+  #works .brand-commerce .page .view {
+    max-width: 240px;
+  }
+
+  /* TEAM PROJECT: image / summary / scrolling screenshots / metadata. */
+  #works .team-project {
+    height: auto;
+    overflow: hidden;
+    padding: 50px 0 58px;
+  }
+  #works .team-project .mobileSectionTitle {
+    color: #292929;
+    margin-bottom: 20px;
+  }
+  #works .team-project > .inner {
+    width: 90%;
+    max-width: 640px;
+    padding: 0;
+    margin: 0 auto;
+  }
+  #works .team-project .projectDetail {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    height: auto;
+  }
+  #works .team-project .projectDetail > div {
+    width: 100%;
+    height: auto;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+  #works .team-project .projectDetail .projectImg {
+    order: 0;
+  }
+  #works .team-project .projectDetail .projectContent {
+    order: 1;
+  }
+  #works .team-project .projectImg .imgBox {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16/10;
+    border-radius: 20px;
+  }
+  #works .team-project .projectImg .imgBox::after {
+    width: 92%;
+    height: 88%;
+  }
+  #works .team-project .laptop {
+    width: 100%;
+    height: 100%;
+  }
+  #works .team-project .laptop .frame {
+    width: 94%;
+    height: auto;
+    max-height: 95%;
+    object-fit: contain;
+  }
+  #works .team-project .laptop video {
+    width: 73%;
+    height: 64%;
+    object-fit: cover;
+  }
+  #works .team-project .projectImg span {
+    width: 17px;
+    height: 17px;
+  }
+  #works .team-project .projectImg .star1 {
+    left: 12px;
+    top: 10px;
+  }
+  #works .team-project .projectImg .star2 {
+    right: 12px;
+    top: 10px;
+  }
+  #works .team-project .projectImg .star3 {
+    left: 12px;
+    bottom: 10px;
+  }
+  #works .team-project .projectImg .star4 {
+    right: 12px;
+    bottom: 10px;
+  }
+  #works .team-project .inner h4 {
+    font-size: clamp(20px, 5.5vw, 25px);
+    margin-bottom: 12px;
+  }
+  #works .team-project .projectContent .description {
+    margin-bottom: 20px;
+  }
+  #works .team-project .projectContent .description p {
+    font-size: 14px;
+    line-height: 1.75;
+    word-break: keep-all;
+  }
+  #works .team-project .projectContent .skills ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  #works .team-project .projectContent .skills li {
+    width: 37px;
+    height: 37px;
+    line-height: 37px;
+  }
+  #works .team-project .shortCut-wrap {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    transform: none;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 10px;
+    margin-top: 24px;
+  }
+  #works .team-project .shortCut-wrap > div {
+    flex: 1 1 125px;
+    width: auto;
+    min-width: 0;
+    height: 46px;
+    line-height: 46px;
+    font-size: 14px;
+  }
+  #works .team-project .projectDetail2 {
+    display: flex;
+    flex-direction: column;
+    margin-top: 36px;
+    gap: 26px;
+    overflow: visible;
+  }
+  #works .team-project .projectDetail2 .mobileWrap {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    width: 100%;
+    height: auto;
+    transform: none;
+    min-width: 0;
+    overflow: visible;
+  }
+  #works .team-project .projectDetail2 .viewport,
+  #works .team-project .projectDetail2 .viewport:nth-child(1),
+  #works .team-project .projectDetail2 .viewport:nth-child(2),
+  #works .team-project .projectDetail2 .viewport:nth-child(3) {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 9/16;
+    min-width: 0;
+    margin: 0;
+    overflow: hidden;
+    -webkit-mask-image: none;
+    mask-image: none;
+    border-radius: 12px;
+  }
+  #works .team-project .projectDetail2 .mobileWrap ul {
+    width: 100%;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    display: block;
+    animation: none;
+  }
+  #works .team-project .projectDetail2 .mobileWrap li {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 9/16;
+    box-shadow: 0 4px 9px rgba(0, 0, 0, 0.18);
+  }
+  #works .team-project .projectDetail2 .mobileWrap li:not(:first-child) {
+    display: none;
+  }
+  #works .team-project .projectDetail2 .mobileWrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  #works .team-project .projectDetail2 .mobileContent {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+  }
+  #works .team-project .mobileContent .concept,
+  #works .team-project .mobileContent .contribution {
+    margin-bottom: 24px;
+  }
+  #works .team-project .mobileContent .concept ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin: 12px 0;
+  }
+  #works .team-project .mobileContent .concept .color li {
+    width: auto;
+    flex: 1 1 80px;
+    min-width: 0;
+    height: 40px;
+    line-height: 40px;
+    font-size: 12px;
+    border-radius: 8px;
+  }
+  #works .team-project .mobileContent .keyword li {
+    width: auto;
+    flex: 0 0 auto;
+    height: 34px;
+    line-height: 32px;
+    padding: 0 10px;
+    font-size: 12px;
+  }
+  #works .team-project .mobileContent .contribution .bar {
+    height: 18px;
+  }
+  #works .team-project .mobileContent .comment {
+    width: 100%;
+    min-height: 0;
+    height: auto;
+    padding: 22px 18px;
+  }
+  #works .team-project .mobileContent .comment p {
+    font-size: 13px;
+    line-height: 1.75;
+    word-break: keep-all;
+  }
+  #works .team-project .mobileContent .bg {
+    display: none;
+  }
+
+  /* CONTACT: identical title sizing, compact form, mobile THANK YOU. */
+  #contact {
+    height: auto;
+    min-width: 0;
+    padding: 55px 0 20px;
+    box-sizing: border-box;
+    scroll-margin-top: 72px;
+  }
+  #contact > .sectionTitle {
+    padding: 0;
+    margin-bottom: 20px;
+  }
+  #contact .contentWrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    width: 90%;
+    max-width: 640px;
+    padding: 0;
+    margin: 0 auto;
+    perspective: none;
+  }
+  #contact .contentWrap .contact-card {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    padding: clamp(18px, 5vw, 28px);
+    box-sizing: border-box;
+    transform: none;
+    border-radius: 18px;
+  }
+  #contact .contentWrap .contact-head h3 {
+    font-size: clamp(25px, 6.8vw, 34px);
+  }
+  #contact .contentWrap .contact-head p {
+    font-size: 13px;
+    line-height: 1.75;
+    word-break: keep-all;
+  }
+  #contact .contentWrap .contact-form {
+    margin-top: 20px;
+  }
+  #contact .contentWrap .contact-form .form-row {
+    margin-bottom: 14px;
+  }
+  #contact .contentWrap .contact-form label {
+    font-size: 14px;
+    margin-bottom: 7px;
+  }
+  #contact .contentWrap .contact-form input,
+  #contact .contentWrap .contact-form textarea {
+    font-size: 16px;
+    padding: 10px;
+  }
+  #contact .contentWrap .contact-form input {
+    height: 42px;
+  }
+  #contact .contentWrap .contact-form textarea {
+    height: 118px;
+    resize: vertical;
+  }
+  #contact .contentWrap .contact-form button {
+    height: 46px;
+    font-size: 17px;
+  }
+  #contact .contentWrap .outro {
+    width: 100%;
+    max-width: 100%;
+    font-size: clamp(38px, 11vw, 65px);
+    text-align: right;
+    line-height: 1.1;
+    overflow: hidden;
+  }
+  #contact .outro-thanks {
+    width: 100%;
+    white-space: nowrap;
+  }
+  footer {
+    height: auto;
+    min-height: 48px;
+    margin-top: 20px;
+  }
+  footer .inner {
+    height: auto;
+    min-height: 48px;
+  }
+  footer .inner .copy {
+    font-size: 11px;
+    line-height: 1.5;
+    height: auto;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 350px) {
+  #works .brand-commerce .p1 .project-visual > div > div:nth-child(1) {
+    font-size: 9px;
+    padding: 4px 2px;
+  }
+  #works .brand-commerce .page .project-info {
+    font-size: 12px;
+  }
 }
 
 @media (max-width: 769px) {
-  #hero .intro .pieces {
-    scale: var(--mobile-j-scale, 0.45);
-    transform-origin: center center;
+  #contact .contentWrap .outro-thanks {
+    font-size: clamp(26px, 8vw, 44px);
+    letter-spacing: -0.04em;
   }
-  #hero .intro .pieces {
+  #contact .contentWrap .outro-message {
+    font-size: clamp(36px, 10vw, 60px);
+  }
+}
+
+/* ================================================================
+   Mobile refinement v2: SVG title overlay / disclosure / P3 collage
+   ================================================================ */
+/* On PC & tablet the new disclosure wrapper should not change flex layout. */
+.interactive-project .projectDetail .mobileDescriptionToggle {
+  display: none;
+}
+.interactive-project .projectDetail .projectDisclosureBody {
+  display: contents;
+}
+
+@media (max-width: 769px) {
+  /* 1. Title OVER the existing pink SVG, not underneath it. */
+  #works .interactive-project .projectOverview .text {
+    position: relative;
+    display: grid;
+    place-items: center;
+    padding: 16px 0 26px;
+    gap: 0;
+    isolation: isolate;
+  }
+  #works .interactive-project .projectOverview .text svg {
+    grid-area: 1 / 1;
+    width: min(100%, 490px);
+    z-index: 1;
+  }
+  #works .interactive-project .projectOverview .text h3.project-title {
+    grid-area: 1 / 1;
+    position: relative;
+    inset: auto;
+    margin: 0;
+    width: 100%;
+    z-index: 2;
+    pointer-events: none;
+    transform: rotate(-5deg);
+    font-size: clamp(32px, 8.5vw, 47px);
+    line-height: 1.12;
+    text-align: center;
+    /* 기존 원본 span 그라데이션/그림자를 그대로 사용 (추가된 검은 그림자 제거) */
+  }
+
+  /* 2. Images and titles stay compact; descriptions fold out below. */
+  #works .interactive-project .projectDetail .projectWrap > article {
+    gap: 0;
+  }
+  #works .interactive-project .projectDetail .projectImg h4 {
+    border-bottom: 0;
+    margin-bottom: 4px;
+  }
+  #works .interactive-project .projectDetail .mobileDescriptionToggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.07);
+    color: #f4f4f4;
+    padding: 12px 15px;
+    margin: 12px 0 0;
+    border-radius: 12px;
+    text-align: left;
+    cursor: pointer;
+    font:
+      500 clamp(13px, 3.6vw, 15px)/1.4 "Paperozi",
+      sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+  #works
+    .interactive-project
+    .projectDetail
+    .mobileDescriptionToggle:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.95);
+    outline-offset: 3px;
+  }
+  #works
+    .interactive-project
+    .projectDetail
+    .mobileDescriptionToggle
+    .toggleIcon {
+    font-size: 22px;
+    line-height: 1;
+    transition: transform 0.35s ease;
+  }
+  #works
+    .interactive-project
+    .projectDetail
+    article.is-expanded
+    .mobileDescriptionToggle {
+    border-color: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+      0 0 16px rgba(255, 255, 255, 0.07);
+  }
+  #works .interactive-project .projectDetail article.is-expanded .toggleIcon {
+    transform: rotate(45deg);
+  }
+  #works .interactive-project .projectDetail .projectDisclosureBody {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.42s ease;
+    width: 100%;
+    min-width: 0;
+  }
+  #works
+    .interactive-project
+    .projectDetail
+    article.is-expanded
+    .projectDisclosureBody {
+    grid-template-rows: 1fr;
+  }
+  #works
+    .interactive-project
+    .projectDetail
+    .projectDisclosureBody
+    > .projectContent {
+    min-height: 0;
+    min-width: 0;
+    width: 100%;
+    overflow: hidden;
+    opacity: 0;
+    padding-top: 0;
+    transition:
+      opacity 0.25s ease,
+      padding-top 0.35s ease;
+  }
+  #works
+    .interactive-project
+    .projectDetail
+    article.is-expanded
+    .projectDisclosureBody
+    > .projectContent {
+    opacity: 1;
+    padding-top: 20px;
+  }
+  #works
+    .interactive-project
+    .projectDetail
+    article.is-expanded
+    .projectContent
+    .shortCut {
+    margin-bottom: 12px;
+  }
+
+  /* 4. P3: website image as background canvas, 3 devices on top. */
+  #works .brand-commerce .page.p3 .contentWrap .project-visual {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 5 / 4.5;
+    min-height: 285px;
+    max-height: 485px;
+    border-radius: 14px;
+    overflow: hidden;
+    isolation: isolate;
+    background: #eae4db;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.18);
+  }
+  #works .brand-commerce .p3 .project-visual::after {
+    content: "";
     position: absolute;
-    left: 40%;
-    top: 30%;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.02) 12%,
+      rgba(255, 247, 232, 0.13) 92%
+    );
+  }
+  #works .brand-commerce .p3 .project-visual > div {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    height: auto;
+    max-width: none;
+    grid-area: auto;
+    box-shadow: none;
+  }
+  #works .brand-commerce .p3 .project-visual .site {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    rotate: none;
+  }
+  #works .brand-commerce .p3 .project-visual .site img {
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    object-fit: cover;
+    object-position: 50% 20%;
+    opacity: 0.96;
+  }
+  #works .brand-commerce .p3 .project-visual .lapTop {
+    left: -2%;
+    top: 38%;
+    right: auto;
+    bottom: auto;
+    width: 76%;
+    z-index: 3;
+    rotate: -8deg;
+    filter: drop-shadow(0 12px 12px rgba(0, 0, 0, 0.55));
+  }
+  #works .brand-commerce .p3 .project-visual .tablet {
+    right: -2%;
+    top: 22%;
+    left: auto;
+    bottom: auto;
+    width: 42%;
+    z-index: 2;
+    rotate: 9deg;
+    filter: drop-shadow(0 10px 9px rgba(0, 0, 0, 0.45));
+  }
+  #works .brand-commerce .p3 .project-visual .mobile {
+    right: 7%;
+    bottom: 1%;
+    top: auto;
+    left: auto;
+    width: 25%;
+    max-width: none;
+    z-index: 4;
+    rotate: -9deg;
+    filter: drop-shadow(0 10px 9px rgba(0, 0, 0, 0.5));
+  }
+  #works .brand-commerce .p3 .project-visual > div img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: none;
+    object-fit: contain;
+  }
+  #works .brand-commerce .p3 .project-visual .site img {
+    height: 100%;
+    object-fit: cover;
+  }
+}
+@media (max-width: 350px) {
+  #works .brand-commerce .p3 .project-visual {
+    min-height: 260px;
+  }
+  #works .interactive-project .projectOverview .text h3.project-title {
+    font-size: clamp(27px, 8vw, 34px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #works .interactive-project .projectDetail .projectDisclosureBody,
+  #works
+    .interactive-project
+    .projectDetail
+    .projectDisclosureBody
+    > .projectContent,
+  #works
+    .interactive-project
+    .projectDetail
+    .mobileDescriptionToggle
+    .toggleIcon {
+    transition: none;
+  }
+}
+
+/* ================================================================
+   WORKS heading consistency (final mobile overrides, <=769px)
+   Each subtitle uses the same markup, dot, WORKS word, dash, and type.
+   Do not let broad .brand-commerce .inner / .team-project .inner
+   selectors turn the title's inner container into a panel layout.
+   ================================================================ */
+@media (max-width: 769px) {
+  #works > .sectionTitle,
+  #works .brand-commerce > .mobileSectionTitle,
+  #works .team-project > .mobileSectionTitle {
+    display: block;
+    position: relative;
+    inset: auto;
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+    width: 90%;
+    max-width: 640px;
+    height: auto;
+    padding: 0;
+    box-sizing: border-box;
+    line-height: 1.2;
+    pointer-events: auto;
+  }
+
+  #works > .sectionTitle > .inner,
+  #works .brand-commerce > .mobileSectionTitle > .inner,
+  #works .team-project > .mobileSectionTitle > .inner {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 10px;
+    position: relative;
+    transform: none;
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    height: auto;
+    margin: 0;
+    padding: 0;
+  }
+
+  #works > .sectionTitle .sectionName,
+  #works .mobileSectionTitle .sectionName {
+    display: flex;
+    align-items: baseline;
+    flex-direction: row;
+    flex-wrap: wrap;
+    column-gap: 10px;
+    row-gap: 2px;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  #works > .sectionTitle .sectionName > h3,
+  #works .mobileSectionTitle .sectionName > h3 {
+    font-size: clamp(24px, 6vw, 32px);
+    font-weight: 800;
+    line-height: 1.17;
+    letter-spacing: -0.02em;
+    flex: 0 0 auto;
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  #works > .sectionTitle .subTitle,
+  #works .mobileSectionTitle .subTitle {
+    display: inline-flex;
+    align-items: baseline;
+    flex: 0 1 auto;
+    gap: 7px;
+    min-width: 0;
+    max-width: 100%;
+    font-size: clamp(12px, 3.35vw, 18px);
+    line-height: 1.35;
+    font-weight: 600;
+    text-transform: none;
+    text-shadow: inherit;
+  }
+
+  #works > .sectionTitle .subTitle > span,
+  #works .mobileSectionTitle .subTitle > span {
+    overflow-wrap: anywhere;
+    word-break: keep-all;
+  }
+
+  /* The team area is light: use its original dark heading color. */
+  #works .team-project > .mobileSectionTitle {
+    color: #292929;
+    text-shadow: 1px 3px 5px rgba(0, 0, 0, 0.22);
   }
 }

@@ -35,7 +35,7 @@
     </header>
     <main>
       <section id="hero">
-        <div class="scene intro" id="intro" arial-hidden="false">
+        <div class="scene intro" id="intro" aria-hidden="false">
           <div class="sectionTitle">
             <span class="connect">
               <span>C</span>
@@ -47,6 +47,13 @@
               <span>T</span>
             </span>
             <span class="folio">FOLIO</span>
+          </div>
+          <div class="mobileIntroJ" role="img" aria-label="CONNECTFOLIO J 로고">
+            <img src="img/logo_shade.png" alt="" />
+            <img src="img/intro_logo_bg3.png" alt="" />
+            <img src="img/intro_logo_bg2.png" alt="" />
+            <img src="img/intro_logo_bg1.png" alt="" />
+            <img src="img/intro_logo2.png" alt="" />
           </div>
           <div id="introBends" class="intro-bends" aria-hidden="true"></div>
           <ul class="pieces">
@@ -224,9 +231,15 @@
                 </ul>
               </div>
               <div class="introduce">
-                " 디자인과 코드,<br />브랜드와 사용자,<br />아이디어와 현실을<br />
-                연결하는 웹퍼블리셔,<br />
-                <strong>조재상</strong>입니다. "
+                <div class="introCopy">
+                  " 디자인과 코드,<br />브랜드와 사용자,<br />아이디어와 현실을<br />
+                  연결하는 웹퍼블리셔,<br />
+                  <strong>조재상</strong>입니다. "
+                </div>
+                <!-- Only on mobile: original profile portrait beside the introduction. -->
+                <div class="mobilePortrait">
+                  <img src="img/profile3.png" alt="프로필 사진" />
+                </div>
               </div>
               <div class="skills">
                 <div class="title">
@@ -255,6 +268,19 @@
                       작업</span
                     >
                   </li>
+                </ul>
+                <!-- Mobile-only: icons belong to the SKILLS card. -->
+                <ul class="mobileSkillIcons" aria-label="사용 도구">
+                  <li><img src="img/skill_icon_ps.png" alt="" loading="lazy" /></li>
+                  <li><img src="img/skill_icon_ai.png" alt="" loading="lazy" /></li>
+                  <li><img src="img/skill_icon_pr.png" alt="" loading="lazy" /></li>
+                  <li><img src="img/skill_icon_figma.png" alt="" loading="lazy" /></li>
+                  <li><img src="img/skill_icon_html.png" alt="" loading="lazy" /></li>
+                  <li><img src="img/skill_icon_css.png" alt="" loading="lazy" /></li>
+                  <li><img src="img/skill_icon_js.png" alt="" loading="lazy" /></li>
+                  <li><img src="img/skill_icon_gsap.png" alt="" loading="lazy" /></li>
+                  <li><img src="img/skill_icon_jq.png" alt="" loading="lazy" /></li>
+                  <li><img src="img/skill_icon_github.png" alt="" loading="lazy" /></li>
                 </ul>
               </div>
               <div class="license">
@@ -339,7 +365,7 @@
 
         <section
           class="interactive-project"
-          data-title=" - INTERACTIVE WEB PROJECTS"
+          data-title="INTERACTIVE WEB PROJECTS"
         >
           <div class="projectOverview">
             <div class="inner">
@@ -387,18 +413,6 @@
                     </div>
                   </li>
                   <li class="rect"><div class="itemInner"></div></li>
-                  <li class="list_dreamTheater">
-                    <div class="itemInner">
-                      <img
-                        src="img/dreamTheater.png"
-                        alt="dreamTheater_thumbNail"
-                      />
-                      <h4>Dream Theater</h4>
-                    </div>
-                  </li>
-                  <li class="rect">
-                    <div class="itemInner"></div>
-                  </li>
                   <li class="list_todoList">
                     <div class="itemInner">
                       <img
@@ -438,11 +452,6 @@
                     A user-centric to-do manager with intuitive add, manage, and
                     filter features.
                   </li>
-                  <li><img src="img/ft4.png" alt="" /></li>
-                  <li>
-                    An interactive movie page to browse trending & upcoming
-                    titles and search via API.
-                  </li>
                   <li><img src="img/ft1.png" alt="" /></li>
                   <li>
                     A retro-style interactive mini-game where you guess numbers
@@ -458,11 +467,6 @@
                     A user-centric to-do manager with intuitive add, manage, and
                     filter features.
                   </li>
-                  <li><img src="img/ft4.png" alt="" /></li>
-                  <li>
-                    An interactive movie page to browse trending & upcoming
-                    titles and search via API.
-                  </li>
                 </ul>
               </div>
             </div>
@@ -470,9 +474,6 @@
           <div class="projectDetail">
             <div class="titleWrap">
               <ul class="summary_icon">
-                <li>
-                  <a href="#"><img src="#" alt="" /></a>
-                </li>
                 <li>
                   <a href="#"><img src="#" alt="" /></a>
                 </li>
@@ -494,6 +495,11 @@
                   </div>
                   <h4>NumberGame</h4>
                 </div>
+                <button class="mobileDescriptionToggle" type="button" aria-controls="numberGame-details" aria-expanded="false">
+                  <span class="toggleLabel">Description 보기</span>
+                  <span class="toggleIcon" aria-hidden="true">+</span>
+                </button>
+                <div class="projectDisclosureBody" id="numberGame-details">
                 <div class="projectContent">
                   <div class="description">
                     <h4>Description</h4>
@@ -528,6 +534,7 @@
                     >
                   </div>
                 </div>
+                </div>
               </article>
               <article class="weatherSphere">
                 <div class="projectImg">
@@ -537,6 +544,11 @@
                   </div>
                   <h4>WeatherSphere</h4>
                 </div>
+                <button class="mobileDescriptionToggle" type="button" aria-controls="weatherSphere-details" aria-expanded="false">
+                  <span class="toggleLabel">Description 보기</span>
+                  <span class="toggleIcon" aria-hidden="true">+</span>
+                </button>
+                <div class="projectDisclosureBody" id="weatherSphere-details">
                 <div class="projectContent">
                   <div class="description">
                     <h4>Description</h4>
@@ -572,48 +584,6 @@
                     >
                   </div>
                 </div>
-              </article>
-
-              <article class="dreamTheater">
-                <div class="projectImg">
-                  <img src="img/dreamTheater.png" alt="dreamTheater" />
-                  <div class="mobile">
-                    <img src="img/todolist_mobile.png" alt="" />
-                  </div>
-                  <h4>DreamTheater</h4>
-                </div>
-                <div class="projectContent">
-                  <div class="description">
-                    <h4>Description</h4>
-                    <p>
-                      영화 API(TMDb)를 활용해 현재 상영작·인기 영화·개봉 예정작
-                      정보를 제공하는 인터랙티브 페이지입니다.<br />
-                      영화 목록은 동적으로 렌더링되며, 카테고리 이동과 검색
-                      기능을 통해 다양한 콘텐츠를 탐색할 수 있도록
-                      구성했습니다.<br />
-                      GSAP과 jQuery를 활용해 카드 등장, 전환 애니메이션 등
-                      시각적 흐름을 강화했고, API 요청·데이터 가공·DOM
-                      업데이트까지 프론트엔드 전반의 데이터 처리 흐름을 직접
-                      구현한 프로젝트입니다.
-                    </p>
-                  </div>
-                  <div class="skills">
-                    <h4>Skills</h4>
-                    <ul>
-                      <li><img src="img/skill_icon_html.png" alt="" /></li>
-                      <li><img src="img/skill_icon_css.png" alt="" /></li>
-                      <li><img src="img/skill_icon_js.png" /></li>
-                      <li><img src="img/skill_icon_jq.png" alt="" /></li>
-                      <li><img src="img/skill_icon_tmAPI.svg" /></li>
-                    </ul>
-                  </div>
-                  <div class="shortCut">
-                    <a
-                      href="https://hithrucci.github.io/dreamTheater/"
-                      target="_blank"
-                      >페이지 바로가기</a
-                    >
-                  </div>
                 </div>
               </article>
 
@@ -625,6 +595,11 @@
                   </div>
                   <h4>To-Do-List</h4>
                 </div>
+                <button class="mobileDescriptionToggle" type="button" aria-controls="todoList-details" aria-expanded="false">
+                  <span class="toggleLabel">Description 보기</span>
+                  <span class="toggleIcon" aria-hidden="true">+</span>
+                </button>
+                <div class="projectDisclosureBody" id="todoList-details">
                 <div class="projectContent">
                   <div class="description">
                     <h4>Description</h4>
@@ -660,11 +635,21 @@
                     >
                   </div>
                 </div>
+                </div>
               </article>
             </div>
           </div>
         </section>
-        <section class="brand-commerce" data-title=" - BRAND & COMMERCE">
+                <section class="brand-commerce" data-title="BRAND & COMMERCE">
+          <div class="sectionTitle mobileSectionTitle">
+            <div class="inner">
+              <div class="blink"></div>
+              <div class="sectionName">
+                <h3>WORKS</h3>
+                <div class="subTitle"><span>BRAND &amp; COMMERCE</span></div>
+              </div>
+            </div>
+          </div>
           <div class="inner">
             <div class="bg">
               <div class="flow1">
@@ -1016,7 +1001,16 @@
           </div>
         </section>
 
-        <section class="team-project" data-title=" - 팀프로젝트:Re-ferry">
+                <section class="team-project" data-title="팀프로젝트:Re-ferry">
+          <div class="sectionTitle mobileSectionTitle">
+            <div class="inner">
+              <div class="blink"></div>
+              <div class="sectionName">
+                <h3>WORKS</h3>
+                <div class="subTitle"><span>팀프로젝트:Re-ferry</span></div>
+              </div>
+            </div>
+          </div>
           <div class="inner">
             <div class="projectDetail">
               <div class="projectContent">
@@ -1206,7 +1200,7 @@
 
                 <div class="form-row">
                   <label for="userEmail">Email</label>
-                  <input type="email" id="email" name="userEmail" />
+                  <input type="email" id="userEmail" name="userEmail" />
                 </div>
 
                 <div class="form-row">
