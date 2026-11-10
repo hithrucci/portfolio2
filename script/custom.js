@@ -94,6 +94,55 @@ const iconPositions = [
   { x: -130, y: 10 },
   { x: -90, y: -200 },
 ];
+
+function getResponsiveIconPosition(i) {
+  const width = about_icons.clientWidth;
+  const height = about_icons.clientHeight;
+  const icon = about_icons_li[i];
+
+  const iconW = icon.offsetWidth;
+  const iconH = icon.offsetHeight;
+
+  // 가장자리 여유 공간 (부유 애니메이션 포함)
+  const maxX = Math.max(0, width / 2 - iconW / 2 - 35);
+  const maxY = Math.max(0, height / 2 - iconH / 2 - 45);
+
+  const clamp = gsap.utils.clamp;
+
+  // PC: 기존 좌표 유지
+  if (window.innerWidth >= 1200) {
+    return iconPositions[i];
+  }
+
+  // 태블릿: 기존 배치 비율 축소
+  if (window.innerWidth >= 770) {
+    const scaleX = Math.min(1, width / 1300);
+    const scaleY = Math.min(1, height / 400);
+
+    return {
+      x: clamp(-maxX, maxX, iconPositions[i].x * scaleX),
+      y: clamp(-maxY, maxY, iconPositions[i].y * scaleY),
+    };
+  }
+
+  // 모바일: 3열 분산 배치
+  const columns = 3;
+  const rows = Math.ceil(about_icons_li.length / columns);
+
+  const row = Math.floor(i / columns);
+  const col = i % columns;
+  const countInRow = Math.min(columns, about_icons_li.length - row * columns);
+
+  const gapX = Math.min(180, Math.max(0, (width - iconW - 70) / (columns - 1)));
+
+  const gapY = Math.min(110, Math.max(0, (height - iconH - 90) / (rows - 1)));
+
+  return {
+    x: (col - (countInRow - 1) / 2) * gapX,
+    y: (row - (rows - 1) / 2) * gapY,
+  };
+}
+
 /* flowText */
 const about_flowText = about.querySelector(" .flowText");
 // -----------------------------------
@@ -255,9 +304,28 @@ gsap.set(profile_pic, {
   y: 0,
   opacity: 0,
 });
+const introPieceSvgs = gsap.utils.toArray("#hero .intro .pieces .viewport svg");
+
+gsap.set(introPieceSvgs, {
+  scale: 0.015,
+  transformOrigin: "50% 50%",
+});
 const STOP_PX = 10;
 let floatingActive = true;
+// 모바일 J 전체 크기 조절
+const introPiecesGroup = document.querySelector("#hero .intro .pieces");
 
+function updateMobileJScale() {
+  const width = window.innerWidth;
+
+  const scale = gsap.utils.clamp(0.35, 0.75, width / 950);
+
+  introPiecesGroup.style.setProperty("--mobile-j-scale", scale);
+}
+
+updateMobileJScale();
+
+window.addEventListener("resize", updateMobileJScale);
 const gatherTl = gsap.timeline({
   scrollTrigger: {
     trigger: "#hero",
@@ -266,6 +334,7 @@ const gatherTl = gsap.timeline({
     scrub: 1,
     pin: true,
     // markers: true,
+    invalidateOnRefresh: true,
     onUpdate: (self) => {
       const y = self.scroll();
       const startY = self.start;
@@ -366,6 +435,11 @@ gsap.set("#hero .intro .intro_logo > img", {
   yPercent: -50,
 });
 gatherTl
+  .to(introPieceSvgs, {
+    scale: 1,
+    duration: 1.5,
+    ease: "none",
+  })
   .to(
     pieces,
     {
@@ -395,15 +469,19 @@ gatherTl
   .to("#hero .intro .intro_logo > img:nth-of-type(2)", { opacity: 1 }, ">")
   .to("#hero .intro .intro_logo > img:nth-of-type(3)", { opacity: 1 }, ">")
   .to("#hero .intro .shade", { opacity: 0.8, x: 60, scale: 0.6 }, ">")
-  .fromTo(
-    "#hero .intro .sectionTitle",
-    { opacity: 0, y: 50 },
-    { opacity: 1, y: 30 },
-  )
+  .fromTo("#hero .intro .sectionTitle", { opacity: 0 }, { opacity: 1 })
   .fromTo(
     "#hero .intro .roll",
     { opacity: 0, width: 0 },
-    { opacity: 1, width: "80%" },
+    {
+      opacity: 1,
+      width: () =>
+        window.innerWidth >= 1200
+          ? "80%"
+          : window.innerWidth >= 770
+            ? "98%"
+            : "98%",
+    },
   )
   .fromTo(gnb_li, { opacity: 0, y: 50 }, { opacity: 1, y: 0, stagger: 0.1 })
   .fromTo(nav_contact, { opacity: 0 }, { opacity: 1 })
@@ -411,7 +489,7 @@ gatherTl
   .fromTo(
     "#hero .intro .line",
     { width: 0 },
-    { width: "clamp(200px,20vw,500px)" },
+    { width: "clamp(140px,20vw,500px)" },
   )
   .to({}, { duration: 5 }, ">")
   .to("#hero .intro .sectionTitle", { opacity: 0, y: -50 }, ">")
@@ -464,25 +542,38 @@ gatherTl
   .to(aboutBg_right, { x: -240 }, "<")
   .to({}, { duration: 3 })
   .to(aboutBg_left, { x: -330 })
+
   .fromTo(
     about_icons_li,
-    { opacity: 0, x: 0, y: 0, scale: 0.5 },
+    {
+      opacity: 0,
+      x: 0,
+      y: 0,
+      scale: 0.5,
+    },
     {
       opacity: 1,
       scale: 1,
-      x: (i) => iconPositions[i].x,
-      y: (i) => iconPositions[i].y,
+
+      x: (i) => getResponsiveIconPosition(i).x,
+      y: (i) => getResponsiveIconPosition(i).y,
+
       duration: 1.2,
       ease: "power3.out",
+
       stagger: {
         each: 0.08,
         from: "center",
       },
+
       onComplete: () => {
-        gsap.delayedCall(0.3, () => floatingIcons(about_icons_li));
+        gsap.delayedCall(0.3, () => {
+          floatingIcons(about_icons_li);
+        });
       },
     },
   )
+
   .fromTo(about_skills_title, { x: -200, opacity: 0 }, { x: 0, opacity: 1 })
   .fromTo(
     about_skills_content,
@@ -516,13 +607,17 @@ gatherTl
   .to({}, { duration: 3 });
 
 function floatingIcons(targets) {
-  targets.forEach((icon, i) => {
-    if (icon.dataset.floating === "true") return;
-    icon.dataset.floating = "true";
+  targets.forEach((li, i) => {
+    const img = li.querySelector("img");
 
-    gsap.to(icon, {
-      y: "+=" + gsap.utils.random(-30, 30),
-      x: "+=" + gsap.utils.random(-18, 18),
+    if (!img || img.dataset.floating === "true") return;
+    img.dataset.floating = "true";
+
+    const mobile = window.innerWidth <= 769;
+
+    gsap.to(img, {
+      x: gsap.utils.random(mobile ? -8 : -18, mobile ? 8 : 18),
+      y: gsap.utils.random(mobile ? -12 : -30, mobile ? 12 : 30),
       rotation: gsap.utils.random(-10, 10),
       duration: gsap.utils.random(2.2, 4.2),
       ease: "sine.inOut",
@@ -891,7 +986,12 @@ function getProjectEndX() {
 const pinTl = gsap.timeline({
   scrollTrigger: {
     trigger: ".interactive-project .projectDetail",
-    start: "40% 50%",
+    start: () =>
+      window.innerWidth >= 1200
+        ? "top 20%"
+        : window.innerWidth >= 770
+          ? "10% 25%"
+          : "top top",
     end: "+=3500",
     pin: true,
     scrub: 1,
